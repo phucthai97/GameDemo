@@ -1,0 +1,2 @@
+1. Go to the path Tic_tac_toe_ver2\Tic_tac_toe_ver2\bin\Debug\net5.0. 
+2. Then run "Tic_tac_toe_ver2" application as administator.
