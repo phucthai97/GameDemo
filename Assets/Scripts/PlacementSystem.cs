@@ -114,7 +114,7 @@ public class PlacementSystem : MonoBehaviour
                                         touchableObject, 
                                         indexPrefabs);
         //Passing Place_Structure into On Clicked delegate
-        inputManager.OnClicked += MovingObject;
+        //inputManager.OnClicked += MovingObject;
         //Passing Stop_Placement into On Exit delegate
         inputManager.OnExit += StopPlacement;
     }

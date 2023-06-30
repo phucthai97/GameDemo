@@ -28,7 +28,6 @@ public class TouchableObject : MonoBehaviour
     {
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         placementSystem.StartMoving(this, indexPrefabs);
-        //placementChecker.IsThisCurrentTouchalbeObj(this, indexPrefabs);
         mouseIsPressed = true;
         placementChecker.HandleMouseDownPlacement(gameObject);
 
@@ -36,13 +35,8 @@ public class TouchableObject : MonoBehaviour
 
     private void OnMouseUp()
     {
-        //ObjectPlacer objectPlacer = FindObjectOfType<ObjectPlacer>();
-        //if (objectPlacer.currentTouchableObj == this)
-        //{
-
         mouseIsPressed = false;
         placementChecker.HandleMouseUpPlacement(gameObject, indexPrefabs);
-        //}
     }
 
     private void SetIndicator()

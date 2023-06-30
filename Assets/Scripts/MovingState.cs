@@ -7,8 +7,8 @@ public class MovingState : IBuildingState
     ObjectPlacer objectPlacer;
     GridData floorData, furnitureData;
     PreviewSystem previewSystem;
-    TouchableObject clickedTouchableObject;
-    int clickedIndexPrefabs;
+    TouchableObject touchableObject;
+    int indexPrefabs;
     PlacementChecker placementChecker;
     ObjectsDataBaseSO database;
     Vector3Int lastGridPosition;
@@ -27,9 +27,9 @@ public class MovingState : IBuildingState
         this.floorData = floorData;
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
-        clickedTouchableObject = touchableObject;
+        this.touchableObject = touchableObject;
         this.placementChecker = placementChecker;
-        clickedIndexPrefabs = indexPrefabs;
+        this.indexPrefabs = indexPrefabs;
 
         touchableObject.editIndicator.SetActive(true);
         placementChecker.IsThisCurrentTouchalbeObj(touchableObject, indexPrefabs);
@@ -43,6 +43,7 @@ public class MovingState : IBuildingState
 
     public void OnAction(Vector3Int gridPosition)
     {
+        Debug.Log($"OnAction {gridPosition}");
     }
 
     public void UpdateState(Vector3Int gridPosition)
@@ -59,7 +60,6 @@ public class MovingState : IBuildingState
                                             gridPosition.z);
                 objectPlacer.currentTouchableObj.gameObject.transform.position = newPos;
                 bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
-                //Debug.Log($"newPos is {newPos} with validity {validity} with size is {database.objectsData[indexPrefabs].Size}");
                 previewSystem.UpdateGridIndicator(gridPosition,
                                                 database.objectsData[indexPrefabs].Size
                                                 , validity);
