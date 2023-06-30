@@ -105,13 +105,13 @@ public class PlacementSystem : MonoBehaviour
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        buildingState = new MovingState(preview, 
-                                        database, 
-                                        floorData, 
-                                        furnitureData, 
-                                        objectPlacer, 
-                                        placementChecker, 
-                                        touchableObject, 
+        buildingState = new MovingState(preview,
+                                        database,
+                                        floorData,
+                                        furnitureData,
+                                        objectPlacer,
+                                        placementChecker,
+                                        touchableObject,
                                         indexPrefabs);
         //Passing Place_Structure into On Clicked delegate
         //inputManager.OnClicked += MovingObject;
@@ -136,7 +136,6 @@ public class PlacementSystem : MonoBehaviour
         // if (lastDetectedPosition != GetGridCurrentPos())
         // {
         buildingState.UpdateState(GetGridCurrentPos());
-        //lastDetectedPosition = GetGridCurrentPos();
         //}
     }
 

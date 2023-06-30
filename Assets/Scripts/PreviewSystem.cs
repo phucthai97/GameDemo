@@ -20,7 +20,7 @@ public class PreviewSystem : MonoBehaviour
         //Move Grid Indicator
         MoveGridIndicator(position, size);
         //Apply feedback to Grid Indicator
-        Vector3Int gridPosition = new Vector3Int((int)position.x, 0 , (int)position.z);
+        Vector3Int gridPosition = new Vector3Int((int)position.x, 0, (int)position.z);
         ApplyFeedbackToGridIndicator(validity);
     }
 
@@ -39,8 +39,11 @@ public class PreviewSystem : MonoBehaviour
         ObjectPlacer objectPlacer = FindObjectOfType<ObjectPlacer>();
         if (objectPlacer.currentTouchableObj != null)
         {
-            objectPlacer.currentTouchableObj.editIndicator.SetActive(false);
-            Debug.Log($"Set active false currentTouchableObj");
+            if (objectPlacer.currentTouchableObj.editIndicator != null)
+            {
+                objectPlacer.currentTouchableObj.editIndicator.SetActive(false);
+                Debug.Log($"Set active false currentTouchableObj");
+            }
         }
 
         if (previewObject != null)
