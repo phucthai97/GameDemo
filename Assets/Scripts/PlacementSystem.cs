@@ -20,6 +20,7 @@ public class PlacementSystem : MonoBehaviour
     //For preview object on the virtual grid before placing object
     [SerializeField] private PreviewSystem preview;
     [SerializeField] private PlacementChecker placementChecker;
+    [SerializeField] private PlacementUIControl placementUIControl;
 
     //For storage that object was placed in the scene
     [SerializeField] private ObjectPlacer objectPlacer;
@@ -38,6 +39,8 @@ public class PlacementSystem : MonoBehaviour
     private void Start()
     {
         StopPlacement();
+        gridVisualization.SetActive(false);
+        placementUIControl.TurnOffEditButtonObject();
         floorData = new();
         furnitureData = new();
     }
@@ -45,7 +48,9 @@ public class PlacementSystem : MonoBehaviour
     public void StartPlacement(int ID)
     {
         StopPlacement();
+        //Set active tools
         gridVisualization.SetActive(true);
+        placementUIControl.TurnOnEditBtnObject(ID);
         buildingState = new PlacementState(ID,
                                         grid,
                                         preview,
@@ -63,16 +68,48 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
     }
 
-    public void StartRemoving()
+    public void StartMoving(TouchableObject touchableObject, int indexPrefabs)
     {
         StopPlacement();
+        //Set active tools
         gridVisualization.SetActive(true);
-        buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
-        //Passing Place_Structure into On Clicked delegate
-        inputManager.OnClicked += PlaceStructure;
+        placementUIControl.TurnOnEditBtnObject(database.objectsData[indexPrefabs].ID);
+        buildingState = new MovingState(preview,
+                                        database,
+                                        floorData,
+                                        furnitureData,
+                                        objectPlacer,
+                                        placementChecker,
+                                        touchableObject,
+                                        indexPrefabs);
         //Passing Stop_Placement into On Exit delegate
         inputManager.OnExit += StopPlacement;
     }
+
+    public void StartMovingFur()
+    {
+        StopPlacement();
+
+        //Set de-active tools
+        gridVisualization.SetActive(false);
+        placementUIControl.TurnOffEditButtonObject();
+        placementChecker.RemoveFurnitureObject();
+    }
+
+    // public void StartRemoving()
+    // {
+    //     StopPlacement();
+
+    //     //Set de-active tools
+    //     gridVisualization.SetActive(false);
+    //     placementUIControl.TurnOffEditButtonObject();
+        
+    //     buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
+    //     //Passing Place_Structure into On Clicked delegate
+    //     //inputManager.OnClicked += PlaceStructure;
+    //     //Passing Stop_Placement into On Exit delegate
+    //     inputManager.OnExit += StopPlacement;
+    // }
 
     private void PlaceStructure()
     {
@@ -87,8 +124,10 @@ public class PlacementSystem : MonoBehaviour
     {
         if (buildingState == null)
             return;
-        //Setting state-of-arrangement is false
+        //Set De-active tools
         gridVisualization.SetActive(false);
+        placementUIControl.TurnOffEditButtonObject();
+
 
         //Deactive indicator,...
         buildingState.EndState();
@@ -99,24 +138,6 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit -= StopPlacement;
         lastDetectedPosition = Vector3Int.zero;
         buildingState = null;
-    }
-
-    public void StartMoving(TouchableObject touchableObject, int indexPrefabs)
-    {
-        StopPlacement();
-        gridVisualization.SetActive(true);
-        buildingState = new MovingState(preview,
-                                        database,
-                                        floorData,
-                                        furnitureData,
-                                        objectPlacer,
-                                        placementChecker,
-                                        touchableObject,
-                                        indexPrefabs);
-        //Passing Place_Structure into On Clicked delegate
-        //inputManager.OnClicked += MovingObject;
-        //Passing Stop_Placement into On Exit delegate
-        inputManager.OnExit += StopPlacement;
     }
 
     private void MovingObject()

@@ -23,6 +23,30 @@ public class RemovingState : IBuildingState
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
 
+        if (objectPlacer.currentTouchableObj != null)
+        {
+            Debug.Log($"Start removing");
+            GridData selectedData = furnitureData;
+
+            //Get gridPosition
+            Transform trans = objectPlacer.currentTouchableObj.gameObject.transform;
+            Vector3Int gridPosition = new Vector3Int((int)trans.position.x,
+                                                    0,
+                                                    (int)trans.position.z);
+
+            //Check IndexPrefabs 
+            gameObjectIndex = selectedData.GetRepresentationIndex(gridPosition);
+            if (gameObjectIndex == -1)
+                return;
+
+            //Remove grid data at position
+            selectedData.RemoveObjectAt(gridPosition);
+
+            //Remove Gameobject
+            objectPlacer.RemoveObjectAt(gameObjectIndex);
+        }
+        else
+            Debug.Log($"There is no current placed object for removing");
     }
 
     public void EndState()
@@ -59,12 +83,6 @@ public class RemovingState : IBuildingState
         //Update preview system such as (indicator, material object)
         // previewSystem.UpdateGridIndicator(gridPosition,
         //                             Vector2Int.one);
-    }
-
-    private bool CheckIfSelectionIsValid(Vector3Int gridPosition)
-    {
-        return !(furnitureData.CanPlaceObjectAt(gridPosition, Vector2Int.one) &&
-                floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one));
     }
 
     public void UpdateState(Vector3Int gridPosition)
