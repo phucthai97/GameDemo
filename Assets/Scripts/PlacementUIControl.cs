@@ -18,8 +18,16 @@ public class PlacementUIControl : MonoBehaviour
 
     public void RunbtnDone()
     {
+        //Stop placement
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         placementSystem.StopPlacement();
+
+        //Reset mode moving
+        PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
+        placementChecker.mode = PlacementChecker.Mode.Moving;
+
+        //Reset clickmouse
+        placementChecker.countClicked = 0;
         TurnOffEditButtonObject();
     }
 

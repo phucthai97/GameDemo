@@ -11,8 +11,12 @@ public class PlacementChecker : MonoBehaviour
     ObjectPlacer objectPlacer;
     [SerializeField] public Vector3 lastPosition;
     [SerializeField] public bool movingUp = true;
-    [SerializeField] public bool movingState = false;
     [SerializeField] public float maxHeightIndicator;
+
+    //First Clicked for choose with countClicked = 0, Second clicked for moving with countClicked = 1
+    [SerializeField] public int countClicked = 0;
+    public enum Mode { Moving, Floorplan }
+    [SerializeField] public Mode mode;
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +29,9 @@ public class PlacementChecker : MonoBehaviour
     public void HandleMouseDownPlacement(GameObject currentObject)
     {
         lastPosition = currentObject.transform.position;
-        currentObject.transform.position = new Vector3(currentObject.transform.position.x,
-                                                    currentObject.transform.position.y + 1.4f,
-                                                    currentObject.transform.position.z);
+        // currentObject.transform.position = new Vector3(currentObject.transform.position.x,
+        //                                             currentObject.transform.position.y + 1.4f,
+        //                                             currentObject.transform.position.z);
     }
 
     public void HandleMouseUpPlacement(GameObject currentObject, int selectedObjectIndex)
@@ -83,7 +87,7 @@ public class PlacementChecker : MonoBehaviour
             //Get gridPosition
             Transform trans = objectPlacer.currentTouchableObj.gameObject.transform;
             Vector3Int gridPosition = new Vector3Int((int)trans.position.x,
-                                                    0,
+                                                    (int)0,
                                                     (int)trans.position.z);
 
 
@@ -97,72 +101,82 @@ public class PlacementChecker : MonoBehaviour
                 return;
             }
 
-            //Remove grid data at position
-            selectedData.RemoveObjectAt(gridPosition);
+            //selectedData.RemoveObjectAt(gridPosition);
 
             //Remove Gameobject
             objectPlacer.RemoveObjectAt(indexPrefabs);
         }
     }
 
-        public void AddFurniture(ObjectPlacer objectPlacer)
+    public void AddFurniture(ObjectPlacer objectPlacer)
+    {
+        if (objectPlacer.currentTouchableObj != null && objectPlacer.currentIndexPlacedObjects != -1)
         {
-            if (objectPlacer.currentTouchableObj != null && objectPlacer.currentIndexPlacedObjects != -1)
+            //Get last index of prefabs
+            int lastIndexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
+
+            //If object belongs to furniture
+            if (placementSystem.database.objectsData[lastIndexPrefabs].ID < 10000)
             {
-                //Get last index of prefabs
-                int lastIndexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
+                //Get current position of current object
+                Vector3 curentPosObj = objectPlacer.currentTouchableObj.gameObject.transform.position;
+                Vector3Int gridPosition = new Vector3Int((int)curentPosObj.x,
+                                                        0,
+                                                        (int)curentPosObj.z);
 
-                //If object belongs to furniture
-                if (placementSystem.database.objectsData[lastIndexPrefabs].ID < 10000)
-                {
-                    //Get current position of current object
-                    Vector3 curentPosObj = objectPlacer.currentTouchableObj.gameObject.transform.position;
-                    Vector3Int gridPosition = new Vector3Int((int)curentPosObj.x,
-                                                            0,
-                                                            (int)curentPosObj.z);
+                AddObjectInDataBase(gridPosition, lastIndexPrefabs, objectPlacer.currentIndexPlacedObjects);
 
-                    AddObjectInDataBase(gridPosition, lastIndexPrefabs, objectPlacer.currentIndexPlacedObjects);
-
-                    //Turn of moving of edit indicator
-                    objectPlacer.currentTouchableObj.editIndicator.SetActive(false);
-                    //Set null for currentTouchableObj
-                    objectPlacer.currentTouchableObj = null;
-                }
+                //Turn of moving of edit indicator
+                objectPlacer.currentTouchableObj.TurnONOFFIndicator(false);
+                //Set null for currentTouchableObj
+                objectPlacer.currentTouchableObj = null;
             }
         }
+    }
 
-        public void AddObjectInDataBase(Vector3Int gridPosition, int indexPrefabs, int currentIndex)
+    public void AddObjectInDataBase(Vector3Int gridPosition, int indexPrefabs, int currentIndex)
+    {
+        //Classify object foor/furniture
+        GridData selectedData = placementSystem.database.objectsData[indexPrefabs].ID < 10000 ?
+                                placementSystem.furnitureData :
+                                placementSystem.floorData;
+
+        //Add object into placement database
+        selectedData.AddObjectAt(gridPosition,
+                                placementSystem.database.objectsData[indexPrefabs].Size,
+                                placementSystem.database.objectsData[indexPrefabs].ID,
+                                currentIndex);
+    }
+
+    public void RemoveObjectInDataDase(Vector3Int gridPosition, int indexPrefabs)
+    {
+        //Classify object foor/furniture
+        GridData selectedData = placementSystem.database.objectsData[indexPrefabs].ID < 10000 ?
+                                placementSystem.furnitureData :
+                                placementSystem.floorData;
+
+        //Remove object
+        selectedData.RemoveObjectAt(gridPosition);
+    }
+
+    public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    {
+        GridData selectedData = placementSystem.database.objectsData[selectedObjectIndex].ID < 10000 ?
+                                placementSystem.furnitureData :
+                                placementSystem.floorData;
+
+        //Check this positon can place object or Not?
+        return selectedData.CanPlaceObjectAt(gridPosition, placementSystem.database.objectsData[selectedObjectIndex].Size);
+    }
+
+    public void CheckAndSetCountClicked(TouchableObject touchableObject)
+    {
+        if (objectPlacer.currentTouchableObj != null)
         {
-            //Classify object foor/furniture
-            GridData selectedData = placementSystem.database.objectsData[indexPrefabs].ID < 10000 ?
-                                    placementSystem.furnitureData :
-                                    placementSystem.floorData;
-
-            //Add object into placement database
-            selectedData.AddObjectAt(gridPosition,
-                                    placementSystem.database.objectsData[indexPrefabs].Size,
-                                    placementSystem.database.objectsData[indexPrefabs].ID,
-                                    currentIndex);
-        }
-
-        public void RemoveObjectInDataDase(Vector3Int gridPosition, int indexPrefabs)
-        {
-            //Classify object foor/furniture
-            GridData selectedData = placementSystem.database.objectsData[indexPrefabs].ID < 10000 ?
-                                    placementSystem.furnitureData :
-                                    placementSystem.floorData;
-
-            //Remove object
-            selectedData.RemoveObjectAt(gridPosition);
-        }
-
-        public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
-        {
-            GridData selectedData = placementSystem.database.objectsData[selectedObjectIndex].ID < 10000 ?
-                                    placementSystem.furnitureData :
-                                    placementSystem.floorData;
-
-            //Check this positon can place object or Not?
-            return selectedData.CanPlaceObjectAt(gridPosition, placementSystem.database.objectsData[selectedObjectIndex].Size);
+            if (touchableObject == objectPlacer.currentTouchableObj)
+                countClicked++;
+            else
+                countClicked = 0;
         }
     }
+}

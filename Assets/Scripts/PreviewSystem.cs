@@ -38,13 +38,7 @@ public class PreviewSystem : MonoBehaviour
         cellIndicator.SetActive(false);
         ObjectPlacer objectPlacer = FindObjectOfType<ObjectPlacer>();
         if (objectPlacer.currentTouchableObj != null)
-        {
-            if (objectPlacer.currentTouchableObj.editIndicator != null)
-            {
-                objectPlacer.currentTouchableObj.editIndicator.SetActive(false);
-                Debug.Log($"Set active false currentTouchableObj");
-            }
-        }
+            objectPlacer.currentTouchableObj.TurnONOFFIndicator(false);
 
         if (previewObject != null)
             Destroy(previewObject);

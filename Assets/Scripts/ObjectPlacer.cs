@@ -61,8 +61,7 @@ public class ObjectPlacer : MonoBehaviour
         previewSystem.UpdateGridIndicator(position, size, true);
 
         //Active edit indicator
-        if (currentTouchableObj.editIndicator != null)
-            currentTouchableObj.editIndicator.SetActive(true);
+        currentTouchableObj.TurnONOFFIndicator(true);
     }
 
 }

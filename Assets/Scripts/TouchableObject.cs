@@ -26,17 +26,29 @@ public class TouchableObject : MonoBehaviour
 
     private void OnMouseDown()
     {
+        placementChecker.CheckAndSetCountClicked(this);
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
-        placementSystem.StartMoving(this, indexPrefabs);
-        mouseIsPressed = true;
-        placementChecker.HandleMouseDownPlacement(gameObject);
 
+        if (placementChecker.mode == PlacementChecker.Mode.Moving)
+        {
+            placementSystem.StartMoving(this, indexPrefabs);
+            //First Clicked for choose, Second clicked for moving
+            if (placementChecker.countClicked >= 1)
+            {
+                mouseIsPressed = true;
+                placementChecker.HandleMouseDownPlacement(gameObject);
+            }
+        }
     }
 
     private void OnMouseUp()
     {
-        mouseIsPressed = false;
-        placementChecker.HandleMouseUpPlacement(gameObject, indexPrefabs);
+        //First Clicked for choose, Second clicked for moving
+        if (placementChecker.countClicked >= 1 && placementChecker.mode == PlacementChecker.Mode.Moving)
+        {
+            mouseIsPressed = false;
+            placementChecker.HandleMouseUpPlacement(gameObject, indexPrefabs);
+        }
     }
 
     private void SetIndicator()
@@ -76,5 +88,13 @@ public class TouchableObject : MonoBehaviour
                     placementChecker.movingUp = true;
             }
         }
+    }
+
+    public void TurnONOFFIndicator(bool val)
+    {
+        if (editIndicator != null)
+            editIndicator.SetActive(val);
+        else
+            Debug.Log($"Edit Indicator is null");
     }
 }

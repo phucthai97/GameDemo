@@ -93,23 +93,26 @@ public class PlacementSystem : MonoBehaviour
         //Set de-active tools
         gridVisualization.SetActive(false);
         placementUIControl.TurnOffEditButtonObject();
+
         placementChecker.RemoveFurnitureObject();
+        //buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
+        //Passing Stop_Placement into On Exit delegate
+        //inputManager.OnExit += StopPlacement;
+
     }
 
-    // public void StartRemoving()
-    // {
-    //     StopPlacement();
-
-    //     //Set de-active tools
-    //     gridVisualization.SetActive(false);
-    //     placementUIControl.TurnOffEditButtonObject();
-        
-    //     buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
-    //     //Passing Place_Structure into On Clicked delegate
-    //     //inputManager.OnClicked += PlaceStructure;
-    //     //Passing Stop_Placement into On Exit delegate
-    //     inputManager.OnExit += StopPlacement;
-    // }
+    public void StartRemoving()
+    {
+        StopPlacement();
+        //Set de-active tools
+        gridVisualization.SetActive(false);
+        placementUIControl.TurnOffEditButtonObject();
+        buildingState = new RemovingFloor(grid, preview, floorData, furnitureData, objectPlacer);
+        //Passing Place_Structure into On Clicked delegate
+        //inputManager.OnClicked += PlaceStructure;
+        //Passing Stop_Placement into On Exit delegate
+        inputManager.OnExit += StopPlacement;
+    }
 
     private void PlaceStructure()
     {
@@ -127,8 +130,6 @@ public class PlacementSystem : MonoBehaviour
         //Set De-active tools
         gridVisualization.SetActive(false);
         placementUIControl.TurnOffEditButtonObject();
-
-
         //Deactive indicator,...
         buildingState.EndState();
 

@@ -380,7 +380,7 @@
 "Assets/Scripts/PlacementUIControl.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/PreviewSystem.cs"
-"Assets/Scripts/RemovingState.cs"
+"Assets/Scripts/RemovingFloor.cs"
 "Assets/Scripts/TouchableObject.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0

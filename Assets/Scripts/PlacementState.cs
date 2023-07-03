@@ -49,9 +49,12 @@ public class PlacementState : IBuildingState
 
             //Check ID
             if (ID >= 10000)
-                Debug.Log($"Make floor");
+                placementChecker.mode = PlacementChecker.Mode.Floorplan;
             else
+            {
+                placementChecker.mode = PlacementChecker.Mode.Moving;
                 FindPosAndPlace();
+            }
         }
         else
             throw new System.Exception($"No object with in ID {iD}");

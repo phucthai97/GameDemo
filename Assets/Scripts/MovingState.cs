@@ -30,8 +30,8 @@ public class MovingState : IBuildingState
         this.touchableObject = touchableObject;
         this.placementChecker = placementChecker;
         this.indexPrefabs = indexPrefabs;
-
-        touchableObject.editIndicator.SetActive(true);
+        
+        touchableObject.TurnONOFFIndicator(true);
         placementChecker.IsThisCurrentTouchalbeObj(touchableObject, indexPrefabs);
     }
 
