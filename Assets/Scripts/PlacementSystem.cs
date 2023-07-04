@@ -86,30 +86,30 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
     }
 
-    public void StartMovingFur()
+    // public void StartMovingFur()
+    // {
+    //     StopPlacement();
+
+    //     //Set de-active tools
+    //     gridVisualization.SetActive(false);
+    //     placementUIControl.TurnOffEditButtonObject();
+
+    //     placementChecker.RemoveFurnitureObject();
+    //     //buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
+    //     //Passing Stop_Placement into On Exit delegate
+    //     //inputManager.OnExit += StopPlacement;
+
+    // }
+
+    public void StartRemovingFloor()
     {
         StopPlacement();
-
         //Set de-active tools
-        gridVisualization.SetActive(false);
-        placementUIControl.TurnOffEditButtonObject();
-
-        placementChecker.RemoveFurnitureObject();
-        //buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
-        //Passing Stop_Placement into On Exit delegate
-        //inputManager.OnExit += StopPlacement;
-
-    }
-
-    public void StartRemoving()
-    {
-        StopPlacement();
-        //Set de-active tools
-        gridVisualization.SetActive(false);
-        placementUIControl.TurnOffEditButtonObject();
+        gridVisualization.SetActive(true);
+        placementUIControl.TurnOnRemovingFloor();
         buildingState = new RemovingFloor(grid, preview, floorData, furnitureData, objectPlacer);
         //Passing Place_Structure into On Clicked delegate
-        //inputManager.OnClicked += PlaceStructure;
+        inputManager.OnClicked += PlaceStructure;
         //Passing Stop_Placement into On Exit delegate
         inputManager.OnExit += StopPlacement;
     }
@@ -129,7 +129,7 @@ public class PlacementSystem : MonoBehaviour
             return;
         //Set De-active tools
         gridVisualization.SetActive(false);
-        placementUIControl.TurnOffEditButtonObject();
+        placementUIControl.SetColorBtnRemoveFloor(false);
         //Deactive indicator,...
         buildingState.EndState();
 
@@ -139,15 +139,6 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit -= StopPlacement;
         lastDetectedPosition = Vector3Int.zero;
         buildingState = null;
-    }
-
-    private void MovingObject()
-    {
-        //If pointer of mouse click on UI area -> do nothing!
-        if (inputManager.IsPointerOverUI())
-            return;
-
-        buildingState.OnAction(GetGridCurrentPos());
     }
 
     private void Update()

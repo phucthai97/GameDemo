@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlacementUIControl : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlacementUIControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public void RunbtnDone()
@@ -28,6 +29,11 @@ public class PlacementUIControl : MonoBehaviour
 
         //Reset clickmouse
         placementChecker.countClicked = 0;
+
+        //Reset color of button
+        SetColorBtnRemoveFloor(false);
+
+        //Turn Off Edit Button
         TurnOffEditButtonObject();
     }
 
@@ -41,13 +47,35 @@ public class PlacementUIControl : MonoBehaviour
 
     public void TurnOnEditBtnObject(int ID)
     {
-        if(ID < 10000)
+        Debug.Log($"ID is {ID}");
+        if (ID < 10000)
+        {
             btnRemoveFur.SetActive(true);
-        else if(ID >= 10000)
+            btnRemoveFlo.SetActive(false);
+        }
+        else if (ID >= 10000)
+        {
+            btnRemoveFur.SetActive(false);
             btnRemoveFlo.SetActive(true);
+        }
 
         btnDone.SetActive(true);
         btnRotate.SetActive(true);
     }
 
+    public void TurnOnRemovingFloor()
+    {
+        btnRemoveFlo.SetActive(true);
+        btnDone.SetActive(true);
+        SetColorBtnRemoveFloor(true);
+    }
+
+    public void SetColorBtnRemoveFloor(bool greenColor)
+    {
+        Image img = btnRemoveFlo.GetComponent<Image>();
+        if (greenColor)
+            img.color = new Color32(96, 255, 13, 255);
+        else
+            img.color = new Color32(255, 255, 255, 255);
+    }
 }

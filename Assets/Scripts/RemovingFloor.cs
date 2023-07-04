@@ -54,15 +54,14 @@ public class RemovingFloor : IBuildingState
 
     public void OnAction(Vector3Int gridPosition)
     {
+        Debug.Log($"OnAction is {gridPosition}");
         GridData selectedData = null;
-        if (furnitureData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
-            selectedData = furnitureData;
-        else if (floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
+        if (floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
             selectedData = floorData;
 
         if (selectedData == null)
         {
-            //sound
+            Debug.Log($"SelectedData RemovingFloor is null");
         }
         else
         {
@@ -80,7 +79,7 @@ public class RemovingFloor : IBuildingState
 
         //Update preview system such as (indicator, material object)
         previewSystem.UpdateGridIndicator(gridPosition,
-                                    Vector2Int.one);
+                                    Vector2Int.one, true);
     }
 
     public void UpdateState(Vector3Int gridPosition)
