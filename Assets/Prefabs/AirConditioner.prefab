@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 2329096497116191561}
   - component: {fileID: 2584561302772375597}
   m_Layer: 0
-  m_Name: ShapeAC
+  m_Name: mainShape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,10 +255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dffaf6965995bae4fab2c47547a47db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHeightIndicator: 2
-  gridIndicator: {fileID: 0}
   editIndicator: {fileID: 0}
   mouseIsPressed: 0
+  indexPrefabs: 0
+  placementChecker: {fileID: 0}
 --- !u!1 &8216118981813893712
 GameObject:
   m_ObjectHideFlags: 0

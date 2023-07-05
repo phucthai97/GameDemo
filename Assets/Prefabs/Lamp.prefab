@@ -1,5 +1,39 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2820032299192929242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4787961291175723583}
+  m_Layer: 0
+  m_Name: mainShape
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4787961291175723583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2820032299192929242}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6212742794307373526}
+  - {fileID: 795693069245542111}
+  - {fileID: 9046229304233853767}
+  m_Father: {fileID: 3197888032807051463}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6160251151540239785
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,7 +67,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3197888032807051463}
+  m_Father: {fileID: 4787961291175723583}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5693843088217323043
@@ -5475,7 +5509,7 @@ MeshCollider:
   m_GameObject: {fileID: 6160251151540239785}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -5508,12 +5542,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6212742794307373527}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.09100002, y: -0.29, z: 0.042999983}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3197888032807051463}
+  m_Father: {fileID: 4787961291175723583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6212742794307373097
@@ -10955,7 +10989,7 @@ MeshCollider:
   m_GameObject: {fileID: 6212742794307373527}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -10990,9 +11024,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6212742794307373526}
-  - {fileID: 795693069245542111}
-  - {fileID: 9046229304233853767}
+  - {fileID: 4787961291175723583}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11022,10 +11054,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dffaf6965995bae4fab2c47547a47db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHeightIndicator: 4.2
-  gridIndicator: {fileID: 0}
   editIndicator: {fileID: 0}
   mouseIsPressed: 0
+  indexPrefabs: 0
+  placementChecker: {fileID: 0}
 --- !u!1 &8022552909789198651
 GameObject:
   m_ObjectHideFlags: 0
@@ -11059,7 +11091,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3197888032807051463}
+  m_Father: {fileID: 4787961291175723583}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5379638084756271898
@@ -18868,7 +18900,7 @@ MeshCollider:
   m_GameObject: {fileID: 8022552909789198651}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30

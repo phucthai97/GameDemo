@@ -114,6 +114,15 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
     }
 
+    public void RotateObject()
+    {
+        if (objectPlacer.currentTouchableObj != null)
+        {
+            gridVisualization.SetActive(true);
+            Debug.Log($"Rotate");
+        }
+    }
+
     private void PlaceStructure()
     {
         //If pointer of mouse click on UI area -> do nothing!
