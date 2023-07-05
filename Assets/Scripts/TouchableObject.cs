@@ -97,4 +97,17 @@ public class TouchableObject : MonoBehaviour
         else
             Debug.Log($"Edit Indicator is null");
     }
+
+    public void RotateObject()
+    {
+        GameObject firstChild = gameObject.transform.GetChild(0).gameObject;
+        if (firstChild != null)
+        {
+            Debug.Log($"Name gameObject is {firstChild.name}");
+            firstChild.transform.Rotate(Vector3.up, 90f);
+        }
+        else
+            Debug.Log($"Null child gameObject");
+    }
+
 }

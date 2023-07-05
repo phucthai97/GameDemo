@@ -120,6 +120,7 @@ public class PlacementSystem : MonoBehaviour
         {
             gridVisualization.SetActive(true);
             Debug.Log($"Rotate");
+            objectPlacer.currentTouchableObj.RotateObject();
         }
     }
 

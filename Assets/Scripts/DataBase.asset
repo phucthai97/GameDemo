@@ -21,7 +21,7 @@ MonoBehaviour:
       type: 3}
   - <Name>k__BackingField: Lamp
     <ID>k__BackingField: 2
-    <maxHeight>k__BackingField: 4.2
+    <maxHeight>k__BackingField: 3.2
     <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 7329149264785268171, guid: 9f0be5d0141a58f4da63f7b9503190ab,
       type: 3}
