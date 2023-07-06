@@ -119,7 +119,6 @@ public class PlacementSystem : MonoBehaviour
         if (objectPlacer.currentTouchableObj != null)
         {
             gridVisualization.SetActive(true);
-            Debug.Log($"Rotate");
             objectPlacer.currentTouchableObj.RotateObject();
         }
     }

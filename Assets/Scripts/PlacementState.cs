@@ -84,20 +84,20 @@ public class PlacementState : IBuildingState
     {
         if (objectPlacer.currentTouchableObj != null)
         {
-            int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
             objectPlacer.currentTouchableObj.EditIndicator();
-            if (objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition)
-            {
-                lastGridPosition = gridPosition;
-                Vector3 newPos = new Vector3(gridPosition.x,
-                                            objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
-                                            gridPosition.z);
-                objectPlacer.currentTouchableObj.gameObject.transform.position = newPos;
-                bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
-                previewSystem.UpdateGridIndicator(gridPosition,
-                                                database.objectsData[indexPrefabs].Size
-                                                , validity);
-            }
+            //int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
+            // if (objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition)
+            // {
+            //     lastGridPosition = gridPosition;
+            //     Vector3 newPos = new Vector3(gridPosition.x,
+            //                                 objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
+            //                                 gridPosition.z);
+            //     objectPlacer.currentTouchableObj.gameObject.transform.position = newPos;
+            //     bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
+            //     previewSystem.UpdateGridIndicator(gridPosition,
+            //                                     database.objectsData[indexPrefabs].Size
+            //                                     , validity);
+            // }
         }
     }
 

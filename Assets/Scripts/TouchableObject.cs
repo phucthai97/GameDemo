@@ -8,6 +8,7 @@ public class TouchableObject : MonoBehaviour
     public bool mouseIsPressed = false;
     [SerializeField] public int indexPrefabs;
     public PlacementChecker placementChecker;
+    [SerializeField] public Vector2Int currentSize;
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +17,10 @@ public class TouchableObject : MonoBehaviour
         SetIndicator();
     }
 
-    public void SetIndexPrefabs(int indexPrefabs)
+    public void SetParas(int indexPrefabs, Vector2Int size)
     {
         this.indexPrefabs = indexPrefabs;
+        currentSize = size;
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         placementChecker = FindObjectOfType<PlacementChecker>();
         placementChecker.maxHeightIndicator = placementSystem.database.objectsData[indexPrefabs].maxHeight;

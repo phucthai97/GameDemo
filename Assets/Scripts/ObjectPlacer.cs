@@ -8,6 +8,7 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField] public List<GameObject> placedGameObjects = new();
     [SerializeField] public TouchableObject currentTouchableObj;
     [SerializeField] public int currentIndexPlacedObjects = -1;
+    
 
     public List<GameObject> PlacedGameObjects { get => placedGameObjects; set => placedGameObjects = value; }
 
@@ -53,7 +54,7 @@ public class ObjectPlacer : MonoBehaviour
         //Re-set current index of placed object
         currentIndexPlacedObjects = argCurrentIndexPlacedObj;
         //Set index prefabs
-        currentTouchableObj.SetIndexPrefabs(argSelectedIndexPrefabs);
+        currentTouchableObj.SetParas(argSelectedIndexPrefabs, size);
 
 
         //Update preview grid indicator
