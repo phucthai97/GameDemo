@@ -17,6 +17,7 @@ public class ObjectPlacer : MonoBehaviour
                             int selectedIndexPrefabs,
                             Vector3 position)
     {
+        //Create GameObject
         GameObject instObject = Instantiate(prefab);
         PlacedGameObjects.Add(instObject);
 
@@ -26,8 +27,10 @@ public class ObjectPlacer : MonoBehaviour
                                 position,
                                 size);
 
+        PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
+        
         //Set transform for object
-        instObject.transform.position = position;
+        instObject.transform.position = placementChecker.ObjectAlignment(position, size);
         instObject.transform.SetParent(gameObject.transform);
         return PlacedGameObjects.Count - 1;
     }
@@ -55,7 +58,6 @@ public class ObjectPlacer : MonoBehaviour
         currentIndexPlacedObjects = argCurrentIndexPlacedObj;
         //Set index prefabs
         currentTouchableObj.SetParas(argSelectedIndexPrefabs, size);
-
 
         //Update preview grid indicator
         PreviewSystem previewSystem = FindObjectOfType<PreviewSystem>();

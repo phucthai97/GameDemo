@@ -44,8 +44,8 @@ public class PlacementChecker : MonoBehaviour
         if (CheckPlacementValidity(gridPosition, selectedObjectIndex))
         {
             currentObject.transform.position = new Vector3(currentObject.transform.position.x,
-                                lastPosition.y,
-                                currentObject.transform.position.z);
+                                                        lastPosition.y,
+                                                        currentObject.transform.position.z);
         }
         ////If Mouse up at Not valid position
         else
@@ -73,8 +73,7 @@ public class PlacementChecker : MonoBehaviour
             //Add new current touchable object
             PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
             int currentIndexPlacedObjects = objectPlacer.placedGameObjects.IndexOf(touchableObject.gameObject);
-            Vector2Int size = placementSystem.database.objectsData[indexPrefabs].Size;
-            objectPlacer.UpdateCurrentTouchableObj(touchableObject, indexPrefabs, currentIndexPlacedObjects, gridPosition, size);
+            objectPlacer.UpdateCurrentTouchableObj(touchableObject, indexPrefabs, currentIndexPlacedObjects, gridPosition, touchableObject.currentSize);
         }
     }
 
@@ -155,7 +154,7 @@ public class PlacementChecker : MonoBehaviour
         Debug.Log($"{firstChild.name} Rotation Y-axis is {firstChild.transform.localRotation}");
         if(firstChild.transform.localRotation.y == 1 || firstChild.transform.localRotation.y == 0)
             Debug.Log($"Even {firstChild.transform.localRotation.y}");
-        return new Vector2Int(); 
+        return Size; 
     }
 
     public void RemoveObjectInDataDase(Vector3Int gridPosition, int indexPrefabs)
@@ -189,4 +188,20 @@ public class PlacementChecker : MonoBehaviour
                 countClicked = 0;
         }
     }
+
+
+    //We have the following offset calculation formula:
+    // -> (size.x/2)
+    // -> (size.y/2) - 1
+    //Then we apply it to the below method
+    public Vector3 ObjectAlignment(Vector3 position,Vector2 size)
+    {
+        Vector3 posOffset = new Vector3(size.x / 2,
+                                        0,
+                                        (size.y / 2) - 1);
+
+        //Debug.Log($"posOffset is {position + posOffset}");
+        return position + posOffset;
+    }
+
 }

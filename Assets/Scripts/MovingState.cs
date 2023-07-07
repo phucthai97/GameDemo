@@ -54,16 +54,27 @@ public class MovingState : IBuildingState
             objectPlacer.currentTouchableObj.EditIndicator();
             if (objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition)
             {
-                Debug.Log($"Ahihi");
                 lastGridPosition = gridPosition;
-                Vector3 newPos = new Vector3(gridPosition.x,
+                
+                //Get rawPos
+                Vector3 rawPos = new Vector3(gridPosition.x,
                                             objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
                                             gridPosition.z);
-                objectPlacer.currentTouchableObj.gameObject.transform.position = newPos;
+                //Then align positon of object
+                Vector3 alignPos = placementChecker.ObjectAlignment(rawPos, 
+                                                                    objectPlacer.currentTouchableObj.currentSize);
+
+                //Set position for moving object
+                objectPlacer.currentTouchableObj.gameObject.transform.position = alignPos;
+
+                //Check validity  for placement
                 bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
+
+                //For testing rotate
                 Vector2Int aVector = placementChecker.GetSizeBaseOnRotate();
+
                 previewSystem.UpdateGridIndicator(gridPosition,
-                                                database.objectsData[indexPrefabs].Size, 
+                                                objectPlacer.currentTouchableObj.currentSize, 
                                                 validity);
             }
         }

@@ -25,15 +25,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7329149264785268171}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7783527, z: 0, w: 0.6278273}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3440544854320938503}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 102.22, z: 0}
 --- !u!136 &2841439108520859375
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -47,7 +47,7 @@ CapsuleCollider:
   m_Radius: 0.4
   m_Height: 2.8
   m_Direction: 1
-  m_Center: {x: 0.5, y: 1.1, z: -0.5}
+  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!114 &-5397771711706453039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
   mouseIsPressed: 0
   indexPrefabs: 0
   placementChecker: {fileID: 0}
+  currentSize: {x: 0, y: 0}
 --- !u!1001 &2897499207854561772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,7 +95,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e4fe306a4384e2d42a69cc9047165462,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e4fe306a4384e2d42a69cc9047165462,
         type: 3}
@@ -104,7 +105,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e4fe306a4384e2d42a69cc9047165462,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e4fe306a4384e2d42a69cc9047165462,
         type: 3}

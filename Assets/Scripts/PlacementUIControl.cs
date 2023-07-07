@@ -47,7 +47,6 @@ public class PlacementUIControl : MonoBehaviour
 
     public void TurnOnEditBtnObject(int ID)
     {
-        Debug.Log($"ID is {ID}");
         if (ID < 10000)
         {
             btnRemoveFur.SetActive(true);
