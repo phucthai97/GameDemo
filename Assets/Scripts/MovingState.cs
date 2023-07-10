@@ -72,7 +72,6 @@ public class MovingState : IBuildingState
 
                 //For testing rotate
                 Vector2Int aVector = placementChecker.GetSizeBaseOnRotate();
-
                 previewSystem.UpdateGridIndicator(gridPosition,
                                                 objectPlacer.currentTouchableObj.currentSize, 
                                                 validity);

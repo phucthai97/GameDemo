@@ -65,9 +65,12 @@ public class PlacementChecker : MonoBehaviour
             AddFurniture(objectPlacer);
 
             //Remove grid data at position of pre-CurrentTouchObj
-            Vector3Int gridPosition = new Vector3Int((int)touchableObject.gameObject.transform.position.x
-                                                    , 0
-                                                    , (int)touchableObject.gameObject.transform.position.z);
+            // Vector3Int gridPosition = new Vector3Int((int)touchableObject.gameObject.transform.position.x
+            //                                         , 0
+            //                                         , (int)touchableObject.gameObject.transform.position.z);
+            Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, touchableObject.currentSize);
+
+            //Debug.Log($"new gridPosition is {gridPosition}");
             RemoveObjectInDataDase(gridPosition, indexPrefabs);
 
             //Add new current touchable object
@@ -118,10 +121,14 @@ public class PlacementChecker : MonoBehaviour
             if (placementSystem.database.objectsData[lastIndexPrefabs].ID < 10000)
             {
                 //Get current position of current object
-                Vector3 curentPosObj = objectPlacer.currentTouchableObj.gameObject.transform.position;
-                Vector3Int gridPosition = new Vector3Int((int)curentPosObj.x,
-                                                        0,
-                                                        (int)curentPosObj.z);
+                // Vector3 currentPosObj = objectPlacer.currentTouchableObj.gameObject.transform.position;
+                // Vector3Int gridPosition = new Vector3Int((int)currentPosObj.x,
+                //                                         0,
+                //                                         (int)currentPosObj.z);
+                Vector3Int gridPosition = GetTurnGridPos(objectPlacer.currentTouchableObj.gameObject.transform.position,
+                                                        objectPlacer.currentTouchableObj.currentSize);
+
+                //Debug.Log($"new currentPos is {gridPosition}");
 
                 AddObjectInDataBase(gridPosition, lastIndexPrefabs, objectPlacer.currentIndexPlacedObjects);
 
@@ -151,10 +158,10 @@ public class PlacementChecker : MonoBehaviour
     {
         Vector2Int Size = new Vector2Int();
         GameObject firstChild = objectPlacer.currentTouchableObj.gameObject.transform.GetChild(0).gameObject;
-        Debug.Log($"{firstChild.name} Rotation Y-axis is {firstChild.transform.localRotation}");
-        if(firstChild.transform.localRotation.y == 1 || firstChild.transform.localRotation.y == 0)
-            Debug.Log($"Even {firstChild.transform.localRotation.y}");
-        return Size; 
+        //Debug.Log($"{firstChild.name} Rotation Y-axis is {firstChild.transform.localRotation}");
+        // if (firstChild.transform.localRotation.y == 1 || firstChild.transform.localRotation.y == 0)
+        //     Debug.Log($"Even {firstChild.transform.localRotation.y}");
+        return Size;
     }
 
     public void RemoveObjectInDataDase(Vector3Int gridPosition, int indexPrefabs)
@@ -194,7 +201,7 @@ public class PlacementChecker : MonoBehaviour
     // -> (size.x/2)
     // -> (size.y/2) - 1
     //Then we apply it to the below method
-    public Vector3 ObjectAlignment(Vector3 position,Vector2 size)
+    public Vector3 ObjectAlignment(Vector3 position, Vector2 size)
     {
         Vector3 posOffset = new Vector3(size.x / 2,
                                         0,
@@ -202,6 +209,17 @@ public class PlacementChecker : MonoBehaviour
 
         //Debug.Log($"posOffset is {position + posOffset}");
         return position + posOffset;
+    }
+
+    public Vector3Int GetTurnGridPos(Vector3 position, Vector2 size)
+    {
+        Vector3 posOffset = new Vector3(size.x / 2,
+                                        0,
+                                        (size.y / 2) - 1);
+        Vector3Int result = new Vector3Int((int)Mathf.Ceil(position.x - posOffset.x),
+                                        0,
+                                        (int)Mathf.Ceil(position.z - posOffset.y));
+        return result;
     }
 
 }

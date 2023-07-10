@@ -86,21 +86,6 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
     }
 
-    // public void StartMovingFur()
-    // {
-    //     StopPlacement();
-
-    //     //Set de-active tools
-    //     gridVisualization.SetActive(false);
-    //     placementUIControl.TurnOffEditButtonObject();
-
-    //     placementChecker.RemoveFurnitureObject();
-    //     //buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
-    //     //Passing Stop_Placement into On Exit delegate
-    //     //inputManager.OnExit += StopPlacement;
-
-    // }
-
     public void StartRemovingFloor()
     {
         StopPlacement();

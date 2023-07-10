@@ -33,6 +33,7 @@ public class TouchableObject : MonoBehaviour
 
         if (placementChecker.mode == PlacementChecker.Mode.Moving)
         {
+            Debug.Log($"StartMoving");
             placementSystem.StartMoving(this, indexPrefabs);
             //First Clicked for choose, Second clicked for moving
             if (placementChecker.countClicked >= 1)
@@ -62,10 +63,15 @@ public class TouchableObject : MonoBehaviour
         {
             int index = placementSystem.database.dataPrefabs.FindIndex(data => data.Name == "editindicator");
             editIndicator = Instantiate(placementSystem.database.dataPrefabs[index].Prefab);
-            editIndicator.transform.position = new Vector3(
-                                            transform.position.x
-                                            , placementChecker.maxHeightIndicator + gameObject.transform.position.y
-                                            , transform.position.z);
+            
+            //Set position for edit Indicator
+            Vector3Int rawPos = placementChecker.GetTurnGridPos(gameObject.transform.position,
+                                                                                currentSize);
+            editIndicator.transform.position = new Vector3(rawPos.x 
+                                                        , gameObject.transform.position.y + placementChecker.maxHeightIndicator
+                                                        , rawPos.z);
+            
+            //Set transform for edit indicator
             editIndicator.transform.SetParent(gameObject.transform);
         }
     }
@@ -96,8 +102,8 @@ public class TouchableObject : MonoBehaviour
     {
         if (editIndicator != null)
             editIndicator.SetActive(val);
-        else
-            Debug.Log($"Edit Indicator is null");
+        //else
+            //Debug.Log($"Edit Indicator is null");
     }
 
     public void RotateObject()

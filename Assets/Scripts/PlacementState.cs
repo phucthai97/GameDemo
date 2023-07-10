@@ -53,6 +53,7 @@ public class PlacementState : IBuildingState
             else
             {
                 placementChecker.mode = PlacementChecker.Mode.Moving;
+                Debug.Log($"Mode.Moving");
                 FindPosAndPlace();
             }
         }
