@@ -21,8 +21,6 @@ public class PreviewSystem : MonoBehaviour
         MoveGridIndicator(position, size);
         //Apply feedback to Grid Indicator
         ApplyFeedbackToGridIndicator(validity);
-
-        //Vector3Int gridPosition = new Vector3Int((int)position.x, 0, (int)position.z);
     }
 
     public void StopShowingPreview()
@@ -37,10 +35,13 @@ public class PreviewSystem : MonoBehaviour
     private void MoveGridIndicator(Vector3 position, Vector2Int size)
     {
         cellIndicator.transform.localScale = new Vector3Int(size.x, 1, size.y);
-        position = new Vector3(position.x, 0.21f, position.z + (size.y - 1));
+        //position = new Vector3(position.x, 0.21f, position.z + (size.y - 1));
+        //position = new Vector3(position.x, 0.21f, position.z);
+        //cellIndicator.transform.position = position;
 
-        position = new Vector3(position.x, 0.21f, position.z);
-        cellIndicator.transform.position = position;
+        PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
+        Vector3 posIndicator = placementChecker.ObjectAlignment(position, size);
+        cellIndicator.transform.position = new Vector3(posIndicator.x, 0.21f, posIndicator.z);
     }
 
     private void ApplyFeedbackToGridIndicator(bool validity)

@@ -26,33 +26,39 @@ public class PlacementChecker : MonoBehaviour
         objectPlacer = FindObjectOfType<ObjectPlacer>();
     }
 
-    public void HandleMouseDownPlacement(GameObject currentObject)
+    public void HandleMouseDownPlacement(TouchableObject touchableObject)
     {
-        lastPosition = currentObject.transform.position;
+        lastPosition = touchableObject.transform.position;
         // currentObject.transform.position = new Vector3(currentObject.transform.position.x,
         //                                             currentObject.transform.position.y + 1.4f,
         //                                             currentObject.transform.position.z);
     }
 
-    public void HandleMouseUpPlacement(GameObject currentObject, int selectedObjectIndex)
+    public void HandleMouseUpPlacement(TouchableObject touchableObject, int selectedObjectIndex)
     {
-        Vector3Int gridPosition = new Vector3Int((int)currentObject.transform.position.x,
-                                                0,
-                                                (int)currentObject.transform.position.z);
+        // Vector3Int gridPosition = new Vector3Int((int)currentObject.transform.position.x,
+        //                                         0,
+        //                                         (int)currentObject.transform.position.z);
+
+        Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, touchableObject.currentSize);
 
         //If Mouse up at valid position
         if (CheckPlacementValidity(gridPosition, selectedObjectIndex))
         {
-            currentObject.transform.position = new Vector3(currentObject.transform.position.x,
+            touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
                                                         lastPosition.y,
-                                                        currentObject.transform.position.z);
+                                                        touchableObject.transform.position.z);
         }
         ////If Mouse up at Not valid position
         else
         {
-            currentObject.transform.position = lastPosition;
-            previewSystem.UpdateGridIndicator(lastPosition,
-                                            placementSystem.database.objectsData[selectedObjectIndex].Size, true);
+            touchableObject.transform.position = lastPosition;
+
+            PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
+            Vector3Int newGridPosition = placementChecker.GetTurnGridPos(lastPosition, touchableObject.currentSize);
+            previewSystem.UpdateGridIndicator(newGridPosition,
+                                            touchableObject.currentSize, 
+                                            true);
         }
     }
 
