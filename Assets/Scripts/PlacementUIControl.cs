@@ -27,6 +27,11 @@ public class PlacementUIControl : MonoBehaviour
         PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
         placementChecker.mode = PlacementChecker.Mode.Moving;
 
+        //Re-new the current object for prevent tap first to select that object
+        ObjectPlacer objectPlacer = FindObjectOfType<ObjectPlacer>();
+        placementChecker.AddFurniture(objectPlacer);
+        placementChecker.RenewCurrentTouchableObject();
+
         //Reset clickmouse
         placementChecker.countClicked = 0;
 

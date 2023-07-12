@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3197888032807051463}
-  - component: {fileID: 2841439108520859375}
-  - component: {fileID: -5397771711706453039}
+  - component: {fileID: 3834094757564903593}
+  - component: {fileID: 7860772807047337448}
   m_Layer: 0
   m_Name: pottedPlant
   m_TagString: Untagged
@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7329149264785268171}
-  m_LocalRotation: {x: 0, y: 0.7783527, z: 0, w: 0.6278273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33,8 +33,8 @@ Transform:
   - {fileID: 3440544854320938503}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 102.22, z: 0}
---- !u!136 &2841439108520859375
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3834094757564903593
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,13 +42,13 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7329149264785268171}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.4
   m_Height: 2.8
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
---- !u!114 &-5397771711706453039
+--- !u!114 &7860772807047337448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

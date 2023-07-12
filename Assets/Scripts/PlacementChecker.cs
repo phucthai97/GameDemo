@@ -57,7 +57,7 @@ public class PlacementChecker : MonoBehaviour
             PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
             Vector3Int newGridPosition = placementChecker.GetTurnGridPos(lastPosition, touchableObject.currentSize);
             previewSystem.UpdateGridIndicator(newGridPosition,
-                                            touchableObject.currentSize, 
+                                            touchableObject.currentSize,
                                             true);
         }
     }
@@ -160,16 +160,6 @@ public class PlacementChecker : MonoBehaviour
                                 currentIndex);
     }
 
-    public Vector2Int GetSizeBaseOnRotate()
-    {
-        Vector2Int Size = new Vector2Int();
-        GameObject firstChild = objectPlacer.currentTouchableObj.gameObject.transform.GetChild(0).gameObject;
-        //Debug.Log($"{firstChild.name} Rotation Y-axis is {firstChild.transform.localRotation}");
-        // if (firstChild.transform.localRotation.y == 1 || firstChild.transform.localRotation.y == 0)
-        //     Debug.Log($"Even {firstChild.transform.localRotation.y}");
-        return Size;
-    }
-
     public void RemoveObjectInDataDase(Vector3Int gridPosition, int indexPrefabs)
     {
         //Classify object foor/furniture
@@ -202,7 +192,6 @@ public class PlacementChecker : MonoBehaviour
         }
     }
 
-
     //We have the following offset calculation formula:
     // -> (size.x/2)
     // -> (size.y/2) - 1
@@ -228,4 +217,9 @@ public class PlacementChecker : MonoBehaviour
         return result;
     }
 
+    public void RenewCurrentTouchableObject()
+    {
+        objectPlacer.currentTouchableObj = null;
+        objectPlacer.currentIndexPlacedObjects = -1;
+    }
 }

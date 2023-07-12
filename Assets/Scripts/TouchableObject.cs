@@ -64,9 +64,7 @@ public class TouchableObject : MonoBehaviour
             int index = placementSystem.database.dataPrefabs.FindIndex(data => data.Name == "editindicator");
             editIndicator = Instantiate(placementSystem.database.dataPrefabs[index].Prefab);
 
-            //Set position for edit Indicator
-            Vector3Int rawPos = placementChecker.GetTurnGridPos(gameObject.transform.position,
-                                                                                currentSize);
+            Vector3 rawPos = gameObject.transform.position;
             editIndicator.transform.position = new Vector3(rawPos.x
                                                         , gameObject.transform.position.y + placementChecker.maxHeightIndicator
                                                         , rawPos.z);
@@ -108,23 +106,14 @@ public class TouchableObject : MonoBehaviour
 
     public void RotateObject()
     {
-        GameObject firstChild = gameObject.transform.GetChild(0).gameObject;
-
-        if (firstChild != null)
-        {
-            Debug.Log($"Name gameObject is {firstChild.name} is rotation {firstChild.transform.localRotation}");
-            firstChild.transform.Rotate(Vector3.up, 90f);
-
-            //Set currentSize when the object rotates
-            PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
-            Vector2Int Size = placementSystem.database.objectsData[indexPrefabs].Size;
-            if (firstChild.transform.localRotation.y == 0 || firstChild.transform.localRotation.y == 1)
-                currentSize = Size;
-            else
-                currentSize = new Vector2Int(Size.y, Size.x);
-        }
+        Debug.Log($"{gameObject.name} is rotation {transform.localRotation}");
+        gameObject.transform.Rotate(Vector3.up, 90f);
+        //Set currentSize when the object rotates
+        PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
+        Vector2Int Size = placementSystem.database.objectsData[indexPrefabs].Size;
+        if (gameObject.transform.localRotation.y == 0 || gameObject.transform.localRotation.y == 1)
+            currentSize = Size;
         else
-            Debug.Log($"Null child gameObject");
+            currentSize = new Vector2Int(Size.y, Size.x);
     }
-
 }

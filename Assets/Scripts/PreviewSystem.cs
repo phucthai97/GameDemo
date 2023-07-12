@@ -35,9 +35,6 @@ public class PreviewSystem : MonoBehaviour
     private void MoveGridIndicator(Vector3 position, Vector2Int size)
     {
         cellIndicator.transform.localScale = new Vector3Int(size.x, 1, size.y);
-        //position = new Vector3(position.x, 0.21f, position.z + (size.y - 1));
-        //position = new Vector3(position.x, 0.21f, position.z);
-        //cellIndicator.transform.position = position;
 
         PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
         Vector3 posIndicator = placementChecker.ObjectAlignment(position, size);

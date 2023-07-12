@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8864122561502757188}
   - component: {fileID: 4997720563601308010}
   - component: {fileID: 5116038944958825514}
-  - component: {fileID: 2149006058386924262}
   m_Layer: 0
   m_Name: Fan
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2149006058386924262
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015005429690106151}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3452232898846111884
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,8 +213,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.9, y: 1.45, z: 1}
-  m_Center: {x: 2, y: 0.01, z: -0.05}
+  m_Size: {x: 4, y: 1.5, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7389792345648226672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +243,6 @@ GameObject:
   - component: {fileID: 6118678930110096888}
   - component: {fileID: 4980949158047096535}
   - component: {fileID: 7101977125910183389}
-  - component: {fileID: 5359397956769156278}
   m_Layer: 0
   m_Name: Borders
   m_TagString: Untagged
@@ -330,16 +315,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5359397956769156278
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8216118981813893712}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
