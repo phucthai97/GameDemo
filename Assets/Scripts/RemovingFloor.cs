@@ -22,29 +22,6 @@ public class RemovingFloor : IBuildingState
         this.floorData = floorData;
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
-
-        // if (objectPlacer.currentTouchableObj != null)
-        // {
-        //     GridData selectedData = furnitureData;
-
-        //     //Get gridPosition
-        //     Transform trans = objectPlacer.currentTouchableObj.gameObject.transform;
-        //     Vector3Int gridPosition = new Vector3Int((int)trans.position.x,
-        //                                             0,
-        //                                             (int)trans.position.z);
-
-        //     //Check IndexPrefabs 
-        //     gameObjectIndex = selectedData.GetRepresentationIndex(gridPosition);
-        //     if (gameObjectIndex == -1)
-        //         return;
-        //     Debug.Log($"Start removing {gameObjectIndex}");
-
-
-        //     //Remove Gameobject
-        //     objectPlacer.RemoveObjectAt(gameObjectIndex);
-        // }
-        // else
-        //     Debug.Log($"There is no current placed object for removing");
     }
 
     public void EndState()
@@ -84,8 +61,6 @@ public class RemovingFloor : IBuildingState
 
     public void UpdateState(Vector3Int gridPosition)
     {
-        // previewSystem.UpdatePosition(gridPosition, 
-        //                             CheckIfSelectionIsValid(gridPosition), 
-        //                             new Vector2Int(1, 1));
+        
     }
 }

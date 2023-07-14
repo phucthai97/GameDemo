@@ -15,7 +15,7 @@ public class ObjectPlacer : MonoBehaviour
     public int PlaceObject(GameObject prefab,
                             Vector2Int size,
                             int selectedIndexPrefabs,
-                            Vector3 newPos)
+                            Vector3Int gridPosition)
     {
         //Create GameObject
         GameObject instObject = Instantiate(prefab);
@@ -24,13 +24,17 @@ public class ObjectPlacer : MonoBehaviour
         UpdateCurrentTouchableObj(instObject.GetComponent<TouchableObject>(),
                                 selectedIndexPrefabs,
                                 PlacedGameObjects.Count - 1,
-                                newPos,
+                                gridPosition,
                                 size);
 
         PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
         
+        //Create position for new object
+        Vector3 newPosObject = gridPosition;
+        newPosObject.y = prefab.transform.position.y;
+
         //Set transform for object
-        instObject.transform.position = placementChecker.ObjectAlignment(newPos, size);
+        instObject.transform.position = placementChecker.ObjectAlignment(newPosObject, size);
         instObject.transform.SetParent(gameObject.transform);
         return PlacedGameObjects.Count - 1;
     }
@@ -48,7 +52,7 @@ public class ObjectPlacer : MonoBehaviour
     public void UpdateCurrentTouchableObj(TouchableObject argCurrentTouchableObj,
                                         int argSelectedIndexPrefabs,
                                         int argCurrentIndexPlacedObj,
-                                        Vector3 position,
+                                        Vector3Int girdPosition,
                                         Vector2Int size)
     {
         //Assign currentTouchableObj
@@ -57,12 +61,11 @@ public class ObjectPlacer : MonoBehaviour
         //Re-set current index of placed object
         currentIndexPlacedObjects = argCurrentIndexPlacedObj;
         //Set index prefabs
-        currentTouchableObj.SetParas(argSelectedIndexPrefabs, size);
+        currentTouchableObj.SetParas(argSelectedIndexPrefabs, size, girdPosition);
 
         //Update preview grid indicator
         PreviewSystem previewSystem = FindObjectOfType<PreviewSystem>();
-        //Debug.Log($"Position1 is {position}");
-        previewSystem.UpdateGridIndicator(position, size, true);
+        previewSystem.UpdateGridIndicator(girdPosition, size, true);
 
         //Active edit indicator
         currentTouchableObj.TurnONOFFIndicator(true);

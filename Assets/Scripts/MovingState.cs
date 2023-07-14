@@ -70,6 +70,10 @@ public class MovingState : IBuildingState
                 //Check validity  for placement
                 bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
 
+                //Update current gridPosition
+                objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
+
+                Debug.Log($"gridPosition updated {gridPosition}");
                 previewSystem.UpdateGridIndicator(gridPosition,
                                                 objectPlacer.currentTouchableObj.currentSize,
                                                 validity);

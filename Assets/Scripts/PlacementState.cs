@@ -129,13 +129,9 @@ public class PlacementState : IBuildingState
 
     private void CreateObjectPlacer(Vector3Int gridPosition)
     {
-        //Create position for new object
-        Vector3 newPosObject = gridPosition;
-        newPosObject.y = database.objectsData[selectedIndexPrefabs].Prefab.transform.position.y;
-
         objectPlacer.currentIndexPlacedObjects = objectPlacer.PlaceObject(database.objectsData[selectedIndexPrefabs].Prefab,
                                                             database.objectsData[selectedIndexPrefabs].Size,
                                                             selectedIndexPrefabs,
-                                                            newPosObject);
+                                                            gridPosition);
     }
 }

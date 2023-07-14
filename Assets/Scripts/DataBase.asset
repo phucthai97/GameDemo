@@ -25,11 +25,11 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 7329149264785268171, guid: 9f0be5d0141a58f4da63f7b9503190ab,
       type: 3}
-  - <Name>k__BackingField: AirConditioner
+  - <Name>k__BackingField: bedSingle
     <ID>k__BackingField: 3
-    <maxHeight>k__BackingField: 2
-    <Size>k__BackingField: {x: 4, y: 2}
-    <Prefab>k__BackingField: {fileID: 5587842578948658735, guid: 3197678d65c776743b09f095212f3c56,
+    <maxHeight>k__BackingField: 1.7
+    <Size>k__BackingField: {x: 3, y: 6}
+    <Prefab>k__BackingField: {fileID: 7805687958889624051, guid: 340119dde8f7dd44fb7cddfbd899e4c9,
       type: 3}
   - <Name>k__BackingField: Floor
     <ID>k__BackingField: 10000

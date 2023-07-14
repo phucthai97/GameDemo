@@ -64,6 +64,7 @@ public class PlacementChecker : MonoBehaviour
 
     public void IsThisCurrentTouchalbeObj(TouchableObject touchableObject, int indexPrefabs)
     {
+        Debug.Log($"Update current touchable object1");
         ObjectPlacer objectPlacer = FindObjectOfType<ObjectPlacer>();
         if (objectPlacer.currentTouchableObj != touchableObject)
         {
@@ -82,7 +83,14 @@ public class PlacementChecker : MonoBehaviour
             //Add new current touchable object
             PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
             int currentIndexPlacedObjects = objectPlacer.placedGameObjects.IndexOf(touchableObject.gameObject);
-            objectPlacer.UpdateCurrentTouchableObj(touchableObject, indexPrefabs, currentIndexPlacedObjects, gridPosition, touchableObject.currentSize);
+
+            Debug.Log($"Update current touchable object2");
+            //Update new-current touchable object
+            objectPlacer.UpdateCurrentTouchableObj(touchableObject, 
+                                                indexPrefabs, 
+                                                currentIndexPlacedObjects, 
+                                                gridPosition, 
+                                                touchableObject.currentSize);
         }
     }
 

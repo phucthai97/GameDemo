@@ -9,6 +9,7 @@ public class TouchableObject : MonoBehaviour
     [SerializeField] public int indexPrefabs;
     public PlacementChecker placementChecker;
     [SerializeField] public Vector2Int currentSize;
+    [SerializeField] public Vector3Int currentGridPos;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +18,12 @@ public class TouchableObject : MonoBehaviour
         SetIndicator();
     }
 
-    public void SetParas(int indexPrefabs, Vector2Int size)
+    public void SetParas(int indexPrefabs, Vector2Int size, Vector3Int gridPosition)
     {
         this.indexPrefabs = indexPrefabs;
         currentSize = size;
+        currentGridPos = gridPosition;
+
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         placementChecker = FindObjectOfType<PlacementChecker>();
         placementChecker.maxHeightIndicator = placementSystem.database.objectsData[indexPrefabs].maxHeight;
@@ -106,14 +109,20 @@ public class TouchableObject : MonoBehaviour
 
     public void RotateObject()
     {
-        Debug.Log($"{gameObject.name} is rotation {transform.localRotation}");
         gameObject.transform.Rotate(Vector3.up, 90f);
+        //Update preview grid indicator
+
         //Set currentSize when the object rotates
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         Vector2Int Size = placementSystem.database.objectsData[indexPrefabs].Size;
-        if (gameObject.transform.localRotation.y == 0 || gameObject.transform.localRotation.y == 1)
+        if (gameObject.transform.localRotation.y == 0
+        || gameObject.transform.localRotation.y == 1
+        || gameObject.transform.localRotation.y == -1)
             currentSize = Size;
         else
             currentSize = new Vector2Int(Size.y, Size.x);
+
+        PreviewSystem previewSystem = FindObjectOfType<PreviewSystem>();
+        previewSystem.UpdateGridIndicator(currentGridPos, currentSize, true);
     }
 }
