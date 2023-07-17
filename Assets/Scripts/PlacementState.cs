@@ -85,8 +85,8 @@ public class PlacementState : IBuildingState
     {
         if (objectPlacer.currentTouchableObj != null)
         {
-            objectPlacer.currentTouchableObj.EditIndicator();
-            //int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
+            objectPlacer.currentTouchableObj.MovingEIndicator();
+            // int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
             // if (objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition)
             // {
             //     lastGridPosition = gridPosition;
@@ -113,6 +113,7 @@ public class PlacementState : IBuildingState
                 if (placementChecker.CheckPlacementValidity(new Vector3Int(i, 0, j), selectedIndexPrefabs))
                 {
                     gridPosition = new Vector3Int(i, 0, j);
+                    Debug.Log($"gridPosition is {gridPosition}");
                     validity = true;
                     break;
                 }

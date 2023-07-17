@@ -86,6 +86,13 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
     }
 
+    public void StartRemoving()
+    {
+        StopPlacement();
+        gridVisualization.SetActive(true);
+        placementChecker.RemoveFurnitureObject();
+    }
+
     public void StartRemovingFloor()
     {
         StopPlacement();

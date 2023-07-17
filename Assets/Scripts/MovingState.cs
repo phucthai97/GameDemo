@@ -50,10 +50,11 @@ public class MovingState : IBuildingState
     {
         if (objectPlacer.currentTouchableObj != null)
         {
-            int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
-            objectPlacer.currentTouchableObj.EditIndicator();
+            //Moving EIndicator
+            objectPlacer.currentTouchableObj.MovingEIndicator();
             if (objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition)
             {
+                int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
                 lastGridPosition = gridPosition;
 
                 //Get rawPos
@@ -70,14 +71,21 @@ public class MovingState : IBuildingState
                 //Check validity  for placement
                 bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
 
-                //Update current gridPosition
                 objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
 
-                Debug.Log($"gridPosition updated {gridPosition}");
                 previewSystem.UpdateGridIndicator(gridPosition,
                                                 objectPlacer.currentTouchableObj.currentSize,
                                                 validity);
             }
+
+            // //Update current gridPosition
+            // else if (!objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition
+            //         && placementChecker.countClicked >= 1
+            //         && placementChecker.mode == PlacementChecker.Mode.Moving)
+            // {
+            //     objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
+            //     Debug.Log($"gridPosition updated {gridPosition}");
+            // }
         }
     }
 }

@@ -37,12 +37,12 @@ public class TouchableObject : MonoBehaviour
         if (placementChecker.mode == PlacementChecker.Mode.Moving)
         {
             Debug.Log($"StartMoving");
+            placementChecker.HandleMouseDownPlacement(this);
             placementSystem.StartMoving(this, indexPrefabs);
             //First Clicked for choose, Second clicked for moving
             if (placementChecker.countClicked >= 1)
             {
                 mouseIsPressed = true;
-                placementChecker.HandleMouseDownPlacement(this);
             }
         }
     }
@@ -77,7 +77,7 @@ public class TouchableObject : MonoBehaviour
         }
     }
 
-    public void EditIndicator()
+    public void MovingEIndicator()
     {
         if (editIndicator != null)
         {
@@ -116,8 +116,8 @@ public class TouchableObject : MonoBehaviour
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         Vector2Int Size = placementSystem.database.objectsData[indexPrefabs].Size;
         if (gameObject.transform.localRotation.y == 0
-        || gameObject.transform.localRotation.y == 1
-        || gameObject.transform.localRotation.y == -1)
+            || gameObject.transform.localRotation.y == 1
+            || gameObject.transform.localRotation.y == -1)
             currentSize = Size;
         else
             currentSize = new Vector2Int(Size.y, Size.x);

@@ -10,6 +10,7 @@ public class PlacementChecker : MonoBehaviour
     PreviewSystem previewSystem;
     ObjectPlacer objectPlacer;
     [SerializeField] public Vector3 lastPosition;
+    [SerializeField] public Vector3Int lastGridPos;
     [SerializeField] public bool movingUp = true;
     [SerializeField] public float maxHeightIndicator;
 
@@ -29,6 +30,7 @@ public class PlacementChecker : MonoBehaviour
     public void HandleMouseDownPlacement(TouchableObject touchableObject)
     {
         lastPosition = touchableObject.transform.position;
+        lastGridPos = touchableObject.currentGridPos;
         // currentObject.transform.position = new Vector3(currentObject.transform.position.x,
         //                                             currentObject.transform.position.y + 1.4f,
         //                                             currentObject.transform.position.z);
@@ -40,7 +42,8 @@ public class PlacementChecker : MonoBehaviour
         //                                         0,
         //                                         (int)currentObject.transform.position.z);
 
-        Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, touchableObject.currentSize);
+        Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, 
+                                                touchableObject.currentSize);
 
         //If Mouse up at valid position
         if (CheckPlacementValidity(gridPosition, selectedObjectIndex))
@@ -53,10 +56,11 @@ public class PlacementChecker : MonoBehaviour
         else
         {
             touchableObject.transform.position = lastPosition;
+            touchableObject.currentGridPos = lastGridPos;
 
-            PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
-            Vector3Int newGridPosition = placementChecker.GetTurnGridPos(lastPosition, touchableObject.currentSize);
-            previewSystem.UpdateGridIndicator(newGridPosition,
+            //PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
+            //Vector3Int newGridPosition = placementChecker.GetTurnGridPos(lastPosition, touchableObject.currentSize);
+            previewSystem.UpdateGridIndicator(lastGridPos,
                                             touchableObject.currentSize,
                                             true);
         }
@@ -75,21 +79,21 @@ public class PlacementChecker : MonoBehaviour
             // Vector3Int gridPosition = new Vector3Int((int)touchableObject.gameObject.transform.position.x
             //                                         , 0
             //                                         , (int)touchableObject.gameObject.transform.position.z);
-            Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, touchableObject.currentSize);
 
             //Debug.Log($"new gridPosition is {gridPosition}");
-            RemoveObjectInDataDase(gridPosition, indexPrefabs);
+            RemoveObjectInDataDase(touchableObject.currentGridPos, indexPrefabs);
 
             //Add new current touchable object
             PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
             int currentIndexPlacedObjects = objectPlacer.placedGameObjects.IndexOf(touchableObject.gameObject);
 
             Debug.Log($"Update current touchable object2");
+
             //Update new-current touchable object
             objectPlacer.UpdateCurrentTouchableObj(touchableObject, 
                                                 indexPrefabs, 
                                                 currentIndexPlacedObjects, 
-                                                gridPosition, 
+                                                touchableObject.currentGridPos, 
                                                 touchableObject.currentSize);
         }
     }
@@ -139,12 +143,15 @@ public class PlacementChecker : MonoBehaviour
                 // Vector3Int gridPosition = new Vector3Int((int)currentPosObj.x,
                 //                                         0,
                 //                                         (int)currentPosObj.z);
-                Vector3Int gridPosition = GetTurnGridPos(objectPlacer.currentTouchableObj.gameObject.transform.position,
-                                                        objectPlacer.currentTouchableObj.currentSize);
+                // Vector3Int gridPosition = GetTurnGridPos(objectPlacer.currentTouchableObj.gameObject.transform.position,
+                //                                         objectPlacer.currentTouchableObj.currentSize);
+                // print($"GetTurnGridPos is {gridPosition}");
 
                 //Debug.Log($"new currentPos is {gridPosition}");
 
-                AddObjectInDataBase(gridPosition, lastIndexPrefabs, objectPlacer.currentIndexPlacedObjects);
+                AddObjectInDataBase(objectPlacer.currentTouchableObj.currentGridPos, 
+                                    lastIndexPrefabs, 
+                                    objectPlacer.currentIndexPlacedObjects);
 
                 //Turn of moving of edit indicator
                 objectPlacer.currentTouchableObj.TurnONOFFIndicator(false);
