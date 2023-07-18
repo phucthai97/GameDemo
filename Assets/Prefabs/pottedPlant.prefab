@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3197888032807051463}
-  - component: {fileID: 3834094757564903593}
   - component: {fileID: 7860772807047337448}
+  - component: {fileID: 3834094757564903593}
   m_Layer: 0
   m_Name: pottedPlant
   m_TagString: Untagged
@@ -34,20 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &3834094757564903593
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7329149264785268171}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 2.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!114 &7860772807047337448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +51,21 @@ MonoBehaviour:
   indexPrefabs: 0
   placementChecker: {fileID: 0}
   currentSize: {x: 0, y: 0}
+  currentGridPos: {x: 0, y: 0, z: 0}
+--- !u!136 &3834094757564903593
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329149264785268171}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 2.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!1001 &2897499207854561772
 PrefabInstance:
   m_ObjectHideFlags: 0

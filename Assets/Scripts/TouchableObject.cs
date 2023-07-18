@@ -116,8 +116,8 @@ public class TouchableObject : MonoBehaviour
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         Vector2Int Size = placementSystem.database.objectsData[indexPrefabs].Size;
         if (gameObject.transform.localRotation.y == 0
-            || gameObject.transform.localRotation.y == 1
-            || gameObject.transform.localRotation.y == -1)
+        || gameObject.transform.localRotation.y == 1
+        || gameObject.transform.localRotation.y == -1)
             currentSize = Size;
         else
             currentSize = new Vector2Int(Size.y, Size.x);

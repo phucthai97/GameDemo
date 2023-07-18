@@ -27,9 +27,27 @@ MonoBehaviour:
       type: 3}
   - <Name>k__BackingField: bedSingle
     <ID>k__BackingField: 3
-    <maxHeight>k__BackingField: 1.7
+    <maxHeight>k__BackingField: 2
     <Size>k__BackingField: {x: 3, y: 6}
     <Prefab>k__BackingField: {fileID: 7805687958889624051, guid: 340119dde8f7dd44fb7cddfbd899e4c9,
+      type: 3}
+  - <Name>k__BackingField: LampRoundFloor
+    <ID>k__BackingField: 4
+    <maxHeight>k__BackingField: 4.7
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 2935223327370267519, guid: 922ec82cc2430fb4480fb53080d576f0,
+      type: 3}
+  - <Name>k__BackingField: chairCushion
+    <ID>k__BackingField: 5
+    <maxHeight>k__BackingField: 4.2
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 4324258933685483899, guid: 2d3ea67e022ccf047a67ebbb3081c4fa,
+      type: 3}
+  - <Name>k__BackingField: benchCushionLow
+    <ID>k__BackingField: 6
+    <maxHeight>k__BackingField: 4
+    <Size>k__BackingField: {x: 3, y: 2}
+    <Prefab>k__BackingField: {fileID: 5015390022914479062, guid: 9c16546a7650f394f8e3dccdfc99f5c9,
       type: 3}
   - <Name>k__BackingField: Floor
     <ID>k__BackingField: 10000

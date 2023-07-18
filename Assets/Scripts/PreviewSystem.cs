@@ -15,7 +15,7 @@ public class PreviewSystem : MonoBehaviour
 
     public void UpdateGridIndicator(Vector3 position, Vector2Int size, bool validity)
     {
-        //Debug.Log($"Pos is {position}");
+        
         cellIndicator.SetActive(true);
         //Move Grid Indicator
         MoveGridIndicator(position, size);
@@ -37,7 +37,10 @@ public class PreviewSystem : MonoBehaviour
         cellIndicator.transform.localScale = new Vector3Int(size.x, 1, size.y);
 
         PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
-        Vector3 posIndicator = placementChecker.ObjectAlignment(position, size);
+        Vector3 posIndicator =  placementChecker.ObjectAlignment(position, size);
+
+        Debug.Log($"Pos Indicator is {position} and {posIndicator} with size {size}");
+        
         cellIndicator.transform.position = new Vector3(posIndicator.x, 0.21f, posIndicator.z);
     }
 
