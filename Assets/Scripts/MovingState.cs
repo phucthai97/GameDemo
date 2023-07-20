@@ -69,23 +69,17 @@ public class MovingState : IBuildingState
                 objectPlacer.currentTouchableObj.gameObject.transform.position = alignPos;
 
                 //Check validity  for placement
-                bool validity = placementChecker.CheckPlacementValidity(gridPosition, indexPrefabs);
+                bool validity = placementChecker.CheckPlacementValidity(gridPosition, 
+                                                                    objectPlacer.currentTouchableObj.currentSize, 
+                                                                    indexPrefabs);
 
                 objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
 
+                Debug.Log($"gridPosition when it move is {gridPosition}");
                 previewSystem.UpdateGridIndicator(gridPosition,
                                                 objectPlacer.currentTouchableObj.currentSize,
                                                 validity);
             }
-
-            // //Update current gridPosition
-            // else if (!objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition
-            //         && placementChecker.countClicked >= 1
-            //         && placementChecker.mode == PlacementChecker.Mode.Moving)
-            // {
-            //     objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
-            //     Debug.Log($"gridPosition updated {gridPosition}");
-            // }
         }
     }
 }

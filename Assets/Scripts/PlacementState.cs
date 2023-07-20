@@ -71,12 +71,19 @@ public class PlacementState : IBuildingState
         //If ID object belongs to floor
         if (ID >= 10000)
         {
-            bool validity = placementChecker.CheckPlacementValidity(gridPosition, selectedIndexPrefabs);
+            bool validity = placementChecker.CheckPlacementValidity(gridPosition,
+                                                                    database.objectsData[selectedIndexPrefabs].Size,
+                                                                    selectedIndexPrefabs);
             previewSystem.UpdateGridIndicator(gridPosition, database.objectsData[selectedIndexPrefabs].Size, validity);
             if (validity)
             {
                 CreateObjectPlacer(gridPosition);
-                placementChecker.AddObjectInDataBase(gridPosition, selectedIndexPrefabs, objectPlacer.currentIndexPlacedObjects);
+
+                //Add object in database
+                placementChecker.AddObjectInDataBase(gridPosition,
+                                                    database.objectsData[selectedIndexPrefabs].Size,
+                                                    selectedIndexPrefabs,
+                                                    objectPlacer.currentIndexPlacedObjects);
             }
         }
     }
@@ -110,7 +117,9 @@ public class PlacementState : IBuildingState
         {
             for (int j = yGrid.x; j <= yGrid.y; j++)
             {
-                if (placementChecker.CheckPlacementValidity(new Vector3Int(i, 0, j), selectedIndexPrefabs))
+                if (placementChecker.CheckPlacementValidity(new Vector3Int(i, 0, j),
+                                                            database.objectsData[selectedIndexPrefabs].Size, 
+                                                            selectedIndexPrefabs))
                 {
                     gridPosition = new Vector3Int(i, 0, j);
                     Debug.Log($"gridPosition is {gridPosition}");

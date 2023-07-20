@@ -11,10 +11,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 zRange = new Vector2(-0.7f, 8.4f);
     public Vector3 newPos;
 
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {

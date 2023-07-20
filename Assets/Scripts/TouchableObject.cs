@@ -103,8 +103,6 @@ public class TouchableObject : MonoBehaviour
     {
         if (editIndicator != null)
             editIndicator.SetActive(val);
-        //else
-        //Debug.Log($"Edit Indicator is null");
     }
 
     public void RotateObject()

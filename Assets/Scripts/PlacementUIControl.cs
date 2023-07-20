@@ -10,13 +10,6 @@ public class PlacementUIControl : MonoBehaviour
     [SerializeField] GameObject btnRemoveFur;
     [SerializeField] GameObject btnRemoveFlo;
 
-    // [SerializeField] GameObject btnRemoveFloor;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     public void RunbtnDone()
     {
         //Stop placement

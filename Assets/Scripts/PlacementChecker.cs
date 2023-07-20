@@ -4,6 +4,7 @@ using UnityEngine;
 
 //Thay vì lưu các thông số cho mỗi Touchable Object thì ta sẽ tạo ra Placement Checker
 //để lưu Touchable Object hiện tại -> Giảm biến lưu trữ
+//placement như cầu nối tạo ra các method đáp ứng dùng cho các trường hợp trong placement system
 public class PlacementChecker : MonoBehaviour
 {
     PlacementSystem placementSystem;
@@ -31,22 +32,15 @@ public class PlacementChecker : MonoBehaviour
     {
         lastPosition = touchableObject.transform.position;
         lastGridPos = touchableObject.currentGridPos;
-        // currentObject.transform.position = new Vector3(currentObject.transform.position.x,
-        //                                             currentObject.transform.position.y + 1.4f,
-        //                                             currentObject.transform.position.z);
     }
 
     public void HandleMouseUpPlacement(TouchableObject touchableObject, int selectedObjectIndex)
     {
-        // Vector3Int gridPosition = new Vector3Int((int)currentObject.transform.position.x,
-        //                                         0,
-        //                                         (int)currentObject.transform.position.z);
-
         Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, 
                                                 touchableObject.currentSize);
 
         //If Mouse up at valid position
-        if (CheckPlacementValidity(gridPosition, selectedObjectIndex))
+        if (CheckPlacementValidity(gridPosition, touchableObject.currentSize, selectedObjectIndex))
         {
             touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
                                                         lastPosition.y,
@@ -58,8 +52,6 @@ public class PlacementChecker : MonoBehaviour
             touchableObject.transform.position = lastPosition;
             touchableObject.currentGridPos = lastGridPos;
 
-            //PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
-            //Vector3Int newGridPosition = placementChecker.GetTurnGridPos(lastPosition, touchableObject.currentSize);
             previewSystem.UpdateGridIndicator(lastGridPos,
                                             touchableObject.currentSize,
                                             true);
@@ -74,12 +66,6 @@ public class PlacementChecker : MonoBehaviour
             //Add old-currentTouchObj into data base
             AddFurniture(objectPlacer);
 
-            //Remove grid data at position of pre-CurrentTouchObj
-            // Vector3Int gridPosition = new Vector3Int((int)touchableObject.gameObject.transform.position.x
-            //                                         , 0
-            //                                         , (int)touchableObject.gameObject.transform.position.z);
-
-            //Debug.Log($"new gridPosition is {gridPosition}");
             RemoveObjectInDataDase(touchableObject.currentGridPos, indexPrefabs);
 
             //Add new current touchable object
@@ -107,7 +93,6 @@ public class PlacementChecker : MonoBehaviour
                                                     (int)0,
                                                     (int)trans.position.z);
 
-
             //Check IndexPrefabs 
             //int gameObjectIndex = selectedData.GetRepresentationIndex(gridPosition);
             int indexPrefabs = objectPlacer.currentIndexPlacedObjects;
@@ -117,8 +102,6 @@ public class PlacementChecker : MonoBehaviour
                 Debug.LogError($"IndexPrefab = -1");
                 return;
             }
-
-            //selectedData.RemoveObjectAt(gridPosition);
 
             //Remove Gameobject
             objectPlacer.RemoveObjectAt(indexPrefabs);
@@ -135,18 +118,8 @@ public class PlacementChecker : MonoBehaviour
             //If object belongs to furniture
             if (placementSystem.database.objectsData[lastIndexPrefabs].ID < 10000)
             {
-                //Get current position of current object
-                // Vector3 currentPosObj = objectPlacer.currentTouchableObj.gameObject.transform.position;
-                // Vector3Int gridPosition = new Vector3Int((int)currentPosObj.x,
-                //                                         0,
-                //                                         (int)currentPosObj.z);
-                // Vector3Int gridPosition = GetTurnGridPos(objectPlacer.currentTouchableObj.gameObject.transform.position,
-                //                                         objectPlacer.currentTouchableObj.currentSize);
-                // print($"GetTurnGridPos is {gridPosition}");
-
-                //Debug.Log($"new currentPos is {gridPosition}");
-
-                AddObjectInDataBase(objectPlacer.currentTouchableObj.currentGridPos, 
+                AddObjectInDataBase(objectPlacer.currentTouchableObj.currentGridPos,
+                                    objectPlacer.currentTouchableObj.currentSize, 
                                     lastIndexPrefabs, 
                                     objectPlacer.currentIndexPlacedObjects);
 
@@ -158,7 +131,7 @@ public class PlacementChecker : MonoBehaviour
         }
     }
 
-    public void AddObjectInDataBase(Vector3Int gridPosition, int indexPrefabs, int currentIndex)
+    public void AddObjectInDataBase(Vector3Int gridPosition, Vector2Int currentSize, int indexPrefabs, int currentIndex)
     {
         //Classify object foor/furniture
         GridData selectedData = placementSystem.database.objectsData[indexPrefabs].ID < 10000 ?
@@ -167,7 +140,7 @@ public class PlacementChecker : MonoBehaviour
 
         //Add object into placement database
         selectedData.AddObjectAt(gridPosition,
-                                placementSystem.database.objectsData[indexPrefabs].Size,
+                                currentSize,
                                 placementSystem.database.objectsData[indexPrefabs].ID,
                                 currentIndex);
     }
@@ -183,14 +156,14 @@ public class PlacementChecker : MonoBehaviour
         selectedData.RemoveObjectAt(gridPosition);
     }
 
-    public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    public bool CheckPlacementValidity(Vector3Int gridPosition, Vector2Int currentSize,int selectedObjectIndex)
     {
         GridData selectedData = placementSystem.database.objectsData[selectedObjectIndex].ID < 10000 ?
                                 placementSystem.furnitureData :
                                 placementSystem.floorData;
 
         //Check this positon can place object or Not?
-        return selectedData.CanPlaceObjectAt(gridPosition, placementSystem.database.objectsData[selectedObjectIndex].Size);
+        return selectedData.CanPlaceObjectAt(gridPosition, currentSize);
     }
 
     public void CheckAndSetCountClicked(TouchableObject touchableObject)

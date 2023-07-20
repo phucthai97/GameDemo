@@ -38,12 +38,6 @@ public class GridData
 
     public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
     {
-        // if (gridPosition != currentPos)
-        // {
-        //     currentPos = gridPosition;
-        //     Debug.Log($"Pos {gridPosition} and objectSize is {objectSize}");
-        // }
-
         List<Vector3Int> positionOccupy = CalculatePositions(gridPosition, objectSize);
         foreach (var pos in positionOccupy)
         {
