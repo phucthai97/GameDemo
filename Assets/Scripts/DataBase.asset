@@ -19,11 +19,11 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 4089115143113801406, guid: 26679cf3687a6c7488cb0e4dad7b4ee4,
       type: 3}
-  - <Name>k__BackingField: Chest
+  - <Name>k__BackingField: CabinetBed
     <ID>k__BackingField: 1
     <maxHeight>k__BackingField: 2
     <Size>k__BackingField: {x: 2, y: 2}
-    <Prefab>k__BackingField: {fileID: 6531036834576138386, guid: 550d47b68a935c1419de95c63cfffdf9,
+    <Prefab>k__BackingField: {fileID: 6189890952274343760, guid: d97a24dbba12e5246901043fee3998f2,
       type: 3}
   - <Name>k__BackingField: Lamp
     <ID>k__BackingField: 2
@@ -34,7 +34,7 @@ MonoBehaviour:
   - <Name>k__BackingField: bedSingle
     <ID>k__BackingField: 3
     <maxHeight>k__BackingField: 2
-    <Size>k__BackingField: {x: 3, y: 6}
+    <Size>k__BackingField: {x: 3, y: 5}
     <Prefab>k__BackingField: {fileID: 7805687958889624051, guid: 340119dde8f7dd44fb7cddfbd899e4c9,
       type: 3}
   - <Name>k__BackingField: LampRoundFloor

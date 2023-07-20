@@ -25,12 +25,14 @@ public class GridData
 
     private List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectSize)
     {
+        Debug.Log($"Start gridPos is {gridPosition}");
         List<Vector3Int> returnVal = new();
         for (int x = 0; x < objectSize.x; x++)
         {
             for (int z = 0; z < objectSize.y; z++)
             {
                 returnVal.Add(gridPosition + new Vector3Int(x, 0, z));
+                Debug.Log($"Positions is {gridPosition + new Vector3Int(x, 0, z)}");
             }
         }
         return returnVal;
@@ -39,10 +41,14 @@ public class GridData
     public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
     {
         List<Vector3Int> positionOccupy = CalculatePositions(gridPosition, objectSize);
+        
         foreach (var pos in positionOccupy)
         {
             if (placedObjects.ContainsKey(pos))
+            {
+                Debug.Log($"pos contain is {pos}");
                 return false;
+            }
         }
         return true;
     }

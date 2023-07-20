@@ -36,9 +36,9 @@ public class PlacementChecker : MonoBehaviour
 
     public void HandleMouseUpPlacement(TouchableObject touchableObject, int selectedObjectIndex)
     {
-        Vector3Int gridPosition = GetTurnGridPos(touchableObject.gameObject.transform.position, 
-                                                touchableObject.currentSize);
+        Vector3Int gridPosition = touchableObject.currentGridPos;
 
+        Debug.Log($"HandleMouseUpPlacement gridPosition {gridPosition}");
         //If Mouse up at valid position
         if (CheckPlacementValidity(gridPosition, touchableObject.currentSize, selectedObjectIndex))
         {
@@ -94,7 +94,6 @@ public class PlacementChecker : MonoBehaviour
                                                     (int)trans.position.z);
 
             //Check IndexPrefabs 
-            //int gameObjectIndex = selectedData.GetRepresentationIndex(gridPosition);
             int indexPrefabs = objectPlacer.currentIndexPlacedObjects;
             Debug.Log($"Start removing with gridPos {gridPosition} and index {indexPrefabs}");
             if (indexPrefabs == -1)
@@ -138,6 +137,7 @@ public class PlacementChecker : MonoBehaviour
                                 placementSystem.furnitureData :
                                 placementSystem.floorData;
 
+        
         //Add object into placement database
         selectedData.AddObjectAt(gridPosition,
                                 currentSize,
@@ -161,7 +161,8 @@ public class PlacementChecker : MonoBehaviour
         GridData selectedData = placementSystem.database.objectsData[selectedObjectIndex].ID < 10000 ?
                                 placementSystem.furnitureData :
                                 placementSystem.floorData;
-
+        
+        Debug.Log($"CheckPlacementValidity gridPos is {gridPosition}");
         //Check this positon can place object or Not?
         return selectedData.CanPlaceObjectAt(gridPosition, currentSize);
     }
@@ -175,6 +176,12 @@ public class PlacementChecker : MonoBehaviour
             else
                 countClicked = 0;
         }
+    }
+
+    public void RenewCurrentTouchableObject()
+    {
+        objectPlacer.currentTouchableObj = null;
+        objectPlacer.currentIndexPlacedObjects = -1;
     }
 
     //We have the following offset calculation formula:
@@ -191,20 +198,14 @@ public class PlacementChecker : MonoBehaviour
         return position + posOffset;
     }
 
-    public Vector3Int GetTurnGridPos(Vector3 position, Vector2 size)
-    {
-        Vector3 posOffset = new Vector3(size.x / 2,
-                                        0,
-                                        (size.y / 2) - 1);
-        Vector3Int result = new Vector3Int((int)Mathf.Ceil(position.x - posOffset.x),
-                                        0,
-                                        (int)Mathf.Ceil(position.z - posOffset.y));
-        return result;
-    }
-
-    public void RenewCurrentTouchableObject()
-    {
-        objectPlacer.currentTouchableObj = null;
-        objectPlacer.currentIndexPlacedObjects = -1;
-    }
+    // public Vector3Int GetTurnGridPos(Vector3 position, Vector2 size)
+    // {
+    //     Vector3 posOffset = new Vector3(size.x / 2,
+    //                                     0,
+    //                                     (size.y / 2) - 1);
+    //     Vector3Int result = new Vector3Int((int)Mathf.Ceil(position.x - posOffset.x),
+    //                                     0,
+    //                                     (int)Mathf.Ceil(position.z - posOffset.y));
+    //     return result;
+    // }
 }
