@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: DataBase
   m_EditorClassIdentifier: 
   objectsData:
+  - <Name>k__BackingField: Floor
+    <ID>k__BackingField: 10000
+    <maxHeight>k__BackingField: 0.4
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 4089115143113801406, guid: 26679cf3687a6c7488cb0e4dad7b4ee4,
+      type: 3}
   - <Name>k__BackingField: Chest
     <ID>k__BackingField: 1
     <maxHeight>k__BackingField: 2
@@ -49,11 +55,11 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 3, y: 2}
     <Prefab>k__BackingField: {fileID: 5015390022914479062, guid: 9c16546a7650f394f8e3dccdfc99f5c9,
       type: 3}
-  - <Name>k__BackingField: Floor
-    <ID>k__BackingField: 10000
-    <maxHeight>k__BackingField: 0.4
-    <Size>k__BackingField: {x: 1, y: 1}
-    <Prefab>k__BackingField: {fileID: 4089115143113801406, guid: 26679cf3687a6c7488cb0e4dad7b4ee4,
+  - <Name>k__BackingField: RugRound
+    <ID>k__BackingField: 7
+    <maxHeight>k__BackingField: 0.8
+    <Size>k__BackingField: {x: 3, y: 2}
+    <Prefab>k__BackingField: {fileID: 3396537058661856936, guid: 070483636da8f464fa42d4c3ee7ffa6a,
       type: 3}
   dataPrefabs:
   - <Name>k__BackingField: gridindicator
