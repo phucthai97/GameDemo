@@ -53,7 +53,6 @@ public class PlacementState : IBuildingState
             else
             {
                 placementChecker.mode = PlacementChecker.Mode.Moving;
-                Debug.Log($"Mode.Moving");
                 FindPosAndPlace();
             }
         }
@@ -122,7 +121,6 @@ public class PlacementState : IBuildingState
                                                             selectedIndexPrefabs))
                 {
                     gridPosition = new Vector3Int(i, 0, j);
-                    Debug.Log($"gridPosition is {gridPosition}");
                     validity = true;
                     break;
                 }

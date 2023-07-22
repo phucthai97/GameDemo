@@ -36,7 +36,6 @@ public class TouchableObject : MonoBehaviour
 
         if (placementChecker.mode == PlacementChecker.Mode.Moving)
         {
-            Debug.Log($"StartMoving");
             placementChecker.HandleMouseDownPlacement(this);
             placementSystem.StartMoving(this, indexPrefabs);
             //First Clicked for choose, Second clicked for moving

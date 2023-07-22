@@ -31,7 +31,6 @@ public class RemovingFloor : IBuildingState
 
     public void OnAction(Vector3Int gridPosition)
     {
-        Debug.Log($"OnAction is {gridPosition}");
         GridData selectedData = null;
         if (floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
             selectedData = floorData;

@@ -14,6 +14,9 @@ public class PlacementSystem : MonoBehaviour
     //For determined coordinate
     [SerializeField] private Grid grid;
 
+    //Sphere
+    [SerializeField] private GameObject Sphere;
+
     //For storage objects database
     [SerializeField] internal ObjectsDataBaseSO database;
 
@@ -157,6 +160,8 @@ public class PlacementSystem : MonoBehaviour
     {
         //Get hit on place by position of mouse
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
+
+        Sphere.transform.position = mousePosition;
         //Get current grid position
         return new Vector3Int((int)Mathf.Floor(mousePosition.x)
                             , 0

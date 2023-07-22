@@ -38,7 +38,6 @@ public class PlacementChecker : MonoBehaviour
     {
         Vector3Int gridPosition = touchableObject.currentGridPos;
 
-        Debug.Log($"HandleMouseUpPlacement gridPosition {gridPosition}");
         //If Mouse up at valid position
         if (CheckPlacementValidity(gridPosition, touchableObject.currentSize, selectedObjectIndex))
         {
@@ -73,10 +72,10 @@ public class PlacementChecker : MonoBehaviour
             int currentIndexPlacedObjects = objectPlacer.placedGameObjects.IndexOf(touchableObject.gameObject);
 
             //Update new-current touchable object
-            objectPlacer.UpdateCurrentTouchableObj(touchableObject, 
-                                                indexPrefabs, 
-                                                currentIndexPlacedObjects, 
-                                                touchableObject.currentGridPos, 
+            objectPlacer.UpdateCurrentTouchableObj(touchableObject,
+                                                indexPrefabs,
+                                                currentIndexPlacedObjects,
+                                                touchableObject.currentGridPos,
                                                 touchableObject.currentSize);
         }
     }
@@ -95,12 +94,8 @@ public class PlacementChecker : MonoBehaviour
 
             //Check IndexPrefabs 
             int indexPrefabs = objectPlacer.currentIndexPlacedObjects;
-            Debug.Log($"Start removing with gridPos {gridPosition} and index {indexPrefabs}");
             if (indexPrefabs == -1)
-            {
-                Debug.LogError($"IndexPrefab = -1");
                 return;
-            }
 
             //Remove Gameobject
             objectPlacer.RemoveObjectAt(indexPrefabs);
@@ -118,8 +113,8 @@ public class PlacementChecker : MonoBehaviour
             if (placementSystem.database.objectsData[lastIndexPrefabs].ID < 10000)
             {
                 AddObjectInDataBase(objectPlacer.currentTouchableObj.currentGridPos,
-                                    objectPlacer.currentTouchableObj.currentSize, 
-                                    lastIndexPrefabs, 
+                                    objectPlacer.currentTouchableObj.currentSize,
+                                    lastIndexPrefabs,
                                     objectPlacer.currentIndexPlacedObjects);
 
                 //Turn of moving of edit indicator
@@ -137,7 +132,7 @@ public class PlacementChecker : MonoBehaviour
                                 placementSystem.furnitureData :
                                 placementSystem.floorData;
 
-        
+
         //Add object into placement database
         selectedData.AddObjectAt(gridPosition,
                                 currentSize,
@@ -156,13 +151,12 @@ public class PlacementChecker : MonoBehaviour
         selectedData.RemoveObjectAt(gridPosition);
     }
 
-    public bool CheckPlacementValidity(Vector3Int gridPosition, Vector2Int currentSize,int selectedObjectIndex)
+    public bool CheckPlacementValidity(Vector3Int gridPosition, Vector2Int currentSize, int selectedObjectIndex)
     {
         GridData selectedData = placementSystem.database.objectsData[selectedObjectIndex].ID < 10000 ?
                                 placementSystem.furnitureData :
                                 placementSystem.floorData;
-        
-        Debug.Log($"CheckPlacementValidity gridPos is {gridPosition}");
+
         //Check this positon can place object or Not?
         return selectedData.CanPlaceObjectAt(gridPosition, currentSize);
     }
@@ -194,7 +188,6 @@ public class PlacementChecker : MonoBehaviour
                                         0,
                                         (size.y / 2) - 1);
 
-        //Debug.Log($"posOffset is {position + posOffset}");
         return position + posOffset;
     }
 

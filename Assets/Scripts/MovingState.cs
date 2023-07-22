@@ -43,7 +43,7 @@ public class MovingState : IBuildingState
 
     public void OnAction(Vector3Int gridPosition)
     {
-        Debug.Log($"OnAction {gridPosition}");
+
     }
 
     public void UpdateState(Vector3Int gridPosition)
@@ -75,7 +75,6 @@ public class MovingState : IBuildingState
 
                 objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
 
-                Debug.Log($"gridPosition when it move is {gridPosition}");
                 previewSystem.UpdateGridIndicator(gridPosition,
                                                 objectPlacer.currentTouchableObj.currentSize,
                                                 validity);

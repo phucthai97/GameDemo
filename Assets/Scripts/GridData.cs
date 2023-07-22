@@ -19,20 +19,18 @@ public class GridData
                 throw new Exception($"Dictionary already contains this cell position {pos}");
             }
             placedObjects[pos] = data;
-            Debug.Log($"Occupied is {pos}");
+            //Debug.Log($"Occupied is {pos}");
         }
     }
 
     private List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectSize)
     {
-        Debug.Log($"Start gridPos is {gridPosition}");
         List<Vector3Int> returnVal = new();
         for (int x = 0; x < objectSize.x; x++)
         {
             for (int z = 0; z < objectSize.y; z++)
             {
                 returnVal.Add(gridPosition + new Vector3Int(x, 0, z));
-                Debug.Log($"Positions is {gridPosition + new Vector3Int(x, 0, z)}");
             }
         }
         return returnVal;
@@ -45,10 +43,7 @@ public class GridData
         foreach (var pos in positionOccupy)
         {
             if (placedObjects.ContainsKey(pos))
-            {
-                Debug.Log($"pos contain is {pos}");
                 return false;
-            }
         }
         return true;
     }
