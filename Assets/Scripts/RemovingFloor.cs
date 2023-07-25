@@ -11,13 +11,11 @@ public class RemovingFloor : IBuildingState
     GridData furnitureData;
     ObjectPlacer objectPlacer;
 
-    public RemovingFloor(Grid grid,
-                        PreviewSystem previewSystem,
+    public RemovingFloor(PreviewSystem previewSystem,
                         GridData floorData,
                         GridData furnitureData,
                         ObjectPlacer objectPlacer)
     {
-        this.grid = grid;
         this.previewSystem = previewSystem;
         this.floorData = floorData;
         this.furnitureData = furnitureData;

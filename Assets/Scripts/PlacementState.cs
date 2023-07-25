@@ -17,7 +17,6 @@ public class PlacementState : IBuildingState
     PlacementChecker placementChecker;
 
     public PlacementState(int iD,
-                         Grid grid,
                          PreviewSystem previewSystem,
                          ObjectsDataBaseSO database,
                          GridData floorData,
@@ -28,7 +27,6 @@ public class PlacementState : IBuildingState
                          PlacementChecker placementChecker)
     {
         ID = iD;
-        this.grid = grid;
         this.previewSystem = previewSystem;
         this.database = database;
         this.floorData = floorData;

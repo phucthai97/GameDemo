@@ -11,9 +11,6 @@ public class PlacementSystem : MonoBehaviour
     //For see virtual grid on scence when it's active
     [SerializeField] private GameObject gridVisualization;
 
-    //For determined coordinate
-    [SerializeField] private Grid grid;
-
     //Sphere
     [SerializeField] private GameObject Sphere;
 
@@ -36,6 +33,10 @@ public class PlacementSystem : MonoBehaviour
     //For detect last position;
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
+    //Current gridlayer
+    public enum LayerType { Floor, Wall1, Wall2 };
+    [SerializeField] public LayerType layerType;
+
     //Declare interface
     IBuildingState buildingState;
 
@@ -55,7 +56,6 @@ public class PlacementSystem : MonoBehaviour
         gridVisualization.SetActive(true);
         placementUIControl.TurnOnEditBtnObject(ID);
         buildingState = new PlacementState(ID,
-                                        grid,
                                         preview,
                                         database,
                                         floorData,
@@ -83,6 +83,7 @@ public class PlacementSystem : MonoBehaviour
                                         furnitureData,
                                         objectPlacer,
                                         placementChecker,
+                                        this,
                                         touchableObject,
                                         indexPrefabs);
         //Passing Stop_Placement into On Exit delegate
@@ -102,7 +103,7 @@ public class PlacementSystem : MonoBehaviour
         //Set de-active tools
         gridVisualization.SetActive(true);
         placementUIControl.TurnOnRemovingFloor();
-        buildingState = new RemovingFloor(grid, preview, floorData, furnitureData, objectPlacer);
+        buildingState = new RemovingFloor(preview, floorData, furnitureData, objectPlacer);
         //Passing Place_Structure into On Clicked delegate
         inputManager.OnClicked += PlaceStructure;
         //Passing Stop_Placement into On Exit delegate
@@ -124,7 +125,7 @@ public class PlacementSystem : MonoBehaviour
         if (inputManager.IsPointerOverUI())
             return;
 
-        buildingState.OnAction(GetGridCurrentPos());
+        buildingState.OnAction(GetCurrentGridPos());
     }
 
     public void StopPlacement()
@@ -152,19 +153,41 @@ public class PlacementSystem : MonoBehaviour
 
         // if (lastDetectedPosition != GetGridCurrentPos())
         // {
-        buildingState.UpdateState(GetGridCurrentPos());
+        buildingState.UpdateState(GetCurrentGridPos());
+        Debug.Log($"GetGridCurrentPos is {GetCurrentGridPos()}");
         //}
     }
 
-    private Vector3Int GetGridCurrentPos()
+    private Vector3Int GetCurrentGridPos()
     {
         //Get hit on place by position of mouse
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
 
         Sphere.transform.position = mousePosition;
-        //Get current grid position
-        return new Vector3Int((int)Mathf.Floor(mousePosition.x)
+
+        Vector3Int CurrentGridPos = new Vector3Int();
+
+        if (inputManager.numberCurrentLayer == 6)
+        {
+            layerType = LayerType.Floor;
+            CurrentGridPos = new Vector3Int((int)Mathf.Floor(mousePosition.x)
                             , 0
                             , (int)Mathf.Ceil(mousePosition.z));
+        }
+        else if (inputManager.numberCurrentLayer == 7)
+        {
+            layerType = LayerType.Wall1;
+            CurrentGridPos = new Vector3Int((int)Mathf.Ceil(mousePosition.x)
+                            , (int)Mathf.Floor(mousePosition.y)
+                            , 0);
+        }
+        else if (inputManager.numberCurrentLayer == 8)
+        {
+            layerType = LayerType.Wall2;
+            Debug.Log($"layer8");
+        }
+
+        //Get current grid position
+        return CurrentGridPos;
     }
 }

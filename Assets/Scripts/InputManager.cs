@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Camera sceneCamera;
     private Vector3 lastPosition;
     [SerializeField] private LayerMask placementLayermask;
+    [SerializeField] public int numberCurrentLayer;
 
     //Declare On Clicked & On Exit is function delegate
     public event Action OnClicked, OnExit;
@@ -37,7 +38,8 @@ public class InputManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100, placementLayermask))
         {
             lastPosition = hit.point;
-            //Debug.DrawRay(ray.origin, argBall.transform.position, Color.red);
+            GameObject hitObject = hit.collider.gameObject;
+            numberCurrentLayer = hitObject.layer;
         }
         return lastPosition;
     }

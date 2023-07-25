@@ -12,6 +12,7 @@ public class MovingState : IBuildingState
     PlacementChecker placementChecker;
     ObjectsDataBaseSO database;
     Vector3Int lastGridPosition;
+    PlacementSystem placementSystem;
 
     public MovingState(PreviewSystem previewSystem,
                         ObjectsDataBaseSO database,
@@ -19,6 +20,7 @@ public class MovingState : IBuildingState
                         GridData furnitureData,
                         ObjectPlacer objectPlacer,
                         PlacementChecker placementChecker,
+                        PlacementSystem placementSystem,
                         TouchableObject touchableObject,
                         int indexPrefabs)
     {
@@ -30,7 +32,8 @@ public class MovingState : IBuildingState
         this.touchableObject = touchableObject;
         this.placementChecker = placementChecker;
         this.indexPrefabs = indexPrefabs;
-
+        Debug.Log($"Moving state start");
+        this.placementSystem = placementSystem;
         touchableObject.TurnONOFFIndicator(true);
         placementChecker.IsThisCurrentTouchalbeObj(touchableObject, indexPrefabs);
     }
@@ -57,10 +60,20 @@ public class MovingState : IBuildingState
                 int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
                 lastGridPosition = gridPosition;
 
-                //Get rawPos
-                Vector3 rawPos = new Vector3(gridPosition.x,
-                                            objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
-                                            gridPosition.z);
+                Vector3 rawPos = new Vector3();
+
+                if (placementSystem.layerType == PlacementSystem.LayerType.Floor)
+                {
+                    //Get rawPos
+                    rawPos = new Vector3(gridPosition.x,
+                                                objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
+                                                gridPosition.z);
+                }
+                else
+                {
+                    rawPos = gridPosition;
+                }
+
                 //Then align positon of object
                 Vector3 alignPos = placementChecker.ObjectAlignment(rawPos,
                                                                     objectPlacer.currentTouchableObj.currentSize);
@@ -69,8 +82,8 @@ public class MovingState : IBuildingState
                 objectPlacer.currentTouchableObj.gameObject.transform.position = alignPos;
 
                 //Check validity  for placement
-                bool validity = placementChecker.CheckPlacementValidity(gridPosition, 
-                                                                    objectPlacer.currentTouchableObj.currentSize, 
+                bool validity = placementChecker.CheckPlacementValidity(gridPosition,
+                                                                    objectPlacer.currentTouchableObj.currentSize,
                                                                     indexPrefabs);
 
                 objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
