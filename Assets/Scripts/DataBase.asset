@@ -61,6 +61,12 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 3, y: 2}
     <Prefab>k__BackingField: {fileID: 3396537058661856936, guid: 070483636da8f464fa42d4c3ee7ffa6a,
       type: 3}
+  - <Name>k__BackingField: WallWindowSlide
+    <ID>k__BackingField: 8
+    <maxHeight>k__BackingField: 5
+    <Size>k__BackingField: {x: 6, y: 4}
+    <Prefab>k__BackingField: {fileID: 907602556748923049, guid: 7f469762d941cba428035374d843e56b,
+      type: 3}
   dataPrefabs:
   - <Name>k__BackingField: gridindicator
     <Prefab>k__BackingField: {fileID: 2108639191877063897, guid: 4774518c8eef1724590fdc259865a768,

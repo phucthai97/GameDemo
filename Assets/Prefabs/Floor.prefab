@@ -50,6 +50,8 @@ MonoBehaviour:
   indexPrefabs: 0
   placementChecker: {fileID: 0}
   currentSize: {x: 0, y: 0}
+  currentGridPos: {x: 0, y: 0, z: 0}
+  floorPlacement: 1
 --- !u!1 &6192575387436020879
 GameObject:
   m_ObjectHideFlags: 0

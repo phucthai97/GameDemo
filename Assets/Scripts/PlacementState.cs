@@ -12,7 +12,19 @@ public class PlacementState : IBuildingState
     GridData floorData;
     GridData furnitureData;
     ObjectPlacer objectPlacer;
-    Vector2Int xGrid, yGrid;
+    List<Vector2Int> xGrid = new List<Vector2Int>
+    {
+        new Vector2Int(-5, 4),
+        new Vector2Int(-4, 5),
+        new Vector2Int(0, 9)
+    };
+
+    List<Vector2Int> yGrid = new List<Vector2Int>
+    {
+        new Vector2Int(-4, 5),
+        new Vector2Int(0, 9),
+        new Vector2Int(0, 9)
+    };
     Vector3Int lastGridPosition;
     PlacementChecker placementChecker;
 
@@ -22,8 +34,6 @@ public class PlacementState : IBuildingState
                          GridData floorData,
                          GridData furnitureData,
                          ObjectPlacer objectPlacer,
-                         Vector2Int xGrid,
-                         Vector2Int yGrid,
                          PlacementChecker placementChecker)
     {
         ID = iD;
@@ -32,12 +42,11 @@ public class PlacementState : IBuildingState
         this.floorData = floorData;
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
-        this.xGrid = xGrid;
-        this.yGrid = yGrid;
         this.placementChecker = placementChecker;
 
         //Get index of Objects Data
         selectedIndexPrefabs = database.objectsData.FindIndex(data => data.ID == ID);
+        TouchableObject touchableObject = database.objectsData[selectedIndexPrefabs].Prefab.GetComponent<TouchableObject>();
 
         //if selectedObjectIndex exists 
         if (selectedIndexPrefabs > -1)
@@ -51,7 +60,12 @@ public class PlacementState : IBuildingState
             else
             {
                 placementChecker.mode = PlacementChecker.Mode.Moving;
-                FindPosAndPlace();
+                if (touchableObject.floorPlacement)
+                    FindPosAndPlaceAtFloor();
+                else
+                {
+                    FindPosAndPlaceAtWall();
+                }
             }
         }
         else
@@ -106,16 +120,16 @@ public class PlacementState : IBuildingState
         }
     }
 
-    void FindPosAndPlace()
+    void FindPosAndPlaceAtFloor()
     {
         Vector3Int gridPosition = new Vector3Int();
         bool validity = false;
-        for (int i = xGrid.x; i <= xGrid.y; i++)
+        for (int i = xGrid[0].x; i <= xGrid[0].y; i++)
         {
-            for (int j = yGrid.x; j <= yGrid.y; j++)
+            for (int j = yGrid[0].x; j <= yGrid[0].y; j++)
             {
                 if (placementChecker.CheckPlacementValidity(new Vector3Int(i, 0, j),
-                                                            database.objectsData[selectedIndexPrefabs].Size, 
+                                                            database.objectsData[selectedIndexPrefabs].Size,
                                                             selectedIndexPrefabs))
                 {
                     gridPosition = new Vector3Int(i, 0, j);
@@ -131,6 +145,11 @@ public class PlacementState : IBuildingState
             CreateObjectPlacer(gridPosition);
         else
             Debug.Log($"There is no space for placement!");
+    }
+
+    void FindPosAndPlaceAtWall()
+    {
+
     }
 
     private void CreateObjectPlacer(Vector3Int gridPosition)

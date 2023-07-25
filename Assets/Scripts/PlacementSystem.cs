@@ -61,8 +61,6 @@ public class PlacementSystem : MonoBehaviour
                                         floorData,
                                         furnitureData,
                                         objectPlacer,
-                                        xGrid,
-                                        yGrid,
                                         placementChecker);
 
         //Passing Place_Structure into On Clicked delegate
@@ -154,7 +152,7 @@ public class PlacementSystem : MonoBehaviour
         // if (lastDetectedPosition != GetGridCurrentPos())
         // {
         buildingState.UpdateState(GetCurrentGridPos());
-        Debug.Log($"GetGridCurrentPos is {GetCurrentGridPos()}");
+        //Debug.Log($"GetGridCurrentPos is {GetCurrentGridPos()}");
         //}
     }
 

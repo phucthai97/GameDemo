@@ -52,6 +52,7 @@ MonoBehaviour:
   placementChecker: {fileID: 0}
   currentSize: {x: 0, y: 0}
   currentGridPos: {x: 0, y: 0, z: 0}
+  floorPlacement: 1
 --- !u!136 &2935223327370267489
 CapsuleCollider:
   m_ObjectHideFlags: 0

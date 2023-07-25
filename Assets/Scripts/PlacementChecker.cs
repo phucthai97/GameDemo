@@ -41,10 +41,30 @@ public class PlacementChecker : MonoBehaviour
         //If Mouse up at valid position
         if (CheckPlacementValidity(gridPosition, touchableObject.currentSize, selectedObjectIndex))
         {
-            touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
-                                                        lastPosition.y,
-                                                        touchableObject.transform.position.z);
+            // Debug.Log($"Okay");
+            // if (touchableObject.floorPlacement)
+            // {
+                touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
+                                                                lastPosition.y,
+                                                                touchableObject.transform.position.z);
+            // }
+            // else
+            // {
+            //     if (placementSystem.layerType == PlacementSystem.LayerType.Wall1)
+            //     {
+            //         touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
+            //                                                         touchableObject.transform.position.y,
+            //                                                         lastPosition.z);
+            //     }
+            //     else if (placementSystem.layerType == PlacementSystem.LayerType.Wall2)
+            //     {
+            //         touchableObject.transform.position = new Vector3(lastPosition.x,
+            //                                                         touchableObject.transform.position.y,
+            //                                                         touchableObject.transform.position.z);
+            //     }
+            // }
         }
+
         ////If Mouse up at Not valid position
         else
         {

@@ -336,6 +336,7 @@ MonoBehaviour:
   placementChecker: {fileID: 0}
   currentSize: {x: 0, y: 0}
   currentGridPos: {x: 0, y: 0, z: 0}
+  floorPlacement: 1
 --- !u!65 &3432953064928809301
 BoxCollider:
   m_ObjectHideFlags: 0

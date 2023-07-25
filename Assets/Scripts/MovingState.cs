@@ -62,21 +62,26 @@ public class MovingState : IBuildingState
 
                 Vector3 rawPos = new Vector3();
 
-                if (placementSystem.layerType == PlacementSystem.LayerType.Floor)
-                {
+                // if (objectPlacer.currentTouchableObj.floorPlacement)
+                // {
                     //Get rawPos
                     rawPos = new Vector3(gridPosition.x,
                                                 objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
                                                 gridPosition.z);
-                }
-                else
-                {
-                    rawPos = gridPosition;
-                }
+                //}
+                // else
+                // {
+                //     if (placementSystem.layerType == PlacementSystem.LayerType.Wall1)
+                //     {
+                //         rawPos = gridPosition;
+                //     }
+                // }
 
                 //Then align positon of object
                 Vector3 alignPos = placementChecker.ObjectAlignment(rawPos,
                                                                     objectPlacer.currentTouchableObj.currentSize);
+
+                Debug.Log($"alignPos is {alignPos}");
 
                 //Set position for moving object
                 objectPlacer.currentTouchableObj.gameObject.transform.position = alignPos;

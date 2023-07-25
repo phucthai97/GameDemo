@@ -10,6 +10,7 @@ public class TouchableObject : MonoBehaviour
     public PlacementChecker placementChecker;
     [SerializeField] public Vector2Int currentSize;
     [SerializeField] public Vector3Int currentGridPos;
+    [SerializeField] public bool floorPlacement;
 
     // Start is called before the first frame update
     void Start()
