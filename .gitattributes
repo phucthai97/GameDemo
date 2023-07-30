@@ -1,1 +1,2 @@
 Artifact* filter=lfs diff=lfs merge=lfs -text
+*Artifact* filter=lfs diff=lfs merge=lfs -text
