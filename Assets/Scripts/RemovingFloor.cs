@@ -30,7 +30,7 @@ public class RemovingFloor : IBuildingState
     public void OnAction(Vector3Int gridPosition)
     {
         GridData selectedData = null;
-        if (floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
+        if (floorData.CanPlaceObjectAtMod(gridPosition, Vector2Int.one, 0) == false)
             selectedData = floorData;
 
         if (selectedData == null)

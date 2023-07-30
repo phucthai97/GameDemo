@@ -7,9 +7,9 @@ public class GridData
 {
     Dictionary<Vector3Int, PlacementData> placedObjects = new();
 
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placedObjectsIndex)
+    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placedObjectsIndex, int typeOfPlacement)
     {
-        List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
+        List<Vector3Int> positionToOccupy = CalculatePositionsMod(gridPosition, objectSize, typeOfPlacement);
         PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectsIndex);
         foreach (var pos in positionToOccupy)
         {
@@ -19,8 +19,21 @@ public class GridData
                 throw new Exception($"Dictionary already contains this cell position {pos}");
             }
             placedObjects[pos] = data;
-            //Debug.Log($"Occupied is {pos}");
+            Debug.Log($"Occupied is {pos}");
         }
+    }
+
+    public bool CanPlaceObjectAtMod(Vector3Int gridPosition, Vector2Int objectSize, int typeOfPlacement)
+    {
+        //Debug.Log($"CanPlaceObjectAt is {gridPosition}");
+        List<Vector3Int> positionOccupy = CalculatePositionsMod(gridPosition, objectSize, typeOfPlacement);
+        
+        foreach (var pos in positionOccupy)
+        {
+            if (placedObjects.ContainsKey(pos))
+                return false;
+        }
+        return true;
     }
 
     private List<Vector3Int> CalculatePositions(Vector3Int gridPosition, Vector2Int objectSize)
@@ -36,16 +49,25 @@ public class GridData
         return returnVal;
     }
 
-    public bool CanPlaceObjectAt(Vector3Int gridPosition, Vector2Int objectSize)
+    private List<Vector3Int> CalculatePositionsMod(Vector3Int gridPosition, Vector2Int objectSize, int typeOfPlacement)
     {
-        List<Vector3Int> positionOccupy = CalculatePositions(gridPosition, objectSize);
-        
-        foreach (var pos in positionOccupy)
+        List<Vector3Int> returnVal = new();
+        for (int x = 0; x < objectSize.x; x++)
         {
-            if (placedObjects.ContainsKey(pos))
-                return false;
+            for (int z = 0; z < objectSize.y; z++)
+            {
+                if(typeOfPlacement == 0)
+                    returnVal.Add(gridPosition + new Vector3Int(x, 0, z));
+                else if(typeOfPlacement == 1)
+                    returnVal.Add(gridPosition + new Vector3Int(x, z, 0));
+            }
         }
-        return true;
+
+        // foreach(var a in returnVal)
+        // {
+        //     Debug.Log($"returnVal is {a}");
+        // }
+        return returnVal;
     }
 
     internal int GetRepresentationIndex(Vector3Int gridPosition)

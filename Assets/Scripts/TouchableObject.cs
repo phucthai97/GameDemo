@@ -11,6 +11,8 @@ public class TouchableObject : MonoBehaviour
     [SerializeField] public Vector2Int currentSize;
     [SerializeField] public Vector3Int currentGridPos;
     [SerializeField] public bool floorPlacement;
+    [SerializeField] public int typeOfPlacement;
+    [SerializeField] public Vector3 constantPos;
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +21,12 @@ public class TouchableObject : MonoBehaviour
         SetIndicator();
     }
 
-    public void SetParas(int indexPrefabs, Vector2Int size, Vector3Int gridPosition)
+    public void SetParas(int indexPrefabs, int typeOfPlacement, Vector2Int size, Vector3Int gridPosition)
     {
         this.indexPrefabs = indexPrefabs;
         currentSize = size;
         currentGridPos = gridPosition;
+        this.typeOfPlacement = typeOfPlacement;
 
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
         placementChecker = FindObjectOfType<PlacementChecker>();
@@ -38,7 +41,7 @@ public class TouchableObject : MonoBehaviour
         if (placementChecker.mode == PlacementChecker.Mode.Moving)
         {
             placementChecker.HandleMouseDownPlacement(this);
-            placementSystem.StartMoving(this, indexPrefabs);
+            placementSystem.StartMoving(this);
             //First Clicked for choose, Second clicked for moving
             if (placementChecker.countClicked >= 1)
             {
@@ -61,23 +64,32 @@ public class TouchableObject : MonoBehaviour
     {
         PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
 
-        // If ID belongs to furniture
+        // If ID belongs to furniture -> It's mean ID < 10000
         if (placementSystem.database.objectsData[indexPrefabs].ID < 10000)
         {
             int index = placementSystem.database.dataPrefabs.FindIndex(data => data.Name == "editindicator");
             editIndicator = Instantiate(placementSystem.database.dataPrefabs[index].Prefab);
 
             Vector3 rawPos = gameObject.transform.position;
-            editIndicator.transform.position = new Vector3(rawPos.x
-                                                        , gameObject.transform.position.y + placementChecker.maxHeightIndicator
-                                                        , rawPos.z);
+            if (typeOfPlacement == 0)
+                editIndicator.transform.position = new Vector3(rawPos.x
+                                                            , gameObject.transform.position.y + placementChecker.maxHeightIndicator
+                                                            , rawPos.z);
+            else if (typeOfPlacement == 1)
+                editIndicator.transform.position = new Vector3(rawPos.x
+                                                            , gameObject.transform.position.y + placementChecker.maxHeightIndicator
+                                                            , 4.9f);
+            else if (typeOfPlacement == 2)
+                editIndicator.transform.position = new Vector3(4f
+                                                            , rawPos.y
+                                                            , rawPos.z);
 
             //Set transform for edit indicator
             editIndicator.transform.SetParent(gameObject.transform);
         }
     }
 
-    public void MovingEIndicator()
+    public void MovingEditIndicator()
     {
         if (editIndicator != null)
         {
@@ -99,7 +111,7 @@ public class TouchableObject : MonoBehaviour
         }
     }
 
-    public void TurnONOFFIndicator(bool val)
+    public void SetActiveEditIndicator(bool val)
     {
         if (editIndicator != null)
             editIndicator.SetActive(val);

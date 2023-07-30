@@ -4,38 +4,28 @@ using UnityEngine;
 
 public class MovingState : IBuildingState
 {
-    ObjectPlacer objectPlacer;
-    GridData floorData, furnitureData;
     PreviewSystem previewSystem;
     TouchableObject touchableObject;
-    int indexPrefabs;
     PlacementChecker placementChecker;
-    ObjectsDataBaseSO database;
     Vector3Int lastGridPosition;
     PlacementSystem placementSystem;
 
     public MovingState(PreviewSystem previewSystem,
-                        ObjectsDataBaseSO database,
-                        GridData floorData,
-                        GridData furnitureData,
-                        ObjectPlacer objectPlacer,
                         PlacementChecker placementChecker,
                         PlacementSystem placementSystem,
-                        TouchableObject touchableObject,
-                        int indexPrefabs)
+                        TouchableObject touchableObject)
     {
         this.previewSystem = previewSystem;
-        this.database = database;
-        this.floorData = floorData;
-        this.furnitureData = furnitureData;
-        this.objectPlacer = objectPlacer;
         this.touchableObject = touchableObject;
         this.placementChecker = placementChecker;
-        this.indexPrefabs = indexPrefabs;
         Debug.Log($"Moving state start");
         this.placementSystem = placementSystem;
-        touchableObject.TurnONOFFIndicator(true);
-        placementChecker.IsThisCurrentTouchalbeObj(touchableObject, indexPrefabs);
+        touchableObject.SetActiveEditIndicator(true);
+        placementChecker.IsThisCurrentTouchalbeObj(touchableObject);
+        if (touchableObject.floorPlacement)
+            placementChecker.SetActiveGridVisualization("floor");
+        else
+            placementChecker.SetActiveGridVisualization("wall");
     }
 
     public void EndState()
@@ -51,51 +41,65 @@ public class MovingState : IBuildingState
 
     public void UpdateState(Vector3Int gridPosition)
     {
-        if (objectPlacer.currentTouchableObj != null)
+        if (touchableObject != null)
         {
             //Moving EIndicator
-            objectPlacer.currentTouchableObj.MovingEIndicator();
-            if (objectPlacer.currentTouchableObj.mouseIsPressed && lastGridPosition != gridPosition)
+            touchableObject.MovingEditIndicator();
+            if (touchableObject.mouseIsPressed && lastGridPosition != gridPosition)
             {
-                int indexPrefabs = objectPlacer.currentTouchableObj.indexPrefabs;
+                int indexPrefabs = touchableObject.indexPrefabs;
                 lastGridPosition = gridPosition;
 
                 Vector3 rawPos = new Vector3();
+                int typeOfPlacement = 0;
 
-                // if (objectPlacer.currentTouchableObj.floorPlacement)
-                // {
+                if (touchableObject.floorPlacement)
+                {
                     //Get rawPos
                     rawPos = new Vector3(gridPosition.x,
-                                                objectPlacer.currentTouchableObj.placementChecker.lastPosition.y + 1.4f,
+                                                touchableObject.placementChecker.lastPosition.y + 1.4f,
                                                 gridPosition.z);
-                //}
-                // else
-                // {
-                //     if (placementSystem.layerType == PlacementSystem.LayerType.Wall1)
-                //     {
-                //         rawPos = gridPosition;
-                //     }
-                // }
+                    typeOfPlacement = 0;
+                }
+                else
+                {
+                    if (placementSystem.layerType == PlacementSystem.LayerType.Wall1)
+                    {
+                        rawPos = new Vector3(gridPosition.x,
+                                            gridPosition.y,
+                                            touchableObject.placementChecker.lastPosition.z - 1.4f);
+                        typeOfPlacement = 1;
+                    }
+                    // else if (placementSystem.layerType == PlacementSystem.LayerType.Wall2)
+                    // {
+                    //     rawPos = new Vector3(touchableObject.placementChecker.lastPosition.x,
+                    //                         gridPosition.y,
+                    //                         gridPosition.z);
+                    //      numberTypeOfPlacement = 2;
+                    // }
+                }
 
                 //Then align positon of object
                 Vector3 alignPos = placementChecker.ObjectAlignment(rawPos,
-                                                                    objectPlacer.currentTouchableObj.currentSize);
+                                                                    touchableObject.currentSize,
+                                                                    typeOfPlacement);
 
-                Debug.Log($"alignPos is {alignPos}");
+                //Debug.Log($"alignPos is {alignPos}");
 
                 //Set position for moving object
-                objectPlacer.currentTouchableObj.gameObject.transform.position = alignPos;
+                touchableObject.gameObject.transform.position = alignPos;
 
                 //Check validity  for placement
-                bool validity = placementChecker.CheckPlacementValidity(gridPosition,
-                                                                    objectPlacer.currentTouchableObj.currentSize,
-                                                                    indexPrefabs);
+                bool validity = placementChecker.CheckPlacementValidityMod(gridPosition,
+                                                                        touchableObject.currentSize,
+                                                                        indexPrefabs,
+                                                                        touchableObject.typeOfPlacement);
 
-                objectPlacer.currentTouchableObj.currentGridPos = gridPosition;
+                touchableObject.currentGridPos = gridPosition;
 
-                previewSystem.UpdateGridIndicator(gridPosition,
-                                                objectPlacer.currentTouchableObj.currentSize,
-                                                validity);
+                previewSystem.UpdateGridIndicatorMod(gridPosition,
+                                                touchableObject.currentSize,
+                                                validity, typeOfPlacement);
             }
         }
     }

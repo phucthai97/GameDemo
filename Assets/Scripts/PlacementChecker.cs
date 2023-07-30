@@ -20,6 +20,11 @@ public class PlacementChecker : MonoBehaviour
     public enum Mode { Moving, Floorplan }
     [SerializeField] public Mode mode;
 
+    //For see virtual grid on scence when it's active
+    [SerializeField] public GameObject gridVisualizationFloor;
+    [SerializeField] public GameObject gridVisualizationWall1;
+    [SerializeField] public GameObject gridVisualizationWall2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,33 +44,33 @@ public class PlacementChecker : MonoBehaviour
         Vector3Int gridPosition = touchableObject.currentGridPos;
 
         //If Mouse up at valid position
-        if (CheckPlacementValidity(gridPosition, touchableObject.currentSize, selectedObjectIndex))
+        if (CheckPlacementValidityMod(gridPosition, touchableObject.currentSize, selectedObjectIndex, touchableObject.typeOfPlacement))
         {
-            // Debug.Log($"Okay");
-            // if (touchableObject.floorPlacement)
-            // {
+            if (touchableObject.floorPlacement)
+            {
                 touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
                                                                 lastPosition.y,
                                                                 touchableObject.transform.position.z);
-            // }
-            // else
-            // {
-            //     if (placementSystem.layerType == PlacementSystem.LayerType.Wall1)
-            //     {
-            //         touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
-            //                                                         touchableObject.transform.position.y,
-            //                                                         lastPosition.z);
-            //     }
-            //     else if (placementSystem.layerType == PlacementSystem.LayerType.Wall2)
-            //     {
-            //         touchableObject.transform.position = new Vector3(lastPosition.x,
-            //                                                         touchableObject.transform.position.y,
-            //                                                         touchableObject.transform.position.z);
-            //     }
-            // }
+            }
+            else
+            {
+                if (placementSystem.layerType == PlacementSystem.LayerType.Wall1)
+                {
+                    Debug.Log($"Okay");
+                    touchableObject.transform.position = new Vector3(touchableObject.transform.position.x,
+                                                                    touchableObject.transform.position.y,
+                                                                    lastPosition.z);
+                }
+                else if (placementSystem.layerType == PlacementSystem.LayerType.Wall2)
+                {
+                    touchableObject.transform.position = new Vector3(lastPosition.x,
+                                                                    touchableObject.transform.position.y,
+                                                                    touchableObject.transform.position.z);
+                }
+            }
         }
 
-        ////If Mouse up at Not valid position
+        //If Mouse up at Not valid position -> turn back the lastPosition
         else
         {
             touchableObject.transform.position = lastPosition;
@@ -77,7 +82,7 @@ public class PlacementChecker : MonoBehaviour
         }
     }
 
-    public void IsThisCurrentTouchalbeObj(TouchableObject touchableObject, int indexPrefabs)
+    public void IsThisCurrentTouchalbeObj(TouchableObject touchableObject)
     {
         ObjectPlacer objectPlacer = FindObjectOfType<ObjectPlacer>();
         if (objectPlacer.currentTouchableObj != touchableObject)
@@ -85,7 +90,7 @@ public class PlacementChecker : MonoBehaviour
             //Add old-currentTouchObj into data base
             AddFurniture(objectPlacer);
 
-            RemoveObjectInDataDase(touchableObject.currentGridPos, indexPrefabs);
+            RemoveObjectInDataDase(touchableObject.currentGridPos, touchableObject.indexPrefabs);
 
             //Add new current touchable object
             PlacementSystem placementSystem = FindObjectOfType<PlacementSystem>();
@@ -93,7 +98,8 @@ public class PlacementChecker : MonoBehaviour
 
             //Update new-current touchable object
             objectPlacer.UpdateCurrentTouchableObj(touchableObject,
-                                                indexPrefabs,
+                                                touchableObject.typeOfPlacement,
+                                                touchableObject.indexPrefabs,
                                                 currentIndexPlacedObjects,
                                                 touchableObject.currentGridPos,
                                                 touchableObject.currentSize);
@@ -135,17 +141,18 @@ public class PlacementChecker : MonoBehaviour
                 AddObjectInDataBase(objectPlacer.currentTouchableObj.currentGridPos,
                                     objectPlacer.currentTouchableObj.currentSize,
                                     lastIndexPrefabs,
-                                    objectPlacer.currentIndexPlacedObjects);
+                                    objectPlacer.currentIndexPlacedObjects,
+                                    objectPlacer.currentTouchableObj.typeOfPlacement);
 
                 //Turn of moving of edit indicator
-                objectPlacer.currentTouchableObj.TurnONOFFIndicator(false);
+                objectPlacer.currentTouchableObj.SetActiveEditIndicator(false);
                 //Set null for currentTouchableObj
                 objectPlacer.currentTouchableObj = null;
             }
         }
     }
 
-    public void AddObjectInDataBase(Vector3Int gridPosition, Vector2Int currentSize, int indexPrefabs, int currentIndex)
+    public void AddObjectInDataBase(Vector3Int gridPosition, Vector2Int currentSize, int indexPrefabs, int currentIndex, int typeOfPlacement)
     {
         //Classify object foor/furniture
         GridData selectedData = placementSystem.database.objectsData[indexPrefabs].ID < 10000 ?
@@ -157,7 +164,8 @@ public class PlacementChecker : MonoBehaviour
         selectedData.AddObjectAt(gridPosition,
                                 currentSize,
                                 placementSystem.database.objectsData[indexPrefabs].ID,
-                                currentIndex);
+                                currentIndex,
+                                typeOfPlacement);
     }
 
     public void RemoveObjectInDataDase(Vector3Int gridPosition, int indexPrefabs)
@@ -171,14 +179,14 @@ public class PlacementChecker : MonoBehaviour
         selectedData.RemoveObjectAt(gridPosition);
     }
 
-    public bool CheckPlacementValidity(Vector3Int gridPosition, Vector2Int currentSize, int selectedObjectIndex)
+    public bool CheckPlacementValidityMod(Vector3Int gridPosition, Vector2Int currentSize, int selectedObjectIndex, int typeOfPlacement)
     {
         GridData selectedData = placementSystem.database.objectsData[selectedObjectIndex].ID < 10000 ?
                                 placementSystem.furnitureData :
                                 placementSystem.floorData;
 
         //Check this positon can place object or Not?
-        return selectedData.CanPlaceObjectAt(gridPosition, currentSize);
+        return selectedData.CanPlaceObjectAtMod(gridPosition, currentSize, typeOfPlacement);
     }
 
     public void CheckAndSetCountClicked(TouchableObject touchableObject)
@@ -202,13 +210,54 @@ public class PlacementChecker : MonoBehaviour
     // -> (size.x/2)
     // -> (size.y/2) - 1
     //Then we apply it to the below method
-    public Vector3 ObjectAlignment(Vector3 position, Vector2 size)
+    public Vector3 ObjectAlignment(Vector3 position, Vector2 size, int numberTypeOfPlacement)
     {
-        Vector3 posOffset = new Vector3(size.x / 2,
-                                        0,
-                                        (size.y / 2) - 1);
+        Vector3 posOffSet = new Vector3();
+        if (numberTypeOfPlacement == 0)
+        {
+            posOffSet = new Vector3(size.x / 2,
+                                    0,
+                                    (size.y / 2) - 1);
+        }
+        else if (numberTypeOfPlacement == 1)
+        {
+            posOffSet = new Vector3((size.x / 2) - 1,
+                                    size.y / 2,
+                                    0);
+        }
 
-        return position + posOffset;
+        //Debug.Log($"ObjectAlignment is {position} with numberTypeOfPlacement is {numberTypeOfPlacement} with posOffset is {posOffSet}");
+        return position + posOffSet;
+    }
+
+    public void SetActiveGridVisualization(string key)
+    {
+        if(key == "turnoffall")
+        {
+            gridVisualizationFloor.SetActive(false);
+            gridVisualizationWall1.SetActive(false);
+            gridVisualizationWall2.SetActive(false);
+        }
+        else if(key == "floor")
+        {
+            gridVisualizationFloor.SetActive(true);
+            gridVisualizationWall1.SetActive(false);
+            gridVisualizationWall2.SetActive(false);
+        }
+        else if(key == "wall")
+        {
+            gridVisualizationFloor.SetActive(false);
+            gridVisualizationWall1.SetActive(true);
+            gridVisualizationWall2.SetActive(true);
+        }
+        else if(key == "turnonall")
+        {
+            gridVisualizationFloor.SetActive(true);
+            gridVisualizationWall1.SetActive(true);
+            gridVisualizationWall2.SetActive(true);
+        }
+        else
+            Debug.LogError($"key not valid");
     }
 
     // public Vector3Int GetTurnGridPos(Vector3 position, Vector2 size)

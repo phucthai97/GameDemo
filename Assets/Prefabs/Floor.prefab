@@ -52,6 +52,8 @@ MonoBehaviour:
   currentSize: {x: 0, y: 0}
   currentGridPos: {x: 0, y: 0, z: 0}
   floorPlacement: 1
+  typeOfPlacement: 0
+  constantPos: {x: 0, y: 0.205, z: 0}
 --- !u!1 &6192575387436020879
 GameObject:
   m_ObjectHideFlags: 0

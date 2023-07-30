@@ -8,9 +8,6 @@ public class PlacementSystem : MonoBehaviour
     //Input manager by input device: mouse, keyboard
     [SerializeField] private InputManager inputManager;
 
-    //For see virtual grid on scence when it's active
-    [SerializeField] private GameObject gridVisualization;
-
     //Sphere
     [SerializeField] private GameObject Sphere;
 
@@ -24,14 +21,9 @@ public class PlacementSystem : MonoBehaviour
 
     //For storage that object was placed in the scene
     [SerializeField] private ObjectPlacer objectPlacer;
-    [SerializeField] Vector2Int xGrid = new Vector2Int(-5, 4);
-    [SerializeField] Vector2Int yGrid = new Vector2Int(-4, 5);
 
     //For storage 2 kind of GridData
     public GridData floorData, furnitureData;
-
-    //For detect last position;
-    private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
     //Current gridlayer
     public enum LayerType { Floor, Wall1, Wall2 };
@@ -43,7 +35,7 @@ public class PlacementSystem : MonoBehaviour
     private void Start()
     {
         StopPlacement();
-        gridVisualization.SetActive(false);
+        placementChecker.SetActiveGridVisualization("turnoffall");
         placementUIControl.TurnOffEditButtonObject();
         floorData = new();
         furnitureData = new();
@@ -53,13 +45,10 @@ public class PlacementSystem : MonoBehaviour
     {
         StopPlacement();
         //Set active tools
-        gridVisualization.SetActive(true);
         placementUIControl.TurnOnEditBtnObject(ID);
         buildingState = new PlacementState(ID,
                                         preview,
                                         database,
-                                        floorData,
-                                        furnitureData,
                                         objectPlacer,
                                         placementChecker);
 
@@ -69,21 +58,16 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnExit += StopPlacement;
     }
 
-    public void StartMoving(TouchableObject touchableObject, int indexPrefabs)
+    public void StartMoving(TouchableObject touchableObject)
     {
         StopPlacement();
         //Set active tools
-        gridVisualization.SetActive(true);
-        placementUIControl.TurnOnEditBtnObject(database.objectsData[indexPrefabs].ID);
+        //gridVisualization.SetActive(true);
+        placementUIControl.TurnOnEditBtnObject(database.objectsData[touchableObject.indexPrefabs].ID);
         buildingState = new MovingState(preview,
-                                        database,
-                                        floorData,
-                                        furnitureData,
-                                        objectPlacer,
                                         placementChecker,
                                         this,
-                                        touchableObject,
-                                        indexPrefabs);
+                                        touchableObject);
         //Passing Stop_Placement into On Exit delegate
         inputManager.OnExit += StopPlacement;
     }
@@ -91,7 +75,7 @@ public class PlacementSystem : MonoBehaviour
     public void StartRemoving()
     {
         StopPlacement();
-        gridVisualization.SetActive(true);
+        //gridVisualization.SetActive(true);
         placementChecker.RemoveFurnitureObject();
     }
 
@@ -99,7 +83,7 @@ public class PlacementSystem : MonoBehaviour
     {
         StopPlacement();
         //Set de-active tools
-        gridVisualization.SetActive(true);
+        //gridVisualization.SetActive(true);
         placementUIControl.TurnOnRemovingFloor();
         buildingState = new RemovingFloor(preview, floorData, furnitureData, objectPlacer);
         //Passing Place_Structure into On Clicked delegate
@@ -112,7 +96,7 @@ public class PlacementSystem : MonoBehaviour
     {
         if (objectPlacer.currentTouchableObj != null)
         {
-            gridVisualization.SetActive(true);
+            //gridVisualization.SetActive(true);
             objectPlacer.currentTouchableObj.RotateObject();
         }
     }
@@ -131,7 +115,7 @@ public class PlacementSystem : MonoBehaviour
         if (buildingState == null)
             return;
         //Set De-active tools
-        gridVisualization.SetActive(false);
+        placementChecker.SetActiveGridVisualization("turnoffall");
         placementUIControl.SetColorBtnRemoveFloor(false);
         //Deactive indicator,...
         buildingState.EndState();
@@ -140,7 +124,6 @@ public class PlacementSystem : MonoBehaviour
         inputManager.OnClicked -= PlaceStructure;
         //Getting out the Stop_Placement function from delegate On Exit
         inputManager.OnExit -= StopPlacement;
-        lastDetectedPosition = Vector3Int.zero;
         buildingState = null;
     }
 
@@ -169,20 +152,22 @@ public class PlacementSystem : MonoBehaviour
         {
             layerType = LayerType.Floor;
             CurrentGridPos = new Vector3Int((int)Mathf.Floor(mousePosition.x)
-                            , 0
-                            , (int)Mathf.Ceil(mousePosition.z));
+                                            , 0
+                                            , (int)Mathf.Ceil(mousePosition.z));
         }
         else if (inputManager.numberCurrentLayer == 7)
         {
             layerType = LayerType.Wall1;
             CurrentGridPos = new Vector3Int((int)Mathf.Ceil(mousePosition.x)
-                            , (int)Mathf.Floor(mousePosition.y)
-                            , 0);
+                                            , (int)Mathf.Floor(mousePosition.y)
+                                            , 0);
         }
         else if (inputManager.numberCurrentLayer == 8)
         {
             layerType = LayerType.Wall2;
-            Debug.Log($"layer8");
+            CurrentGridPos = new Vector3Int(0
+                                            , (int)Mathf.Floor(mousePosition.y)
+                                            , (int)Mathf.Ceil(mousePosition.z));
         }
 
         //Get current grid position

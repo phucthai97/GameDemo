@@ -8,33 +8,42 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField] public List<GameObject> placedGameObjects = new();
     [SerializeField] public TouchableObject currentTouchableObj;
     [SerializeField] public int currentIndexPlacedObjects = -1;
-    
+
 
     public List<GameObject> PlacedGameObjects { get => placedGameObjects; set => placedGameObjects = value; }
 
     public int PlaceObject(GameObject prefab,
                             Vector2Int size,
                             int selectedIndexPrefabs,
-                            Vector3Int gridPosition)
+                            Vector3Int gridPosition,
+                            int typeOfPlacement)
     {
         //Create GameObject
         GameObject instObject = Instantiate(prefab);
         PlacedGameObjects.Add(instObject);
+        TouchableObject touchableObject = instObject.GetComponent<TouchableObject>();
 
-        UpdateCurrentTouchableObj(instObject.GetComponent<TouchableObject>(),
+        UpdateCurrentTouchableObj(touchableObject,
+                                typeOfPlacement,
                                 selectedIndexPrefabs,
                                 PlacedGameObjects.Count - 1,
                                 gridPosition,
                                 size);
 
-        PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
-        
-        //Create position for new object
-        Vector3 newPosObject = gridPosition;
-        newPosObject.y = prefab.transform.position.y;
 
+        //Create position for new object follow type GridPlacement
+        Vector3 newPosObject = gridPosition;
+
+        if (typeOfPlacement == 0)
+            newPosObject.y = touchableObject.constantPos.y;
+        else if(typeOfPlacement == 1)
+            newPosObject.z = touchableObject.constantPos.z;
+        else if(typeOfPlacement == 2)
+            newPosObject.x = touchableObject.constantPos.x;
+        
         //Set transform for object
-        instObject.transform.position = placementChecker.ObjectAlignment(newPosObject, size);
+        PlacementChecker placementChecker = FindObjectOfType<PlacementChecker>();
+        instObject.transform.position = placementChecker.ObjectAlignment(newPosObject, size, typeOfPlacement);
         instObject.transform.SetParent(gameObject.transform);
         return PlacedGameObjects.Count - 1;
     }
@@ -50,9 +59,10 @@ public class ObjectPlacer : MonoBehaviour
     }
 
     public void UpdateCurrentTouchableObj(TouchableObject argCurrentTouchableObj,
+                                        int typeOfPlacement,
                                         int argSelectedIndexPrefabs,
                                         int argCurrentIndexPlacedObj,
-                                        Vector3Int girdPosition,
+                                        Vector3Int gridPosition,
                                         Vector2Int size)
     {
         //Assign currentTouchableObj
@@ -61,14 +71,14 @@ public class ObjectPlacer : MonoBehaviour
         //Re-set current index of placed object
         currentIndexPlacedObjects = argCurrentIndexPlacedObj;
         //Set index prefabs
-        currentTouchableObj.SetParas(argSelectedIndexPrefabs, size, girdPosition);
+        currentTouchableObj.SetParas(argSelectedIndexPrefabs, typeOfPlacement, size, gridPosition);
 
         //Update preview grid indicator
         PreviewSystem previewSystem = FindObjectOfType<PreviewSystem>();
-        previewSystem.UpdateGridIndicator(girdPosition, size, true);
+        previewSystem.UpdateGridIndicatorMod(gridPosition, size, true, typeOfPlacement);
 
         //Active edit indicator
-        currentTouchableObj.TurnONOFFIndicator(true);
+        currentTouchableObj.SetActiveEditIndicator(true);
     }
 
 }
