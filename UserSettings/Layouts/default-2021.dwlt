@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 500, y: 200}
   m_MaxSize: {x: 40480, y: 16192}
   vertical: 0
-  controlID: 171
+  controlID: 142
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 91
+  controlID: 133
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 17
+  controlID: 148
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 18
+  controlID: 149
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -718,7 +718,7 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
     m_HSlider: 0
-    m_VSlider: 0
+    m_VSlider: 1
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
@@ -731,7 +731,7 @@ MonoBehaviour:
       y: 21
       width: 605
       height: 897
-    m_Scale: {x: 0.4671875, y: 0.4671875}
+    m_Scale: {x: 0.478125, y: 0.478125}
     m_Translation: {x: 302.5, y: 448.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -739,12 +739,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -647.49164
-      y: -960
-      width: 1294.9833
-      height: 1920
+      x: -632.67975
+      y: -938.0392
+      width: 1265.3595
+      height: 1876.0784
     m_MinimalGUI: 1
-  m_defaultScale: 0.4671875
+  m_defaultScale: 0.478125
   m_LastWindowPixelSize: {x: 605, y: 918}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
@@ -793,22 +793,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 46
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Scripts
   m_LastFoldersGridSize: 46
   m_LastProjectPath: E:\Unity Projects\WomanInDebt_Prototype
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c06c0000
-    m_LastClickedID: 27840
-    m_ExpandedIDs: 00000000a66c0000a86c000000ca9a3b
+    m_SelectedIDs: a87a0000
+    m_LastClickedID: 31400
+    m_ExpandedIDs: 000000008e7a0000907a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -836,7 +836,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a66c0000a86c0000
+    m_ExpandedIDs: 000000008e7a0000907a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -924,9 +924,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 1eeeffff
+      m_SelectedIDs: 74280000
       m_LastClickedID: 0
-      m_ExpandedIDs: 36fbffff2c670000aa670000
+      m_ExpandedIDs: 3ce7ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
