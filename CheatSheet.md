@@ -40,10 +40,18 @@
     - Được gọi mỗi khung hình cố định (mặc định là 50 lần mỗi giây), không phụ thuộc vào tốc độ khung hình. Sử dụng cho logic vật lý như di chuyển hoặc áp dụng lực.
   #### Update()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
-  #### OnTrigger()
-    - Được gọi khi GameObject va chạm hoặc kích hoạt một kích hoạt vật lý.
-  #### OnCollision()
-    - Được gọi khi GameObject va chạm hoặc kích hoạt một kích hoạt vật lý..
+  #### OnTrigger(), OnCollision()
+    - Dùng để xử lý va chạm và kích hoạt (trigger) giữa các GameObject.
+        - OnCollisionEnter()
+        - ```csharp void OnCollisionEnter(Collision collision)
+{
+    if (collision.gameObject.tag == "Enemy")
+    {
+        Debug.Log("Va chạm với kẻ địch!");
+    }
+}
+```
+        
   #### OnMouse()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
   #### Update()
@@ -56,12 +64,6 @@
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
   #### OnDisable()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
-
-
-
-
-
-
 
 
 
