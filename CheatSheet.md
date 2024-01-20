@@ -25,9 +25,32 @@
 - Dùng để biểu diễn hướng và độ lớn trong không gian 2D hoặc 3D. Unity cung cấp một số loại vector khác nhau, phổ biến nhất là Vector2, Vector3, và Vector4.
 - Các thuộc tính tĩnh của Vector3
     ```csharp
-    Vector3.zero : Vectơ với tất cả các thành phần là 0 ((0, 0, 0)).
-    Vector3.one: Vectơ với tất cả các thành phần là 1 ((1, 1, 1)).
+    Vector3.zero        Vectơ với tất cả các thành phần là 0 ((0, 0, 0)).
+    Vector3.one         Vectơ với tất cả các thành phần là 1 ((1, 1, 1)).
+    Vector3.forward     Vectơ chỉ hướng phía trước ((0, 0, 1)).
+    Vector3.back        Vectơ chỉ hướng phía sau ((0, 0, -1)).
+    Vector3.up          Vectơ chỉ hướng lên trên ((0, 1, 0)).
+    Vector3.down        Vectơ chỉ hướng xuống dưới ((0, -1, 0)).
+    Vector3.left        Vectơ chỉ hướng sang trái ((-1, 0, 0)).
+    Vector3.right       Vectơ chỉ hướng sang phải ((1, 0, 0)).
+    //Đại diện cho giá trị vectơ vô cực trong tính toán.
+    Vector3.positiveInfinity    Vectơ với tất cả các thành phần là float.PositiveInfinity.
+    //Đại diện cho giá trị vectơ âm vô cực trong tính toán.
+    Vector3.negativeInfinity    Vectơ với tất cả các thành phần là float.NegativeInfinity.
     ```
+- Các thuộc tính chung của Vector3
+
+        ```csharp
+        //magnitude: Thuộc tính magnitude trả về độ dài của vectơ (tính bằng cách sử dụng định lý Pythagoras).
+        Vector3 position = new Vector3(3, 4, 0);
+        float length = position.magnitude; // length = 5
+        ```
+    - normalized: Thuộc tính normalized trả về phiên bản chuẩn hóa của vectơ, có cùng hướng nhưng độ dài bằng 1.
+        ```csharp
+        Vector3 position = new Vector3(3, 4, 0);
+        Vector3 normalizedPosition = position.normalized;
+        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
+        ``` 
 ### MonoBehaviour
 - MonoBehaviour là một lớp cơ bản trong Unity và là lớp cốt lõi cho hầu hết các script trong môi trường phát triển trò chơi của Unity. Nó cung cấp một khung để xây dựng các hành vi tùy chỉnh vào các đối tượng trong game của bạn thông qua kịch bản (scripting
 - https://docs.unity3d.com/uploads/Main/monobehaviour_flowchart.svg
