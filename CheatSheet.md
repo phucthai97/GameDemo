@@ -43,15 +43,15 @@
   #### OnTrigger(), OnCollision()
     - Dùng để xử lý va chạm và kích hoạt (trigger) giữa các GameObject.
         - OnCollisionEnter()
-        - ```csharp void OnCollisionEnter(Collision collision)
-{
-    if (collision.gameObject.tag == "Enemy")
-    {
-        Debug.Log("Va chạm với kẻ địch!");
-    }
-}
-```
-        
+            ```csharp
+            void OnCollisionEnter(Collision collision)
+            {
+            if (collision.gameObject.tag == "Enemy")
+                {
+                    Debug.Log("Va chạm với kẻ địch!");
+                }
+            }
+            ```
   #### OnMouse()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
   #### Update()
@@ -64,6 +64,12 @@
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
   #### OnDisable()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
+
+
+
+
+
+
 
 
 
