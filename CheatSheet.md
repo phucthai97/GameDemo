@@ -58,21 +58,19 @@
 - ##### Các method của vector3
     - Equals: Phương thức Equals được sử dụng để so sánh một Vector3 với một đối tượng khác hoặc một Vector3 khác để xác định xem chúng có bằng nhau hay không.
         ```csharp
-        Vector3 position = new Vector3(3, 4, 0);
-        Vector3 normalizedPosition = position.normalized;
-        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
+        Vector3 vectorA = new Vector3(1, 2, 3);
+        Vector3 vectorB = new Vector3(1, 2, 3);
+        bool isEqual = vectorA.Equals(vectorB); // isEqual sẽ là true
         ```
     - Set: Phương thức Set cho phép bạn thiết lập lại các giá trị x, y, và z của một Vector3 mà không cần tạo một instance mới.
         ```csharp
         Vector3 vector = new Vector3(1, 2, 3);
         vector.Set(4, 5, 6); // Bây giờ vector sẽ là (4, 5, 6)
-        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
         ```
     - ToString: Phương thức ToString chuyển đổi Vector3 thành chuỗi (string), hữu ích cho việc in thông tin ra console hoặc hiển thị trên giao diện người dùng.
         ```csharp
         Vector3 vector = new Vector3(1.2345f, 2.3456f, 3.4567f);
         string vectorAsString = vector.ToString("F2"); // vectorAsString sẽ là "1.23, 2.35, 3.46"
-        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
         ```
 ### Di chuyển đối tượng
 - Có nhiều cách khác nhau để di chuyển một đối tượng, mỗi cách có ưu và nhược điểm riêng tùy thuộc vào yêu cầu cụ thể của trò chơi hoặc ứng dụng của bạn. Dưới đây là một số phương pháp chính:
