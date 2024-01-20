@@ -2,13 +2,15 @@
 
 ## Phụ lục
 - [Cơ bản](#coban)
+    - [Vector](#vector)
     - [MonoBehaviour](#monobehaviour)
-        - [Awake()](#awake)
+        - [Awake()](#1.-Awake())
         - [OnEnable()](#onenable)
         - [Start()](#start)
         - [FixedUpdate()](#fixedupdate)
         - [Update()](#update)
-        - [OnTriggerCollision()](#OnTriggerCollision)
+        - [OnTrigger()](#ontrigger)
+        - [OnCollision()](#oncolision)
         - [OnMouse()](#onmouse)
         - [Update()](#update)
         - [LateUpdate()](#lateupdate)
@@ -19,13 +21,20 @@
     - [ScriptableObject](#scriptableobject)
 
 ## A. Cơ bản
+### Vector
+- Dùng để biểu diễn hướng và độ lớn trong không gian 2D hoặc 3D. Unity cung cấp một số loại vector khác nhau, phổ biến nhất là Vector2, Vector3, và Vector4.
+- Các thuộc tính tĩnh của Vector3
+    ```csharp
+    Vector3.zero : Vectơ với tất cả các thành phần là 0 ((0, 0, 0)).
+    Vector3.one: Vectơ với tất cả các thành phần là 1 ((1, 1, 1)).
+    ```
 ### MonoBehaviour
 - MonoBehaviour là một lớp cơ bản trong Unity và là lớp cốt lõi cho hầu hết các script trong môi trường phát triển trò chơi của Unity. Nó cung cấp một khung để xây dựng các hành vi tùy chỉnh vào các đối tượng trong game của bạn thông qua kịch bản (scripting
 - https://docs.unity3d.com/uploads/Main/monobehaviour_flowchart.svg
 - Vòng đời của một GameObject theo thứ tự sau:
-  #### Awake
+  #### 1. Awake()
     - Được gọi ngay khi instance của script được tạo ra, trước mọi hàm Start() và cả khi GameObject mà script gắn vào chưa được kích hoạt (tức là enabled = false).
-  #### OnEnable
+  #### 2. OnEnable()
     - Được gọi mỗi khi một script hoặc GameObject trở nên hoạt động (enabled). Đây là nơi lý tưởng để thiết lập các sự kiện, cập nhật trạng thái, hoặc thực hiện khởi tạo liên quan đến việc kích hoạt lại một đối tượng.
     - Ví dụ: Giả sử bạn có một hệ thống sự kiện trong game và bạn muốn đối tượng của mình lắng nghe một sự kiện cụ thể khi nó được kích hoạt. Bạn có thể sử dụng OnEnable() để đăng ký sự kiện và OnDisable() để hủy đăng ký, như sau:
         ```csharp
@@ -62,9 +71,9 @@
             - Khởi tạo lại trạng thái hoặc thông tin khi GameObject được kích hoạt lại.
             - Tải hoặc cập nhật dữ liệu mà chỉ cần khi đối tượng hoạt động.
             - Sử dụng OnEnable() và OnDisable() một cách hiệu quả giúp quản lý tài nguyên và tình trạng của đối tượng một cách hiệu quả, đồng thời ngăn chặn lỗi và tối ưu hóa hiệu suất.
-  #### Start
+  #### 3. Start()
     - Được gọi ngay trước khung hình đầu tiên mà Update() chạy, nhưng sau tất cả các hàm Awake(). Điều quan trọng là Start() chỉ được gọi nếu script đang được kích hoạt
-  #### FixedUpdate
+  #### 4. FixedUpdate()
     - Physics Update trong Unity được quản lý chủ yếu thông qua hàm FixedUpdate(). Đây là nơi bạn thực hiện các tính toán liên quan đến vật lý, như di chuyển đối tượng, áp dụng lực hoặc torque, vì FixedUpdate() chạy ổn định và độc lập với tốc độ khung hình, làm cho nó phù hợp cho hệ thống vật lý.
     - Ví dụ: Giả sử bạn muốn tạo một đối tượng có thể di chuyển theo các phím mũi tên trên bàn phím. Đầu tiên, đối tượng của bạn cần có một Rigidbody component để Unity có thể áp dụng vật lý lên nó.
         ```csharp
@@ -101,9 +110,9 @@
         📌 Cách Hoạt Động:
         - Trong hàm Update(), chúng ta lấy đầu vào từ bàn phím thông qua Input.GetAxis(), cho phép di chuyển theo trục ngang và dọc.
         - Trong FixedUpdate(), chúng ta di chuyển Rigidbody bằng cách sử dụng MovePosition(). Time.fixedDeltaTime đảm bảo rằng di chuyển không phụ thuộc vào số lần FixedUpdate() được gọi mỗi giây.
-  #### Update
+  #### 5. Update()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
-  #### OnTriggerCollision
+  #### 6. OnTrigger(), OnCollision()
     - Dùng để xử lý va chạm và kích hoạt (trigger) giữa các GameObject.Bao gồm các hàm OnCollisionEnter(), OnCollisionExit(), OnCollisionStay(), OnTriggerEnter(), OnTriggerExit(), OnTriggerStay()
         - OnCollisionEnter() Được gọi khi GameObject có Rigidbody va chạm với một GameObject khác.
             ```csharp
@@ -125,7 +134,7 @@
                 }
             }
             ```
-  #### OnMouse
+  #### 7. OnMouse()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.Bao gồm các hàm như:
         ```cshar
         OnMouseDown(): Được gọi khi chuột nhấp vào Collider của GameObject.
@@ -146,13 +155,13 @@
         - Các hàm OnMouse... chỉ hoạt động nếu GameObject có một Collider.
         - Trong một số trường hợp, việc sử dụng hệ thống sự kiện chuột của Unity UI (như IPointerClickHandler, IPointerEnterHandler, v.v.) có thể phù hợp hơn, đặc biệt là khi làm việc với giao diện người dùng.
         - Cần cẩn thận khi sử dụng các hàm này với ứng dụng di động, vì chúng chủ yếu được thiết kế cho chuột và không luôn tương thích hoàn hảo với cảm ứng.
-  #### Update
+  #### 8. Update()
     - Được gọi mỗi khung hình. Nơi xử lý phần lớn logic trò chơi, kiểm tra đầu vào từ người chơi, chuyển động, v.v.
-  #### LateUpdate
+  #### 9. LateUpdate()
     - Được gọi ngay sau Update() trong mỗi khung hình. Thường được dùng cho các hành động cần thực hiện sau khi tất cả các lệnh Update() đã chạy, như điều chỉnh camera.
-  #### OnRenderObject
+  #### 10. OnRenderObject()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
-  #### OnGUI
+  #### 11. OnGUI()
     - Được sử dụng để tạo giao diện người dùng (GUI) truyền thống. Nó chạy nhiều lần trong một khung hình (frame) và thích hợp cho các tác vụ như vẽ nút, hộp thoại, hoặc các thông tin tương tác trực tiếp. Tuy nhiên, cần lưu ý rằng OnGUI() có thể ảnh hưởng đến hiệu suất nếu không được sử dụng cẩn thận. Trong Unity hiện đại, nó thường được thay thế bằng hệ thống UI dựa trên Canvas.
     - Ví dụ: Tạo nút và hộp thoại
         ```csharp
@@ -177,9 +186,9 @@
         - Phong Cách: Bạn có thể tùy chỉnh phong cách của GUI bằng cách sử dụng GUIStyle.
         - Thay Thế: Trong các dự án Unity mới, khuyến nghị sử dụng hệ thống UI dựa trên Canvas cho giao diện người dùng, vì nó linh hoạt và hiệu quả hơn.
         - Tương Thích: OnGUI() thích hợp cho các công cụ phát triển nhanh hoặc debug, nhưng không phải là lựa chọn tối ưu cho giao diện người dùng cuối cùng trong game.
-  #### OnDisable
+  #### 12. OnDisable()
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác
-  #### OnDestroy
+  #### 12. OnDestroy()
     - Được gọi khi một script hoặc GameObject sắp bị hủy. Đây là thời điểm thích hợp để thực hiện dọn dẹp sâu hơn, như hủy các Coroutine, đóng các file, hoặc giải phóng tài nguyên đã cấp phát.
         ```csharp
         void OnDestroy()
@@ -194,6 +203,46 @@
         - Đảm Bảo Dọn Dẹp: Việc sử dụng đúng cách OnDisable() và OnDestroy() giúp tránh rò rỉ tài nguyên và lỗi, đồng thời duy trì quy trình làm việc ổn định và hiệu quả.
         - Sự Khác Biệt: OnDisable() có thể được gọi nhiều lần khi script hoặc GameObject được kích hoạt và vô hiệu hóa, trong khi OnDestroy() chỉ được gọi một lần khi đối tượng sắp bị hủy vĩnh viễn.
 
+### ScriptableObject
+- ScriptableObject trong Unity là một lớp đặc biệt dùng để lưu trữ dữ liệu không phụ thuộc vào một đối tượng cụ thể nào trong cảnh (scene) của bạn. Khác với các đối tượng thông thường (được kế thừa từ MonoBehaviour), ScriptableObject cho phép bạn tạo ra các tài nguyên có thể tái sử dụng, lưu trữ dữ liệu trong trò chơi mà không cần phải gắn vào một GameObject cụ thể.
+- Đặc Điểm của ScriptableObject:
+    - Tối Ưu Hóa Bộ Nhớ: ScriptableObject giúp giảm việc sử dụng bộ nhớ không cần thiết, vì bạn không cần phải tạo ra nhiều bản sao của cùng một dữ liệu.
+    - Tái Sử Dụng: Dễ dàng tái sử dụng cho nhiều đối tượng khác nhau trong trò chơi của bạn.
+    - Quản Lý Dữ Liệu: Tốt cho việc quản lý cấu hình, thiết lập, hoặc bất kỳ loại dữ liệu không đổi nào khác.
+    - Lưu Trữ Dữ Liệu: Khả năng lưu trữ thông tin ngay cả khi không chạy trò chơi (không giống như các biến thông thường trong MonoBehaviour).
+- Giả sử bạn đang phát triển một trò chơi và muốn có một cách để quản lý thông tin về các loại vũ khí. Thay vì tạo ra nhiều bản sao của thông tin vũ khí trên mỗi đối tượng sử dụng vũ khí đó, bạn có thể dùng ScriptableObject để lưu trữ dữ liệu này.
+- Bước 1: Tạo Lớp ScriptableObject:
+    ```csharp
+    using UnityEngine;
+    [CreateAssetMenu(fileName = "New Weapon", menuName = "Inventory/Weapon")]
+    public class Weapon : ScriptableObject
+    {
+        public string weaponName;
+        public int damage;
+        public Sprite icon;
+        // Các thuộc tính khác...
+    }
+    ```
+- Trong đoạn code trên, bạn tạo một lớp Weapon kế thừa từ ScriptableObject. CreateAssetMenu cho phép bạn tạo mới Weapon từ Unity Editor.
+- Bước 2: Sử Dụng ScriptableObject trong Game:
+Sau khi tạo Weapon asset, bạn có thể gán nó cho các đối tượng trong trò chơi của mình, ví dụ như các nhân vật hoặc kẻ thù.
+    ```cshap
+    public class Character : MonoBehaviour
+    {
+        public Weapon equippedWeapon;
+    
+        void DealDamage()
+        {
+            Debug.Log("Gây " + equippedWeapon.damage + " điểm sát thương.");
+            // Thực hiện hành động gây sát thương
+        }
+    }
+    ```
+- Trong ví dụ này, mỗi Character có thể được trang bị một Weapon, và bạn có thể dễ dàng thay đổi vũ khí cho nhân vật mà không cần thay đổi toàn bộ logic hoặc dữ liệu của nhân vật.
+- Khi Nào Nên Sử Dụng ScriptableObject?
+    - Khi bạn cần một cách để lưu trữ và quản lý dữ liệu mà không phụ thuộc vào cảnh hoặc đối tượng cụ thể.
+    - Đối với dữ liệu cấu hình, thiết lập hoặc bất kỳ loại dữ liệu chung nào mà bạn muốn tái sử dụng qua nhiều cảnh hoặc đối tượng.
+    - Khi bạn muốn tránh việc tạo ra nhiều bản sao không cần
 
 
 
