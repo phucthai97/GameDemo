@@ -2,7 +2,7 @@
 Bản Unity cheat sheet phiên dịch cho cộng đồng người Việt từ Naomi Le. Cảm ơn các bạn vì đã quan tâm.
 
 # Unity_Cheat_Sheet
-## Mục lục
+## Mục lục (#none)
 - [Cơ bản](#cơ-bản)
   - [Phím tắt Unity](#phím-tắt-unity)
   - [MonoBehaviour](#monobehaviour)
@@ -131,6 +131,7 @@ private void OnTriggerExit(Collider hit) {
   Debug.Log($"{gameObject.name} stopped hitting {hit.gameObject.name}");
 }
 ```
+
 Cuối cùng, có các hàm tương ứng cho các collider 2D. Các hàm này chia sẻ cùng tên với các hàm 3D, nhưng có từ "2D" được thêm vào cuối. Tương tự, kiểu tham số cũng giống nhau, nhưng thay vì Collision, ta có Collision2D.
 - OnCollisionEnter2D
 - OnCollisionStay2D
@@ -158,7 +159,7 @@ private void OnTriggerExit2D(Collision2D hit) {
   Debug.Log($"{gameObject.name} stopped hitting {hit.gameObject.name}");
 }
 ```
-
+### None
 ### Serializing
 Unity có khả năng serialize các biến, chuyển đổi dữ liệu thành một định dạng có thể chỉnh sửa từ trình soạn thảo Unity. Quá trình serialization phụ thuộc vào các thuộc tính hoặc các trình điều khiển truy cập được áp dụng cho biến.
 
