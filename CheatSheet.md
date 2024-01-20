@@ -8,8 +8,7 @@
         - [Start()](#start)
         - [FixedUpdate()](#fixedupdate)
         - [Update()](#update)
-        - [OnTrigger()](#ontrigger)
-        - [OnCollision()](#oncolision)
+        - [OnTrigger()](#OnTriggerCollision)
         - [OnMouse()](#onmouse)
         - [Update()](#update)
         - [LateUpdate()](#lateupdate)
@@ -104,7 +103,7 @@
         - Trong FixedUpdate(), chúng ta di chuyển Rigidbody bằng cách sử dụng MovePosition(). Time.fixedDeltaTime đảm bảo rằng di chuyển không phụ thuộc vào số lần FixedUpdate() được gọi mỗi giây.
   #### Update
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
-  #### OnTrigger , OnCollision()
+  #### OnTriggerCollision
     - Dùng để xử lý va chạm và kích hoạt (trigger) giữa các GameObject.Bao gồm các hàm OnCollisionEnter(), OnCollisionExit(), OnCollisionStay(), OnTriggerEnter(), OnTriggerExit(), OnTriggerStay()
         - OnCollisionEnter() Được gọi khi GameObject có Rigidbody va chạm với một GameObject khác.
             ```csharp
