@@ -39,9 +39,8 @@
     Vector3.negativeInfinity    Vectơ với tất cả các thành phần là float.NegativeInfinity.
     ```
 - Các thuộc tính chung của Vector3
-
+    - magnitude: Thuộc tính magnitude trả về độ dài của vectơ (tính bằng cách sử dụng định lý Pythagoras).
         ```csharp
-        //magnitude: Thuộc tính magnitude trả về độ dài của vectơ (tính bằng cách sử dụng định lý Pythagoras).
         Vector3 position = new Vector3(3, 4, 0);
         float length = position.magnitude; // length = 5
         ```
