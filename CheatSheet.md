@@ -19,11 +19,14 @@
         - [OnDisable()](#ondisable)
         - [OnDestroy()](#ondestroy)
     - [ScriptableObject](#scriptableobject)
+- [Các câu hỏi liên quan](#cac-cau-hoi-lien-quan)
+    - [Có điều gì khác giữa Public Methods và Static Methods trong Vector3](#coban)
+
 
 ## A. Cơ bản
 ### Vector
 - Dùng để biểu diễn hướng và độ lớn trong không gian 2D hoặc 3D. Unity cung cấp một số loại vector khác nhau, phổ biến nhất là Vector2, Vector3, và Vector4.
-- Các thuộc tính tĩnh của Vector3
+- ##### Các thuộc tính tĩnh của Vector3
     ```csharp
     Vector3.zero        Vectơ với tất cả các thành phần là 0 ((0, 0, 0)).
     Vector3.one         Vectơ với tất cả các thành phần là 1 ((1, 1, 1)).
@@ -38,7 +41,7 @@
     //Đại diện cho giá trị vectơ âm vô cực trong tính toán.
     Vector3.negativeInfinity    Vectơ với tất cả các thành phần là float.NegativeInfinity.
     ```
-- Các thuộc tính chung của Vector3
+- ##### Các thuộc tính chung của Vector3
     - magnitude: Thuộc tính magnitude trả về độ dài của vectơ (tính bằng cách sử dụng định lý Pythagoras).
         ```csharp
         Vector3 position = new Vector3(3, 4, 0);
@@ -49,7 +52,28 @@
         Vector3 position = new Vector3(3, 4, 0);
         Vector3 normalizedPosition = position.normalized;
         // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
-        ``` 
+        ```
+
+- ##### Các method của vector3
+    - Equals: Phương thức Equals được sử dụng để so sánh một Vector3 với một đối tượng khác hoặc một Vector3 khác để xác định xem chúng có bằng nhau hay không.
+        ```csharp
+        Vector3 position = new Vector3(3, 4, 0);
+        Vector3 normalizedPosition = position.normalized;
+        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
+        ```
+    - Set: Phương thức Set cho phép bạn thiết lập lại các giá trị x, y, và z của một Vector3 mà không cần tạo một instance mới.
+        ```csharp
+        Vector3 vector = new Vector3(1, 2, 3);
+        vector.Set(4, 5, 6); // Bây giờ vector sẽ là (4, 5, 6)
+        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
+        ```
+    - ToString: Phương thức ToString chuyển đổi Vector3 thành chuỗi (string), hữu ích cho việc in thông tin ra console hoặc hiển thị trên giao diện người dùng.
+        ```csharp
+        Vector3 vector = new Vector3(1.2345f, 2.3456f, 3.4567f);
+        string vectorAsString = vector.ToString("F2"); // vectorAsString sẽ là "1.23, 2.35, 3.46"
+        // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
+        ```
+
 ### MonoBehaviour
 - MonoBehaviour là một lớp cơ bản trong Unity và là lớp cốt lõi cho hầu hết các script trong môi trường phát triển trò chơi của Unity. Nó cung cấp một khung để xây dựng các hành vi tùy chỉnh vào các đối tượng trong game của bạn thông qua kịch bản (scripting
 - https://docs.unity3d.com/uploads/Main/monobehaviour_flowchart.svg
@@ -265,6 +289,31 @@ Sau khi tạo Weapon asset, bạn có thể gán nó cho các đối tượng tr
     - Khi bạn cần một cách để lưu trữ và quản lý dữ liệu mà không phụ thuộc vào cảnh hoặc đối tượng cụ thể.
     - Đối với dữ liệu cấu hình, thiết lập hoặc bất kỳ loại dữ liệu chung nào mà bạn muốn tái sử dụng qua nhiều cảnh hoặc đối tượng.
     - Khi bạn muốn tránh việc tạo ra nhiều bản sao không cần
+
+## Các câu hỏi liên quan
+### Có điều gì khác giữa Public Methods và Static Methods trong Vector3
+- Public Methods
+    - Public Methods là các phương thức có thể được gọi trên một instance cụ thể của lớp Vector3.
+    - Chúng thao tác trực tiếp với dữ liệu của instance đó.
+    - Ví dụ:
+        ```csharp
+        vector.Normalize(): Phương thức này sẽ chuẩn hóa vectơ mà nó được gọi.
+        vector.ToString(): Chuyển đổi instance vector hiện tại thành chuỗi.   
+        ```
+- Static Methods:
+    - Static Methods là các phương thức thuộc về lớp Vector3 nói chung, không phụ thuộc vào bất kỳ instance cụ thể nào.
+    - Chúng cung cấp chức năng mà không cần một instance của lớp.
+    - Có thể được gọi mà không cần một đối tượng Vector3 cụ thể.
+    - Ví dụ:
+        ```csharp
+        Vector3.Distance(a, b): Tính khoảng cách giữa hai vectơ a và b.
+        Vector3.Lerp(a, b, t): Tuyến tính nội suy giữa hai vectơ a và b.
+        ```
+- Tóm Lược:
+    - Public Methods: Phụ thuộc vào instance và thao tác trên dữ liệu của instance đó.
+    - Static Methods: Không phụ thuộc vào instance cụ thể, thực hiện các chức năng hoặc phép toán chung liên quan đến vectơ.
+
+
 
 
 
