@@ -3,7 +3,7 @@
 ## Phụ lục
 - [Cơ bản](#coban)
     - [MonoBehaviour](#monobehaviour)
-        - [Awake()](#line44)
+        - [Awake()](#line-44)
         - [OnEnable()](#onenable)
         - [Start()](#start)
         - [FixedUpdate()](#fixedupdate)
