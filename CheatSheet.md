@@ -49,13 +49,13 @@
             }
         }
         ```
-    - ##### Trong ví dụ này:
+    ##### ✨ Trong ví dụ này:
         - EventManager.OnCustomEvent: Là sự kiện mà bạn muốn lắng nghe. EventManager là một lớp tượng trưng cho hệ thống quản lý sự kiện trong game của bạn.
         - HandleCustomEvent(): Là phương thức được gọi khi sự kiện OnCustomEvent được kích hoạt.
-    - ##### Cách Hoạt Động:
+    ##### ✨ Cách Hoạt Động:
         - Khi script hoặc GameObject trở nên hoạt động, OnEnable() sẽ được gọi và phương thức HandleCustomEvent() sẽ được đăng ký với sự kiện.
         - Khi script hoặc GameObject bị vô hiệu hóa, OnDisable() sẽ được gọi và phương thức HandleCustomEvent() sẽ được hủy đăng ký khỏi sự kiện, ngăn chặn rò rỉ tài nguyên hoặc lỗi không mong muốn.
-    -  ##### Khi Nào Sử Dụng OnEnable()?
+        ✨ Khi Nào Sử Dụng OnEnable()?
         - OnEnable() thích hợp để sử dụng trong các tình huống sau:
             - Đăng ký các sự kiện hoặc thông báo.
             - Khởi tạo lại trạng thái hoặc thông tin khi GameObject được kích hoạt lại.
