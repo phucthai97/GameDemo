@@ -3,7 +3,7 @@
 ## Phụ lục
 - [Cơ bản](#coban)
     - [MonoBehaviour](#monobehaviour)
-        - [Awake()](#awake())
+        - [Awake()](#awake)
         - [OnEnable()](#onenable)
         - [Start()](#start)
         - [FixedUpdate()](#fixedupdate)
@@ -24,7 +24,7 @@
 - MonoBehaviour là một lớp cơ bản trong Unity và là lớp cốt lõi cho hầu hết các script trong môi trường phát triển trò chơi của Unity. Nó cung cấp một khung để xây dựng các hành vi tùy chỉnh vào các đối tượng trong game của bạn thông qua kịch bản (scripting
 - https://docs.unity3d.com/uploads/Main/monobehaviour_flowchart.svg
 - Vòng đời của một GameObject theo thứ tự sau:
-  #### Awake()
+  #### Awake
     - Được gọi ngay khi instance của script được tạo ra, trước mọi hàm Start() và cả khi GameObject mà script gắn vào chưa được kích hoạt (tức là enabled = false).
   #### 2. OnEnable()
     - Được gọi mỗi khi một script hoặc GameObject trở nên hoạt động (enabled). Đây là nơi lý tưởng để thiết lập các sự kiện, cập nhật trạng thái, hoặc thực hiện khởi tạo liên quan đến việc kích hoạt lại một đối tượng.
