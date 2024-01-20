@@ -8,7 +8,7 @@
         - [Start()](#start)
         - [FixedUpdate()](#fixedupdate)
         - [Update()](#update)
-        - [OnTrigger()](#OnTriggerCollision)
+        - [OnTriggerCollision()](#OnTriggerCollision)
         - [OnMouse()](#onmouse)
         - [Update()](#update)
         - [LateUpdate()](#lateupdate)
