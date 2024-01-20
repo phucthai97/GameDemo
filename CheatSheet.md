@@ -26,7 +26,7 @@
 - Vòng đời của một GameObject theo thứ tự sau:
   #### Awake
     - Được gọi ngay khi instance của script được tạo ra, trước mọi hàm Start() và cả khi GameObject mà script gắn vào chưa được kích hoạt (tức là enabled = false).
-  #### 2. OnEnable()
+  #### OnEnable
     - Được gọi mỗi khi một script hoặc GameObject trở nên hoạt động (enabled). Đây là nơi lý tưởng để thiết lập các sự kiện, cập nhật trạng thái, hoặc thực hiện khởi tạo liên quan đến việc kích hoạt lại một đối tượng.
     - Ví dụ: Giả sử bạn có một hệ thống sự kiện trong game và bạn muốn đối tượng của mình lắng nghe một sự kiện cụ thể khi nó được kích hoạt. Bạn có thể sử dụng OnEnable() để đăng ký sự kiện và OnDisable() để hủy đăng ký, như sau:
         ```csharp
@@ -63,9 +63,9 @@
             - Khởi tạo lại trạng thái hoặc thông tin khi GameObject được kích hoạt lại.
             - Tải hoặc cập nhật dữ liệu mà chỉ cần khi đối tượng hoạt động.
             - Sử dụng OnEnable() và OnDisable() một cách hiệu quả giúp quản lý tài nguyên và tình trạng của đối tượng một cách hiệu quả, đồng thời ngăn chặn lỗi và tối ưu hóa hiệu suất.
-  #### 3. Start()
+  #### Start
     - Được gọi ngay trước khung hình đầu tiên mà Update() chạy, nhưng sau tất cả các hàm Awake(). Điều quan trọng là Start() chỉ được gọi nếu script đang được kích hoạt
-  #### 4. FixedUpdate()
+  #### FixedUpdate
     - Physics Update trong Unity được quản lý chủ yếu thông qua hàm FixedUpdate(). Đây là nơi bạn thực hiện các tính toán liên quan đến vật lý, như di chuyển đối tượng, áp dụng lực hoặc torque, vì FixedUpdate() chạy ổn định và độc lập với tốc độ khung hình, làm cho nó phù hợp cho hệ thống vật lý.
     - Ví dụ: Giả sử bạn muốn tạo một đối tượng có thể di chuyển theo các phím mũi tên trên bàn phím. Đầu tiên, đối tượng của bạn cần có một Rigidbody component để Unity có thể áp dụng vật lý lên nó.
         ```csharp
@@ -102,7 +102,7 @@
         📌 Cách Hoạt Động:
         - Trong hàm Update(), chúng ta lấy đầu vào từ bàn phím thông qua Input.GetAxis(), cho phép di chuyển theo trục ngang và dọc.
         - Trong FixedUpdate(), chúng ta di chuyển Rigidbody bằng cách sử dụng MovePosition(). Time.fixedDeltaTime đảm bảo rằng di chuyển không phụ thuộc vào số lần FixedUpdate() được gọi mỗi giây.
-  #### 5. Update()
+  #### Update
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
   #### 6. OnTrigger(), OnCollision()
     - Dùng để xử lý va chạm và kích hoạt (trigger) giữa các GameObject.Bao gồm các hàm OnCollisionEnter(), OnCollisionExit(), OnCollisionStay(), OnTriggerEnter(), OnTriggerExit(), OnTriggerStay()
@@ -126,7 +126,7 @@
                 }
             }
             ```
-  #### 7. OnMouse()
+  #### OnMouse
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.Bao gồm các hàm như:
         ```cshar
         OnMouseDown(): Được gọi khi chuột nhấp vào Collider của GameObject.
@@ -147,13 +147,13 @@
         - Các hàm OnMouse... chỉ hoạt động nếu GameObject có một Collider.
         - Trong một số trường hợp, việc sử dụng hệ thống sự kiện chuột của Unity UI (như IPointerClickHandler, IPointerEnterHandler, v.v.) có thể phù hợp hơn, đặc biệt là khi làm việc với giao diện người dùng.
         - Cần cẩn thận khi sử dụng các hàm này với ứng dụng di động, vì chúng chủ yếu được thiết kế cho chuột và không luôn tương thích hoàn hảo với cảm ứng.
-  #### 8. Update()
+  #### Update
     - Được gọi mỗi khung hình. Nơi xử lý phần lớn logic trò chơi, kiểm tra đầu vào từ người chơi, chuyển động, v.v.
-  #### 9. LateUpdate()
+  #### LateUpdate
     - Được gọi ngay sau Update() trong mỗi khung hình. Thường được dùng cho các hành động cần thực hiện sau khi tất cả các lệnh Update() đã chạy, như điều chỉnh camera.
-  #### 10. OnRenderObject()
+  #### OnRenderObject
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác.
-  #### 11. OnGUI()
+  #### OnGUI
     - Được sử dụng để tạo giao diện người dùng (GUI) truyền thống. Nó chạy nhiều lần trong một khung hình (frame) và thích hợp cho các tác vụ như vẽ nút, hộp thoại, hoặc các thông tin tương tác trực tiếp. Tuy nhiên, cần lưu ý rằng OnGUI() có thể ảnh hưởng đến hiệu suất nếu không được sử dụng cẩn thận. Trong Unity hiện đại, nó thường được thay thế bằng hệ thống UI dựa trên Canvas.
     - Ví dụ: Tạo nút và hộp thoại
         ```csharp
@@ -178,9 +178,9 @@
         - Phong Cách: Bạn có thể tùy chỉnh phong cách của GUI bằng cách sử dụng GUIStyle.
         - Thay Thế: Trong các dự án Unity mới, khuyến nghị sử dụng hệ thống UI dựa trên Canvas cho giao diện người dùng, vì nó linh hoạt và hiệu quả hơn.
         - Tương Thích: OnGUI() thích hợp cho các công cụ phát triển nhanh hoặc debug, nhưng không phải là lựa chọn tối ưu cho giao diện người dùng cuối cùng trong game.
-  #### 12. OnDisable()
+  #### OnDisable
     - Được gọi khi script instance được tải, ngay cả khi script bị vô hiệu hóa. Thường được dùng để khởi tạo các biến hoặc thiết lập tham chiếu đến các thành phần khác
-  #### 12. OnDestroy()
+  #### OnDestroy
     - Được gọi khi một script hoặc GameObject sắp bị hủy. Đây là thời điểm thích hợp để thực hiện dọn dẹp sâu hơn, như hủy các Coroutine, đóng các file, hoặc giải phóng tài nguyên đã cấp phát.
         ```csharp
         void OnDestroy()
