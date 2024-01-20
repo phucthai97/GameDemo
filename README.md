@@ -2,7 +2,7 @@
 Bản Unity cheat sheet phiên dịch cho cộng đồng người Việt từ Naomi Le. Cảm ơn các bạn vì đã quan tâm.
 
 # Unity_Cheat_Sheet
-## Mục lục (#none)
+## Mục lục
 - [Cơ bản](#cơ-bản)
   - [Phím tắt Unity](#phím-tắt-unity)
   - [MonoBehaviour](#monobehaviour)
@@ -159,7 +159,6 @@ private void OnTriggerExit2D(Collision2D hit) {
   Debug.Log($"{gameObject.name} stopped hitting {hit.gameObject.name}");
 }
 ```
-### None
 ### Serializing
 Unity có khả năng serialize các biến, chuyển đổi dữ liệu thành một định dạng có thể chỉnh sửa từ trình soạn thảo Unity. Quá trình serialization phụ thuộc vào các thuộc tính hoặc các trình điều khiển truy cập được áp dụng cho biến.
 
