@@ -3,6 +3,7 @@
 ## Phụ lục
 - [Cơ bản](#coban)
     - [Vector](#vector)
+    - [Di chuyển đối tượng](#di-chuyen-doi-tuong)
     - [MonoBehaviour](#monobehaviour)
         - [Awake()](#1.-Awake())
         - [OnEnable()](#onenable)
@@ -73,7 +74,62 @@
         string vectorAsString = vector.ToString("F2"); // vectorAsString sẽ là "1.23, 2.35, 3.46"
         // normalizedPosition sẽ là vectơ có cùng hướng với position nhưng độ dài bằng 1
         ```
-
+### Di chuyển đối tượng
+- Có nhiều cách khác nhau để di chuyển một đối tượng, mỗi cách có ưu và nhược điểm riêng tùy thuộc vào yêu cầu cụ thể của trò chơi hoặc ứng dụng của bạn. Dưới đây là một số phương pháp chính:
+ - #### 1. Sử dụng Transform
+    - Transform.position: Đặt trực tiếp vị trí của đối tượng. Phù hợp cho di chuyển tức thời đến một vị trí cụ thể.
+        ```csharp
+        transform.position = new Vector3(x, y, z);
+        ```
+    - Transform.Translate: Di chuyển đối tượng tương đối so với vị trí hiện tại. Thích hợp cho di chuyển liên tục hoặc theo đầu vào người chơi.
+        ```csharp
+        transform.Translate(Vector3.forward * Time.deltaTime);
+        ```
+ - #### 2. Sử dụng Rigidbody (Vật lý)
+    - Rigidbody.MovePosition: Di chuyển đối tượng theo vật lý, phù hợp cho việc di chuyển mà cần xét tới va chạm và vật lý.
+        ```csharp
+        rigidbody.MovePosition(transform.position + Vector3.forward * Time.deltaTime);
+        ```
+    - Rigidbody.AddForce: Áp dụng lực để di chuyển đối tượng. Tốt cho di chuyển tự nhiên và thực tế hơn.
+        ```csharp
+        rigidbody.AddForce(Vector3.forward)
+        ```
+ - #### 3. Sử dụng CharacterController
+    - CharacterController.Move: Điều khiển di chuyển của nhân vật, tự xử lý va chạm và mô phỏng một số vật lý.
+    - Trong Inspector, nhấp vào "Add Component" và tìm kiếm "Character Controller". Thêm thành phần "Character Controller" vào nhân vật.
+    - Điều chỉnh các thiết lập của CharacterController trong Inspector để phù hợp với kích thước và hành vi mong muốn của nhân vật (ví dụ: chiều cao, bán kính, v.v.).
+    - Trong phương thức Update hoặc FixedUpdate, sử dụng CharacterController.Move() để di chuyển nhân vật.
+    - Lưu ý rằng CharacterController không sử dụng hệ thống vật lý của Unity để va chạm, vì vậy nó cung cấp nhiều kiểm soát hơn nhưng đồng thời bạn cũng cần tự xử lý va chạm và tương tác với môi trường nếu cần.
+    - Dưới đây là ví dụ về một script cơ bản để di chuyển nhân vật sử dụng CharacterController:
+        ```csharp
+        using UnityEngine;
+        public class PlayerMovement : MonoBehaviour
+        {
+            //tốc độ di chuyển của nhân vật
+            public float speed = 5.0f;
+            //tham chiếu đến CharacterController
+            private CharacterController controller;
+        
+            void Start()
+            {
+                controller = GetComponent<CharacterController>();
+            }
+        
+            void Update()
+            {
+                float horizontal = Input.GetAxis("Horizontal");
+                float vertical = Input.GetAxis("Vertical");
+                Vector3 movement = new Vector3(horizontal, 0, vertical);
+                //di chuyển nhân vật dựa trên vectơ di chuyển đã tính.
+                controller.Move(movement * speed * Time.deltaTime);
+            }
+        }
+        ```
+ - #### 4. Sử dụng Lerping và Slerping
+    - Dùng để di chuyển mượt mà giữa hai điểm.
+        ```csharp
+        transform.position = Vector3.Lerp(startPosition, endPosition, t);
+        ```
 ### MonoBehaviour
 - MonoBehaviour là một lớp cơ bản trong Unity và là lớp cốt lõi cho hầu hết các script trong môi trường phát triển trò chơi của Unity. Nó cung cấp một khung để xây dựng các hành vi tùy chỉnh vào các đối tượng trong game của bạn thông qua kịch bản (scripting
 - https://docs.unity3d.com/uploads/Main/monobehaviour_flowchart.svg
