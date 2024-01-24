@@ -251,6 +251,123 @@ Trong triển khai này:
 
 Lưu ý rằng, việc sử dụng UnityMainThreadDispatcher đòi hỏi phải hiểu rõ về đa luồng và cách Unity xử lý các tác vụ trong main thread. Đây là một công cụ hữu ích trong nhiều tình huống, đặc biệt khi làm việc với đa luồng hoặc các hàm không đồng bộ ngoài Unity API.
 
+### Frame Rate là gì?
+
+- Khái niệm
+    
+    Frame rate, còn được gọi là tốc độ khung hình hoặc tần suất khung hình, là một thuật ngữ quan trọng trong ngành công nghiệp game và video. Nó đề cập đến số lượng hình ảnh hoặc "khung hình" được hiển thị trên màn hình mỗi giây. Frame rate thường được đo bằng đơn vị khung hình trên giây (fps - frames per second).
+    
+    ### Ý Nghĩa:
+    
+    1. **Trong Video và Phim**: Frame rate cao hơn mang lại chuyển động mượt mà và tự nhiên hơn. Ví dụ, phim truyền thống thường được quay ở 24 fps, trong khi nhiều video trò chơi và phát sóng thể thao có thể sử dụng 60 fps hoặc cao hơn.
+    2. **Trong Trò Chơi Điện Tử**: Frame rate cao cung cấp trải nghiệm chơi game mượt mà và phản hồi nhanh hơn, đặc biệt quan trọng trong các trò chơi yêu cầu độ chính xác cao như trò chơi bắn súng góc nhìn thứ nhất hoặc trò chơi hành động nhanh.
+    
+    ### Tác Động:
+    
+    - **Mượt Mà và Độ Phản Hồi**: Frame rate cao giúp hình ảnh và chuyển động trên màn hình trở nên mượt mà hơn, cải thiện độ phản hồi và tương tác của người dùng với game hoặc ứng dụng.
+    - **Gánh Nặng Hệ Thống**: Tăng frame rate có thể đòi hỏi nhiều tài nguyên hệ thống hơn (CPU, GPU), đặc biệt trong các trò chơi có đồ họa phức tạp.
+    - **Hiệu Ứng Trải Nghiệm Người Dùng**: Frame rate thấp có thể gây ra hiện tượng giật hình, làm giảm trải nghiệm người dùng, trong khi frame rate cao thì nâng cao trải nghiệm.
+    
+    ### Mục Tiêu Frame Rate:
+    
+    - **Trò Chơi Điện Tử**: Mục tiêu thường là ít nhất 30 fps cho trò chơi hành động và tối ưu là 60 fps hoặc cao hơn cho trải nghiệm mượt mà.
+    - **Ứng Dụng Đa Phương Tiện**: Tùy thuộc vào mục đích, từ 24 fps cho phim điện ảnh tới 60 fps hoặc cao hơn cho video chất lượng cao.
+    
+    Khi phát triển trò chơi hoặc ứng dụng đa phương tiện, việc cân nhắc đến frame rate và tối ưu hóa hiệu suất để duy trì một frame rate ổn định là quan trọng để đảm bảo trải nghiệm người dùng tốt nhất.
+    
+- Tối ưu
+    
+    Để duy trì một frame rate cao và ổn định trong Unity, có một số điều bạn nên tránh trong quá trình phát triển và viết code. Việc tối ưu hóa hiệu suất không chỉ giúp trò chơi của bạn mượt mà hơn mà còn đảm bảo trải nghiệm người dùng tốt nhất trên nhiều loại phần cứng khác nhau. Dưới đây là một số điểm cần lưu ý:
+    
+    1. **Tránh Sử Dụng `Update` Cho Các Tính Toán Nặng**: Hạn chế thực hiện các tính toán phức tạp hoặc các tác vụ nặng trong hàm `Update`, vì hàm này được gọi mỗi khung hình và có thể làm giảm frame rate nếu chứa nhiều mã tốn kém tài nguyên.
+    2. **Hạn Chế Việc Sử Dụng `Find` và `GetComponent` Trong `Update`**: Các hàm như `FindObjectOfType`, `GetComponent`, và `Find` rất tốn tài nguyên. Hãy tránh gọi chúng trong `Update` hoặc các hàm được gọi thường xuyên; thay vào đó, gọi chúng trong `Start` hoặc `Awake` và lưu kết quả vào một biến.
+    3. **Tối Ưu Hóa Vật Lý và Hệ Thống Va Chạm**: Vật lý và va chạm có thể tốn nhiều tài nguyên. Sử dụng các collider đơn giản (như hình cầu, hộp) khi có thể, và hạn chế số lượng Rigidbody hoạt động cùng một lúc.
+    4. **Quản Lý Tài Nguyên và Tối Ưu Hóa Đồ Họa**: Sử dụng LODs (Levels of Detail), culling, và tối ưu hóa texture và material để giảm tải cho GPU.
+    5. **Tránh Tạo và Hủy GameObjects Liên Tục**: Việc tạo và hủy GameObjects thường xuyên có thể gây tải nặng lên bộ thu gom rác (Garbage Collector). Sử dụng object pooling cho các đối tượng được tạo và hủy thường xuyên (như đạn, kẻ thù).
+    6. **Tối Ưu Hóa Script và Logic**: Viết mã sạch và hiệu quả, tránh các vòng lặp không cần thiết và tối ưu hóa thuật toán.
+    7. **Chú Ý Đến Bộ Thu Gom Rác (Garbage Collection)**: Tránh việc tạo ra rác (garbage) trong các hàm như `Update` để giảm tần suất và tác động của quá trình garbage collection.
+    8. **Sử Dụng Profiler**: Sử dụng Unity Profiler thường xuyên để xác định và giải quyết các vấn đề về hiệu suất.
+    9. **Quản Lý và Tối Ưu Hóa Âm Thanh**: Giảm số lượng nguồn âm thanh đồng thời và sử dụng audio mixer hiệu quả.
+    10. **Hạn Chế Số Lượng Gọi Đến API Rendering**: Như `DrawCall`, đặc biệt là trong cảnh có nhiều đối tượng đồ họa.
+    
+    Nhớ rằng tối ưu hóa là một quá trình liên tục và cần được thực hiện dựa trên thông tin cụ thể từ Unity Profiler và kiểm tra hiệu suất. Mỗi trò chơi và ứng dụng có yêu cầu và thách thức tối ưu hóa riêng.
+    
+
+### Làm sao để lấy Component mà không dùng hàm GetComponent()
+
+Để lấy component của một GameObject mà không cần phải sử dụng hàm `GetComponent` liên tục, một phương pháp phổ biến là "cache" hoặc lưu trữ tham chiếu đến component đó khi khởi tạo. Bằng cách này, bạn chỉ cần gọi `GetComponent` một lần, và sau đó bạn có thể sử dụng tham chiếu đã lưu để truy cập component mà không cần phải tìm nó mỗi lần. Dưới đây là cách bạn có thể thực hiện điều này:
+
+### Caching Component trong `Start` hoặc `Awake`
+
+Bạn có thể lấy và lưu trữ (cache) component trong hàm `Awake` hoặc `Start`. Đây là cách thông thường nhất để tránh việc gọi `GetComponent` nhiều lần.
+
+```csharp
+using UnityEngine;
+
+public class ExampleScript : MonoBehaviour
+{
+    private Rigidbody rb;
+
+    void Awake()
+    {
+        // Lấy và lưu trữ tham chiếu đến Rigidbody
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        // Sử dụng tham chiếu đã lưu để truy cập Rigidbody
+        // Thực hiện các hành động với rb
+    }
+}
+
+```
+
+### Truyền Component Qua Inspector của Unity
+
+Nếu component bạn cần truy cập nằm trên GameObject khác hoặc bạn muốn có khả năng tùy chỉnh liên kết component thông qua Unity Editor, bạn có thể kéo và thả component vào một biến public hoặc [SerializeField] private.
+
+```csharp
+using UnityEngine;
+
+public class ExampleScript : MonoBehaviour
+{
+    [SerializeField]
+    private Rigidbody rb;
+
+    void Update()
+    {
+        // Sử dụng rb đã được gán thông qua Inspector
+        // Thực hiện các hành động với rb
+    }
+}
+
+```
+
+Trong Unity Inspector, bạn sẽ thấy một trường để kéo và thả đối tượng có component `Rigidbody` vào.
+
+### Lưu ý:
+
+- Caching giúp giảm số lần gọi tốn kém đến `GetComponent` và là một trong những phương pháp tối ưu hóa hiệu suất quan trọng.
+- Khi sử dụng cách truyền component qua Inspector, hãy nhớ rằng bạn cần phải tự thiết lập liên kết trong Unity Editor, điều này cần sự chú ý để không bỏ sót hoặc gán nhầm component.
+
+Đúng là việc lưu trữ (cache) các tham chiếu đến các components trong các biến sẽ tiêu tốn một lượng nhỏ bộ nhớ để lưu trữ các tham chiếu này. Tuy nhiên, lượng bộ nhớ bổ sung này thường rất nhỏ và không đáng kể so với lợi ích về hiệu suất mà bạn nhận được từ việc tránh gọi `GetComponent` liên tục.
+
+### Phân Tích:
+
+1. **Dung Lượng Bộ Nhớ của Tham Chiếu**:
+    - Mỗi tham chiếu đến một component trong Unity (như `Rigidbody`, `Collider`, v.v.) thực chất là một con trỏ, và dung lượng bộ nhớ cần thiết cho mỗi con trỏ này thường rất nhỏ (ví dụ, 4 bytes hoặc 8 bytes tùy thuộc vào kiến trúc của hệ thống - 32-bit hoặc 64-bit).
+    - So sánh với việc lưu trữ dữ liệu lớn như textures, models, hoặc audio clips, dung lượng bộ nhớ cho các tham chiếu này rất nhỏ.
+2. **Hiệu Suất vs. Dung Lượng Bộ Nhớ**:
+    - Việc tối ưu hóa hiệu suất bằng cách cache tham chiếu là quan trọng, đặc biệt trong môi trường runtime như game, nơi mà việc duy trì khung hình mượt mà và phản hồi nhanh là ưu tiên hàng đầu.
+    - Sự tăng nhẹ về dung lượng bộ nhớ là một sự đánh đổi nhỏ so với việc cải thiện đáng kể về hiệu suất.
+3. **Quản Lý Tài Nguyên Thông Minh**:
+    - Mặc dù việc cache làm tăng nhẹ bộ nhớ sử dụng, nhưng quản lý tài nguyên một cách thông minh – như việc hạn chế số lượng GameObjects và components không cần thiết, tối ưu hóa assets, và sử dụng object pooling – sẽ giúp bạn quản lý bộ nhớ hiệu quả.
+
+### Kết Luận:
+
+Nhìn chung, lợi ích từ việc cache các tham chiếu để tăng hiệu suất thường vượt trội so với lượng bộ nhớ nhỏ được sử dụng thêm. Trong hầu hết các trường hợp, đây là một phương pháp tối ưu hóa quan trọng và hiệu quả trong Unity và các môi trường phát triển game khác.
+
 ### UnityWebRequest là gì?
 
 `UnityWebRequest` là một lớp trong Unity Engine được thiết kế để tương tác với các tài nguyên trên mạng. Nó cung cấp một giao diện để gửi và nhận dữ liệu từ Internet. `UnityWebRequest` được tối ưu hóa cho việc sử dụng trong môi trường game, hỗ trợ các tác vụ không đồng bộ, và có khả năng xử lý nhiều loại dữ liệu khác nhau, từ văn bản đơn giản đến hình ảnh và video.
@@ -432,6 +549,391 @@ Trong đoạn mã này:
 - Asset mới sẽ xuất hiện trong thư mục Assets và bạn có thể chỉnh sửa các thuộc tính của nó từ Inspector trong Unity.
 
 Nhớ rằng mã này chỉ hoạt động trong Unity Editor và không phải là phần của logic game trong build cuối cùng. Điều này rất hữu ích cho việc tự động hóa quy trình làm việc trong quá trình phát triển.
+
+### GUI và UI là gì. Khác nhau chỗ nào?
+
+GUI (Graphical User Interface) và UI (User Interface) là hai thuật ngữ thường được sử dụng trong lĩnh vực phát triển phần mềm và game, và chúng có sự khác biệt cụ thể:
+
+### GUI (Graphical User Interface)
+
+1. **Định Nghĩa**:
+    - GUI là một loại giao diện người dùng cho phép người dùng tương tác với máy tính và các thiết bị điện tử thông qua các yếu tố đồ họa như cửa sổ, biểu tượng, nút bấm và menu.
+2. **Đặc Điểm**:
+    - GUI thường liên quan đến một hệ thống hoàn chỉnh bao gồm tất cả các yếu tố đồ họa cần thiết để tạo ra một trải nghiệm tương tác.
+    - Nó bao gồm việc sử dụng hình ảnh, biểu tượng, và các yếu tố đồ họa khác để tạo ra một môi trường trực quan và dễ sử dụng.
+3. **Ứng Dụng**:
+    - GUI được sử dụng rộng rãi trong các hệ điều hành (như Windows, macOS), phần mềm ứng dụng, và các thiết bị điện tử tiêu dùng.
+
+### UI (User Interface)
+
+1. **Định Nghĩa**:
+    - UI là khái niệm tổng quát hơn, nó bao gồm bất kỳ phương tiện nào mà thông qua đó người dùng tương tác với máy tính, thiết bị, hoặc ứng dụng.
+2. **Đặc Điểm**:
+    - UI không chỉ giới hạn ở yếu tố đồ họa, nó cũng bao gồm các yếu tố khác như âm thanh, văn bản, và cả cách thức tương tác.
+    - UI có thể bao gồm GUI, nhưng cũng có thể bao gồm các loại giao diện khác như giao diện dòng lệnh (CLI) hoặc giao diện cảm ứng.
+3. **Ứng Dụng**:
+    - UI được tìm thấy trong mọi loại ứng dụng và thiết bị, từ trò chơi điện tử đến phần mềm doanh nghiệp, từ điện thoại di động đến ATM.
+
+### Sự Khác Biệt
+
+- **Phạm Vi**: GUI là một phần của UI. Nói cách khác, mọi GUI đều là UI, nhưng không phải mọi UI đều là GUI.
+- **Yếu Tố**: GUI tập trung vào các yếu tố đồ họa và trực quan, trong khi UI bao gồm một phạm vi rộng lớn hơn các yếu tố tương tác, kể cả những thứ không hẳn là đồ họa.
+- **Mục Đích**: GUI được thiết kế để tạo ra một trải nghiệm người dùng trực quan và dễ dàng, trong khi UI nhằm mục đích cung cấp mọi phương tiện tương tác giữa người dùng và hệ thống.
+
+Trong lĩnh vực phát triển game và ứng dụng, việc hiểu rõ sự khác biệt giữa GUI và UI là quan trọng để thiết kế và tạo ra các giao diện phù hợp và hiệu quả.
+
+### Làm thế nào để quản lý hiệu suất đối tượng 10k đối tượng trên scene game
+
+- **Việc quản lý hiệu suất cho một game với 10.000 đối tượng (objects) trong Unity là một thách thức lớn, nhưng có thể được tối ưu hóa thông qua một số phương pháp sau:**
+    
+    ### 1. **Sử dụng Object Pooling**
+    
+    - **Vấn đề**: Việc tạo và hủy đối tượng liên tục có thể gây ra giật, lag trong game.
+    - **Giải pháp**: Sử dụng kỹ thuật "Object Pooling" để tái sử dụng các đối tượng đã được tạo ra.
+    - **Ví dụ**: Đối với các đối tượng như đạn, kẻ thù, hay các vật thể tương tác, thay vì tạo mới và hủy, bạn chỉ kích hoạt và vô hiệu hóa chúng.
+    
+    ### 2. **Tối Ưu Hóa Rendering và Graphics**
+    
+    - **Level of Detail (LOD)**: Sử dụng LOD để giảm chi tiết của đối tượng ở xa.
+    - **Occlusion Culling**: Đảm bảo chỉ render những đối tượng có thể nhìn thấy từ camera.
+    - **Sử dụng texture và material hiệu quả**: Giảm kích thước texture, sử dụng atlas.
+    
+    ### 3. **Tối Ưu Hóa Scripts và Logic**
+    
+    - **Giảm số lượng Update()**: Hạn chế sử dụng Update() nếu không cần thiết.
+    - **Coroutines cho logic không cần xử lý ngay lập tức**.
+    - **Sử dụng các cấu trúc dữ liệu và thuật toán hiệu quả**.
+    
+    ### 4. **Sử dụng ECS và Jobs System (nếu phù hợp)**
+    
+    - Unity's Entity Component System (ECS) và Jobs System giúp tận dụng tối đa hiệu suất của đa lõi.
+    
+    ### 5. **Tối Ưu Hóa Physics**
+    
+    - **Sử dụng các collider đơn giản**: Ví dụ sử dụng box colliders thay vì mesh colliders.
+    - **Giảm số lượng Rigidbody động**: Rigidbody tĩnh và kinematic ít tốn tài nguyên hơn.
+    
+    ### 6. **Giảm Số Lượng Draw Calls**
+    
+    - **Batching**: Static và Dynamic Batching giúp giảm số lượng draw calls.
+    - **Instancing**: Sử dụng GPU Instancing cho các đối tượng giống nhau.
+    
+    ### 7. **Tối Ưu Hóa UI**
+    
+    - **Sử dụng Canvas và UI Elements một cách thông minh**: Hạn chế số lượng canvas, sử dụng UI elements hiệu quả.
+    - **Canvas Pooling**: Tương tự như Object Pooling cho các đối tượng UI.
+    
+    ### 8. **Profiling và Debugging**
+    
+    - **Sử dụng Unity Profiler**: Để xác định và giải quyết các vấn đề về hiệu suất.
+    - **Log thông tin chỉ khi cần thiết**: Tránh log quá nhiều thông tin trong quá trình chơi.
+    
+    ### 9. **Sử dụng Asset Bundles để Tải Tài Nguyên Động**
+    
+    - Tải và hủy các tài nguyên một cách thông minh để giảm bộ nhớ sử dụng.
+    
+    ### 10. **Tối Ưu Hóa Âm Thanh**
+    
+    - **Spatial Audio**: Chỉ sử dụng âm thanh 3D ở gần người chơi để giảm tải xử lý.
+    - **Pooling Audio Sources**: Giống như Object Pooling, tái sử dụng các Audio Source.
+    
+    ### 11. **Tối Ưu Hóa Ánh Sáng và Bóng Đổ**
+    
+    - **Baked Lighting**: Sử dụng ánh sáng được nướng (baked) cho các môi trường tĩnh.
+    - **Giảm Shadow Resolution**: Giảm độ phân giải của bóng đổ để tiết kiệm tài nguyên.
+    
+    ### 12. **Quản Lý Scene và Tải Scene Động**
+    
+    - **Async Scene Loading**: Tải cảnh một cách không đồng bộ để không làm gián đoạn trải nghiệm chơi.
+    - **Scene Management**: Chia nhỏ các cảnh, tải chúng khi cần thiết.
+    
+    ### 13. **Optimize Memory Usage**
+    
+    - **Garbage Collection**: Hạn chế tạo rác (garbage) trong code, nhất là trong các hàm Update.
+    - **Memory Pooling**: Tương tự Object Pooling nhưng cho dữ liệu lớn như mảng, danh sách.
+    
+    ### 14. **Sử Dụng Mipmaps cho Textures**
+    
+    - Giảm chi tiết của texture ở xa để giảm tải cho GPU.
+    
+    ### 15. **Thực Hiện Test Trên Nhiều Hệ Thống**
+    
+    - Test game trên các cấu hình khác nhau để tối ưu cho nhiều loại thiết bị.
+    
+    ### 16. **Sử Dụng Multithreading Khi Có Thể**
+    
+    - Xử lý nhiều tác vụ cùng lúc để tận dụng CPU đa lõi.
+    
+    ### 17. **Giảm Độ Phức Tạp của Particle Systems**
+    
+    - Giảm số lượng và độ phức tạp của các hệ thống hạt để giảm tải cho CPU và GPU.
+    
+    ### 18. **Cân Nhắc Khi Sử Dụng Shader**
+    
+    - Sử dụng shader hiệu quả và tránh sử dụng shader quá phức tạp không cần thiết.
+    
+    ### **19. Tối Ưu Hóa Kích Thước và Định Dạng Asset**
+    
+    - **Giảm kích thước file**: Sử dụng các công cụ nén để giảm kích thước của hình ảnh và âm thanh.
+    - **Chọn định dạng phù hợp**: Ví dụ, sử dụng PVRTC cho iOS hoặc ETC2 cho Android.
+    
+    ### **20. Cải Thiện Tốc Độ Tải Đối Tượng**
+    
+    - **Streaming Assets**: Tải tài nguyên khi cần thay vì tải tất cả cùng lúc.
+    - **Tải dữ liệu từ server**: Đối với các trò chơi trực tuyến, xem xét tải dữ liệu từ server.
+    
+    ### **21. Sử Dụng Các Công Cụ Tối Ưu Hóa Bên Ngoài**
+    
+    - **Công cụ như Simplygon hoặc Mesh Baker**: Giúp tối ưu hóa mesh và texture.
+    - **Unity Asset Store Plugins**: Có nhiều plugins tối ưu hóa sẵn có trên Asset Store.
+    
+    ### **22. Quản Lý Vùng Nhìn (View Frustum)**
+    
+    - **Frustum Culling**: Đảm bảo chỉ xử lý và render những gì nằm trong vùng nhìn của camera.
+    
+    ### **23. Giảm Số Lượng Vật Thể Động**
+    
+    - **Đối tượng tĩnh và Kinematic**: Chuyển đổi đối tượng thành tĩnh nếu chúng không di chuyển.
+    
+    ### **24. Tối Ưu Hóa Kịch Bản và AI**
+    
+    - **Finite State Machines (FSMs)**: Sử dụng FSM cho AI để giảm bớt tính toán.
+    - **Behavior Trees**: Cung cấp một cách linh hoạt và hiệu quả để quản lý hành vi AI.
+    
+    ### **25. Sử Dụng Event-Driven Programming**
+    
+    - **Giảm Update()**: Chuyển từ việc kiểm tra liên tục trong Update() sang sự kiện (events).
+    
+    ### **26. Chú Ý Đến Multiplayer và Network Optimization**
+    
+    - **Predictive và Lag Compensation Algorithms**: Quan trọng cho các trò chơi trực tuyến.
+    - **Data Compression và Efficient Messaging**: Giảm lượng dữ liệu cần truyền tải.
+    
+    ### **27. Thực Hiện Load Balancing**
+    
+    - **Phân phối tác vụ**: Cân bằng giữa các luồng CPU để tránh bottleneck.
+    
+    ### Ví dụ Code cho Async Scene Loading:
+    
+    ```csharp
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    
+    public class SceneLoader : MonoBehaviour
+    {
+        public void LoadSceneAsync(string sceneName)
+        {
+            StartCoroutine(LoadSceneCoroutine(sceneName));
+        }
+    
+        private IEnumerator LoadSceneCoroutine(string sceneName)
+        {
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+    
+            while (!asyncLoad.isDone)
+            {
+                // Có thể cập nhật UI tải ở đây
+                yield return null;
+            }
+        }
+    }
+    
+    ```
+    
+    Nhớ rằng, tối ưu hóa là một quá trình liên tục và cần được thực hiện với sự cân nhắc giữa hiệu suất và chất lượng trải nghiệm người chơi. Sử dụng Unity Profiler và thực hiện test trên nhiều thiết bị khác nhau là rất quan trọng để đạt được sự cân bằng này.
+    
+- **Unity's Entity Component System (ECS) là gì?**
+    
+    
+
+### In-App Purchase là gì?
+
+- **Khái niệm**
+    
+    Trong Unity, "App Purchase" hay "In-App Purchase" (IAP) là một tính năng cho phép người dùng mua các sản phẩm hoặc dịch vụ bên trong ứng dụng hoặc trò chơi. Điều này bao gồm mọi thứ từ việc mua tiền tệ trong trò chơi, mở khóa các cấp độ mới, đến việc mua vật phẩm hoặc tính năng đặc biệt. Việc tích hợp IAP vào trò chơi hoặc ứng dụng trên Unity giúp nhà phát triển có thể tạo ra nguồn thu từ sản phẩm của họ.
+    
+    ### Làm Thế Nào Để Thực Hiện IAP Trong Unity:
+    
+    1. **Tích hợp Unity IAP**: Bạn cần tích hợp Unity IAP vào dự án của mình. Unity IAP là một phần của Unity Services, và nó cung cấp một giao diện lập trình ứng dụng (API) thống nhất để tương tác với hệ thống thanh toán của cả Google Play Store và Apple App Store.
+    2. **Cấu hình Sản Phẩm**: Bạn cần xác định các sản phẩm mà bạn muốn bán trong trò chơi, bao gồm tiền tệ trong trò chơi, vật phẩm, hoặc các tính năng đặc biệt.
+    3. **Thiết lập Trên Store**: Đối với mỗi nền tảng (như iOS và Android), bạn cần thiết lập các sản phẩm IAP trên các cổng thanh toán tương ứng của họ, ví dụ như Google Play Console hoặc Apple Developer Console.
+    4. **Lập Trình Xử Lý IAP**: Viết code để xử lý việc mua hàng, kiểm tra tình trạng giao dịch, và cung cấp sản phẩm cho người chơi sau khi giao dịch hoàn tất.
+    5. **Kiểm Tra và Xác Nhận**: Trước khi phát hành, bạn cần kiểm tra tính năng IAP để đảm bảo rằng nó hoạt động chính xác trên tất cả các nền tảng và thiết bị mục tiêu.
+    6. **Tuân Thủ Quy Định**: Quan trọng là phải tuân thủ các quy định của cửa hàng ứng dụng, bao gồm cả việc xử lý hoàn tiền và bảo mật thông tin thanh toán của người dùng.
+- **Cài Đặt và ví dụ**
+    
+    Dưới đây là hướng dẫn chi tiết về cách cài đặt In-App Purchases (IAP) trong Unity:
+    
+    ### Bước 1: Thiết lập Unity IAP
+    
+    1. **Mở Unity và Dự án của Bạn**
+        - Khởi động Unity và mở dự án mà bạn muốn thêm IAP.
+    2. **Cài Đặt Unity IAP**
+        - Truy cập vào `Window > Asset Store`.
+        - Tìm kiếm và cài đặt package `Unity IAP`.
+    3. **Kích Hoạt Unity IAP trong Dự Án của Bạn**
+        - Mở `Window > Services`.
+        - Đăng nhập bằng tài khoản Unity của bạn nếu cần.
+        - Chọn dự án của bạn từ danh sách (hoặc tạo mới).
+        - Trong tab Services, chọn `In-App Purchasing` và kích hoạt nó.
+    
+    ### Bước 2: Cấu Hình IAP Trên Nền Tảng Phân Phối
+    
+    1. **Cấu Hình cho Google Play Store (Android)**
+        - Tạo một dự án trong Google Play Console.
+        - Thêm dự án Unity của bạn vào Google Play Console.
+        - Tạo và cấu hình các sản phẩm IAP trong Google Play Console.
+    2. **Cấu Hình cho Apple App Store (iOS)**
+        - Tạo một dự án trong Apple Developer Account.
+        - Thêm dự án Unity của bạn vào App Store Connect.
+        - Tạo và cấu hình các sản phẩm IAP trong App Store Connect.
+    
+    ### Bước 3: Lập Trình Xử Lý IAP trong Unity
+    
+    1. **Tạo Script để Quản Lý IAP**
+        - Tạo một script mới trong Unity và đặt tên nó (ví dụ: `InAppPurchaser`).
+        - Script này sẽ implement interface `IStoreListener` và xử lý việc mua hàng.
+    2. **Khởi Tạo IAP**
+        - Trong script, viết code để khởi tạo IAP và thêm các sản phẩm của bạn.
+    3. **Xử Lý Mua Hàng và Callbacks**
+        - Viết các hàm để xử lý mua hàng và các callbacks như `OnInitialized`, `OnPurchaseFailed`, và `OnPurchaseComplete`.
+    
+    ### Bước 4: Kiểm Tra IAP
+    
+    1. **Sử Dụng Unity Editor để Kiểm Tra**
+        - Unity cho phép bạn kiểm tra IAP trực tiếp trong editor mà không cần triển khai ứng dụng.
+    2. **Kiểm Tra Trên Thiết Bị Thực Tế**
+        - Xây dựng và triển khai ứng dụng của bạn lên thiết bị di động.
+        - Kiểm tra quá trình mua hàng để đảm bảo nó hoạt động đúng cách.
+    
+    ### Bước 5: Tuân Thủ Các Quy Định và Xuất Bản
+    
+    1. **Đảm Bảo Tuân Thủ Các Quy Định Của Cửa Hàng**
+        - Đọc và tuân theo các hướng dẫn của Google Play Store và Apple App Store về IAP.
+    2. **Xuất Bản Ứng Dụng Của Bạn**
+        - Khi đã hoàn tất kiểm tra và hài lòng với tính năng IAP, bạn có thể tiến hành xuất bản ứng dụng trên các cửa hàng.
+    
+    Lưu ý rằng, cấu hình và triển khai IAP có thể phức tạp đôi chút, đặc biệt là với các quy định và yêu cầu cụ thể của từng nền tảng. Hãy chắc chắn rằng bạn đã theo dõi và hiểu rõ các bước cần thiết cho cả Google Play Store và Apple App Store.
+    
+    Dưới đây là một ví dụ cụ thể về cách triển khai In-App Purchases (IAP) trong Unity. Giả sử bạn muốn bán một vật phẩm trong trò chơi, chẳng hạn như "Gói Vàng" để người chơi có thể mua với tiền thật.
+    
+    ### Bước 1: Khởi Tạo Unity IAP
+    
+    Đầu tiên, bạn cần khởi tạo Unity IAP trong dự án của bạn. Điều này thường được thực hiện trong một script khởi tạo khi trò chơi bắt đầu.
+    
+    ```csharp
+    using UnityEngine;
+    using UnityEngine.Purchasing;
+    
+    public class IAPManager : MonoBehaviour, IStoreListener
+    {
+        private static IStoreController storeController;
+        private static IExtensionProvider storeExtensionProvider;
+    
+        private void Start()
+        {
+            if (storeController == null)
+            {
+                InitializePurchasing();
+            }
+        }
+    
+        private void InitializePurchasing()
+        {
+            if (IsInitialized()) return;
+    
+            var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+            builder.AddProduct("gold_pack", ProductType.Consumable);
+    
+            UnityPurchasing.Initialize(this, builder);
+        }
+    
+        private bool IsInitialized()
+        {
+            return storeController != null && storeExtensionProvider != null;
+        }
+    
+        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+        {
+            storeController = controller;
+            storeExtensionProvider = extensions;
+        }
+    
+        public void OnInitializeFailed(InitializationFailureReason error)
+        {
+            Debug.Log("IAP Initialization Failed: " + error);
+        }
+        // ... các phương thức khác sẽ đi ở đây ...
+    }
+    
+    ```
+    
+    ### Bước 2: Xử Lý Mua Hàng
+    
+    Bạn cần phải xử lý logic cho việc mua hàng, bao gồm việc khởi tạo mua hàng và xử lý kết quả.
+    
+    ```csharp
+    public void BuyGoldPack()
+    {
+        BuyProductID("gold_pack");
+    }
+    
+    private void BuyProductID(string productId)
+    {
+        if (!IsInitialized()) return;
+    
+        Product product = storeController.products.WithID(productId);
+    
+        if (product != null && product.availableToPurchase)
+        {
+            storeController.InitiatePurchase(product);
+        }
+        else
+        {
+            Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
+        }
+    }
+    
+    public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+    {
+        Debug.Log($"OnPurchaseFailed: FAIL. Product: {product.definition.storeSpecificId}, PurchaseFailureReason: {failureReason}");
+    }
+    
+    ```
+    
+    ### Bước 3: Xử Lý Kết Quả Mua Hàng
+    
+    Cuối cùng, bạn cần xử lý kết quả mua hàng, cả thành công và thất bại.
+    
+    ```csharp
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
+    {
+        if (String.Equals(args.purchasedProduct.definition.id, "gold_pack", StringComparison.Ordinal))
+        {
+            Debug.Log("Purchase Successful: Gold Pack");
+            // Thêm vàng vào tài khoản người chơi ở đây
+        }
+        else
+        {
+            Debug.Log($"ProcessPurchase: FAIL. Unrecognized product: {args.purchasedProduct.definition.id}");
+        }
+    
+        return PurchaseProcessingResult.Complete;
+    }
+    
+    public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
+    {
+        Debug.Log($"OnPurchaseFailed: Product: {product.definition.storeSpecificId}, Reason: {reason}");
+    }
+    
+    ```
+    
+    ### Kết Luận
+    
+    Trong ví dụ này, khi người chơi chọn mua "Gói Vàng", hệ thống IAP sẽ xử lý yêu cầu và, nếu thành công, sẽ cung cấp vàng cho người chơi trong trò chơi. Bạn cần cài đặt và cấu hình môi trường thử nghiệm của mình trên Google Play Store hoặc Apple App Store để kiểm tra quy trình này.
+    
+    Lưu ý rằng, quy trình triển khai IAP phụ thuộc vào cả các yếu tố kỹ thuật và chính sách của cửa hàng ứng dụng. Hãy chắc chắn rằng bạn đã đọc và tuân thủ tất cả các hướng dẫ
+    
 
 # Unity
 
@@ -807,6 +1309,68 @@ DotWeen (đôi khi còn được gọi là DOTween) là một thư viện hoạt
     Trong các ví dụ trên, mỗi API tương ứng với một hiệu ứng hoạt hình cụ thể và có thể được tùy chỉnh linh hoạt. DOTween cho phép bạn tạo ra các hiệu ứng hoạt hình mượt mà và ấn tượng mà không cần viết quá nhiều mã lập trình phức tạp.
     
 
+### Di chuyển đối tượng theo đường cong nhất định
+
+Theo loại PathType.CatmullRom. Đối tượng sẽ di chuyển qua các point theo thứ tự từ vị trí index 0 → cuối 
+
+```csharp
+using UnityEngine;
+using DG.Tweening;
+
+public class DotWeenAni : MonoBehaviour
+{
+    [SerializeField] Transform targetPos;
+    [SerializeField] float durationMove = 1f;
+    [SerializeField] AnimationCurve aniCurve;
+    [SerializeField] Vector3 posP1 = new Vector3(-1, -0.8f, 0);
+    [SerializeField] Vector3 posP2 = new Vector3(-1, -2.25f, 0);
+    [SerializeField] Vector3[] pathPoint = new Vector3[3];
+
+    [SerializeField] Vector3 initialPos;
+    [SerializeField] GameObject point1;
+    [SerializeField] GameObject point2;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        initialPos = transform.position;
+        point1 = new GameObject();
+        point1.AddComponent<SpriteRenderer>();
+        point1.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        point1.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
+        point1.transform.position = posP1;
+        point1.name = "point1";
+
+        point2 = Instantiate(point1);
+        point2.transform.position = posP2;
+        point2.name = "point2";
+
+        //Thêm vào pathPoint
+        pathPoint[0] = targetPos.position;
+        pathPoint[1] = point1.transform.position;
+        pathPoint[2] = point2.transform.position;
+        MovePath();
+
+    }
+
+    void MovePath()
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOPath(pathPoint, durationMove, PathType.CubicBezier)
+                            .SetEase(aniCurve).OnComplete(() =>
+                            {
+                                transform.position = initialPos;
+                                
+                                pathPoint[0] = targetPos.position;
+                                pathPoint[1] = point1.transform.position;
+                                pathPoint[2] = (targetPos.position + point1.transform.position) / 2;
+                                point2.transform.position = pathPoint[2];
+                                MovePath();
+                            }));
+    }
+}
+```
+
 ## Async
 
 Async/await trong C# là một cách tiếp cận quan trọng để thực hiện các tác vụ không đồng bộ. Đây không phải là các phương thức cụ thể, mà là từ khóa được sử dụng để đánh dấu các phương thức không đồng bộ và tạm dừng thực thi của chúng mà không chặn luồng thực thi chính.
@@ -1178,6 +1742,10 @@ Async/await mang đến cách tiếp cận mạnh mẽ và linh hoạt để x�
 
 ## Coroutine
 
+- Coroutine trong Unity là một cách tiếp cận đặc biệt cho phép bạn thực hiện các tác vụ theo thời gian, mà không cần dừng hoặc chặn luồng chính của game.
+- Coroutines thường được sử dụng để thực hiện các hoạt động mà bạn muốn trải dài qua nhiều khung hình (frame), chẳng hạn như hoạt ảnh, đợi một khoảng thời gian trước khi thực hiện hành động, hoặc thực hiện các yêu cầu bất đồng bộ.
+- Khi một **Gameobject** bị **destroy** hoặc **disable** rồi thì tất cả **Coroutine** đính ****theo nó sẽ dừng hoạt động.
+
 ****`WaitUntil`** 
 
 - Là một class trong Unity dùng trong coroutines để tạm dừng việc thực thi của coroutine cho đến khi một điều kiện nhất định được thỏa mãn.
@@ -1246,8 +1814,47 @@ yield return new WWW(url);
 - Dùng cho các hoạt động không đồng bộ như tải cảnh (scene) hoặc tài nguyên.
     
     ```csharp
-    yield return new AsyncOperation;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using System.Collections;
+    
+    public class SceneLoader : MonoBehaviour
+    {
+        // Phương thức gọi tải cảnh không đồng bộ
+        public void LoadSceneAsync(string sceneName)
+        {
+            StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
+        }
+    
+        // Coroutine thực hiện tải cảnh
+        IEnumerator LoadSceneAsyncCoroutine(string sceneName)
+        {
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+    
+            // Chờ đợi cho đến khi tải cảnh hoàn tất
+            while (!asyncLoad.isDone)
+            {
+                float progress = asyncLoad.progress / 0.9f; // Normalize the progress
+                Debug.Log("Loading progress: " + progress * 100 + "%");
+                
+                // Hãy làm gì đó tại đây nếu bạn muốn cập nhật UI hoặc hiển thị một progress bar
+    
+                yield return null;
+            }
+    
+            Debug.Log("Scene loaded");
+        }
+    }
     ```
+    
+    Trong ví dụ này:
+    
+    - **`LoadSceneAsyncCoroutine`** là một coroutine mà bắt đầu quá trình tải cảnh không đồng bộ thông qua **`SceneManager.LoadSceneAsync`**.
+    - **`AsyncOperation`** trả về từ **`LoadSceneAsync`** cho phép bạn theo dõi tiến trình của việc tải cảnh.
+    - Sử dụng **`asyncLoad.isDone`** để kiểm tra xem quá trình tải đã hoàn thành hay chưa.
+    - **`asyncLoad.progress`** cung cấp tiến trình tải hiện tại, có thể được sử dụng để cập nhật một progress bar hoặc thông báo cho người dùng.
+    
+    Lưu ý: Tiến trình tải cảnh (**`asyncLoad.progress`**) thường đạt tới giá trị tối đa là 0.9 hoặc 90% khi cảnh gần như đã được tải xong, và chỉ chuyển sang hoàn thành (isDone = true) khi cảnh đã hoàn toàn sẵn sàng.
     
 
 ## FireBase
@@ -1481,6 +2088,91 @@ string vectorAsString = vector.ToString("F2");
 
 ## Xoay đối tượng
 
+### Xoay đối tượng góc 30 độ lập tức
+
+Bạn cũng có thể sử dụng `Quaternion.Euler` để tạo một `Quaternion` từ các góc Euler và sau đó gán nó cho `Transform.rotation`.
+
+```csharp
+using UnityEngine;
+
+public class RotateObject : MonoBehaviour
+{
+    void Start()
+    {
+        // Tạo Quaternion từ các góc Euler và áp dụng nó
+        transform.rotation = Quaternion.Euler(0, 30, 0);
+    }
+}
+```
+
+### Xoay đối tượng dựa trên giá trị input
+
+Để xoay một GameObject trong Unity dựa trên giá trị nhập từ bàn phím, bạn có thể sử dụng phương thức `Update` để liên tục kiểm tra đầu vào từ bàn phím và áp dụng sự xoay tương ứng cho GameObject. Bạn có thể sử dụng `Input.GetAxis` để nhận giá trị đầu vào và sau đó sử dụng nó để tính toán góc xoay mới.
+
+Dưới đây là một ví dụ về cách xoay GameObject dựa trên đầu vào từ các phím mũi tên trái/phải:
+
+```csharp
+using UnityEngine;
+
+public class RotateWithKeyboard : MonoBehaviour
+{
+    public float rotationSpeed = 100f;
+
+    void Update()
+    {
+        // Nhận giá trị đầu vào từ bàn phím (phím mũi tên trái/phải)
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        // Tính toán góc xoay mới
+        float rotationAmount = horizontalInput * rotationSpeed * Time.deltaTime;
+
+        // Áp dụng sự xoay
+        transform.Rotate(0, rotationAmount, 0);
+    }
+}
+
+```
+
+Trong script trên:
+
+- `rotationSpeed` cho phép bạn điều chỉnh tốc độ xoay của GameObject.
+- `Input.GetAxis("Horizontal")` trả về một giá trị trong khoảng -1 đến 1, tùy thuộc vào việc người dùng nhấn phím mũi tên trái hay phải (hoặc các phím tương ứng đã được cấu hình trong Input Manager).
+- `transform.Rotate` được sử dụng để xoay GameObject dựa trên giá trị nhập từ bàn phím. Trục Y được xoay (góc xoay xung quanh trục đứng), nhưng bạn có thể thay đổi các trục khác tuỳ theo nhu cầu.
+
+Lưu ý rằng `Time.deltaTime` được sử dụng để làm cho xoay độc lập với tốc độ khung hình, giúp sự xoay mượt mà và ổn định trên các thiết bị với tốc độ khung hình khác nhau.
+
+### Chuyển giá trị góc xoay của đối tượng sang Vector3
+
+Trong Unity, mỗi GameObject có một Transform component, và mỗi Transform chứa thông tin về vị trí, quay (rotation) và tỷ lệ (scale) của GameObject. "Rotation" trong Unity được biểu diễn bằng `Quaternion`, một cấu trúc toán học dùng để biểu diễn xoay trong không gian ba chiều. Tuy nhiên, bạn có thể chuyển đổi giữa `Quaternion` và biểu diễn góc Euler (dạng `Vector3`) để làm việc dễ dàng hơn với góc quay.
+
+### Chuyển `Quaternion` Sang `Vector3`:
+
+Để chuyển rotation (dạng `Quaternion`) của một GameObject sang `Vector3` (biểu diễn bằng góc Euler), bạn sử dụng thuộc tính `eulerAngles` của Transform. Đây là cách bạn có thể lấy rotation hiện tại của một GameObject và chuyển nó thành `Vector3`:
+
+```csharp
+using UnityEngine;
+
+public class RotationToVector3 : MonoBehaviour
+{
+    void Update()
+    {
+        // Lấy rotation hiện tại của GameObject dưới dạng Quaternion
+        Quaternion currentRotation = transform.rotation;
+
+        // Chuyển đổi Quaternion sang Vector3 (góc Euler)
+        Vector3 eulerRotation = currentRotation.eulerAngles;
+
+        // Hiển thị góc Euler trong Console
+        Debug.Log("Euler Rotation: " + eulerRotation);
+    }
+}
+```
+
+### Lưu ý:
+
+- Góc Euler có thể dễ dàng hiểu và làm việc hơn, nhưng nó cũng có thể dẫn đến vấn đề "Gimbal Lock". Khi làm việc với góc xoay trong không gian 3D, nên cân nhắc kỹ lưỡng giữa việc sử dụng `Quaternion` và góc Euler.
+- `eulerAngles` có thể không luôn trả về giá trị góc nhỏ nhất hoặc theo một dạng nhất quán; nó có thể trả về giá trị lớn hơn 360 độ hoặc âm, tùy thuộc vào cách GameObject được xoay.
+
 ## Xử lý va chạm, kích hoạt (Collider, Collision)
 
 ## Camera
@@ -1488,6 +2180,185 @@ string vectorAsString = vector.ToString("F2");
 ## Khởi tạo và hủy đối tượng
 
 ## Tìm kiếm đối tượng
+
+### **Find : tìm kiếm đối tượng theo tên**
+
+Giả sử bạn có một GameObject trong cảnh của bạn có tên là "Player" và bạn muốn lấy tham chiếu đến GameObject này từ một script khác.
+
+Đầu tiên, hãy đảm bảo rằng trong cảnh của bạn có một GameObject có tên chính xác là "Player".
+
+Sau đó, trong script của bạn, bạn có thể sử dụng `GameObject.Find` để tìm và lấy tham chiếu đến GameObject "Player":
+
+```csharp
+using UnityEngine;
+
+public class ExampleScript : MonoBehaviour
+{
+    private GameObject player;
+
+    void Start()
+    {
+        // Tìm GameObject có tên là "Player"
+        player = GameObject.Find("Player");
+
+        if (player != null)
+        {
+            Debug.Log("Player found");
+            // Bạn có thể thực hiện các hành động với GameObject "Player" tại đây
+        }
+        else
+        {
+            Debug.Log("Player not found");
+        }
+    }
+}
+```
+
+Lưu ý:
+
+- `GameObject.Find` chỉ tìm kiếm GameObject đang hoạt động (active) trong cảnh.
+- Nếu có nhiều GameObject cùng tên, `GameObject.Find` sẽ trả về tham chiếu đến GameObject đầu tiên nó tìm thấy có tên đó.
+- Sử dụng `GameObject.Find` có thể ảnh hưởng đến hiệu suất, đặc biệt nếu được gọi liên tục trong `Update()`. Do đó, bạn nên sử dụng nó một cách cẩn thận, hạn chế sử dụng trong các tình huống cần thiết và tối ưu nhất có thể.
+
+### FindWithTag : tìm kiếm đối tượng theo tag
+
+Giả sử bạn có một GameObject trong cảnh của bạn với tag là "Player" (thường là đối tượng người chơi), và bạn muốn lấy tham chiếu đến GameObject này từ một script khác.
+
+Đầu tiên, hãy đảm bảo rằng GameObject mà bạn muốn tìm kiếm đã được gán tag "Player". Bạn có thể gán tag trong Inspector của Unity bằng cách chọn GameObject, sau đó chọn tag từ dropdown menu trong phần Tag.
+
+Sau đó, bạn có thể sử dụng `GameObject.FindWithTag` trong script của bạn như sau:
+
+```csharp
+using UnityEngine;
+
+public class ExampleScript : MonoBehaviour
+{
+    private GameObject player;
+
+    void Start()
+    {
+        // Tìm GameObject có tag là "Player"
+        player = GameObject.FindWithTag("Player");
+
+        if (player != null)
+        {
+            Debug.Log("Player GameObject found");
+            // Bạn có thể thực hiện các hành động với GameObject "Player" tại đây
+        }
+        else
+        {
+            Debug.Log("Player GameObject not found");
+        }
+    }
+}
+```
+
+### Lưu ý:
+
+- Đảm bảo rằng tag "Player" đã được tạo và gán đúng cho GameObject mà bạn muốn tìm.
+- `FindWithTag` chỉ trả về GameObject đầu tiên mà nó tìm thấy với tag được chỉ định. Nếu có nhiều GameObject cùng tag, chỉ có một trong số chúng được trả về.
+
+### FindObjectOfType: Tìm kiếm đối tượng dựa trên component cụ thể
+
+Giả sử bạn có một script tên là `GameController` gắn trên một GameObject trong cảnh của bạn và bạn muốn tìm tham chiếu đến script này từ một script khác.
+
+Đầu tiên, đây là lớp `GameController`:
+
+```csharp
+using UnityEngine;
+
+public class GameController : MonoBehaviour
+{
+    public void DoSomething()
+    {
+        Debug.Log("Doing something!");
+    }
+}
+
+```
+
+Bây giờ, bạn muốn tìm tham chiếu đến `GameController` từ một script khác:
+
+```csharp
+using UnityEngine;
+
+public class ExampleScript : MonoBehaviour
+{
+    private GameController gameController;
+
+    void Start()
+    {
+        // Tìm kiếm đối tượng GameController đầu tiên trong cảnh
+        gameController = FindObjectOfType<GameController>();
+
+        if (gameController != null)
+        {
+            Debug.Log("GameController found");
+            gameController.DoSomething();
+        }
+        else
+        {
+            Debug.Log("GameController not found");
+        }
+    }
+}
+
+```
+
+### Lưu ý:
+
+- `FindObjectOfType` chỉ tìm kiếm các đối tượng đang hoạt động trong cảnh.
+- Phương thức này tìm kiếm toàn bộ cảnh và có thể ảnh hưởng đến hiệu suất nếu được sử dụng thường xuyên hoặc trong một cảnh có nhiều GameObjects và components.
+- Tránh sử dụng `FindObjectOfType` trong hàm `Update` hoặc các hàm gọi liên tục để tránh giảm hiệu suất.
+
+### Transform.Find: Tìm kiếm các child dựa theo tên
+
+Giả sử bạn có một GameObject trong cảnh của bạn tên là "Player" và trong đó có một child GameObject tên là "CameraHolder".
+
+Cấu trúc trong Unity Hierarchy có thể trông như sau:
+
+```
+Player
+└── CameraHolder
+    └── ... (các child khác)
+
+```
+
+Bây giờ, bạn muốn tìm tham chiếu đến "CameraHolder" từ script gắn trên "Player".
+
+Đây là cách bạn có thể làm:
+
+```csharp
+using UnityEngine;
+
+public class PlayerScript : MonoBehaviour
+{
+    private Transform cameraHolder;
+
+    void Start()
+    {
+        // Tìm kiếm child có tên là "CameraHolder"
+        cameraHolder = transform.Find("CameraHolder");
+
+        if (cameraHolder != null)
+        {
+            Debug.Log("CameraHolder found");
+            // Bạn có thể thực hiện các hành động với cameraHolder tại đây
+        }
+        else
+        {
+            Debug.Log("CameraHolder not found");
+        }
+    }
+}
+
+```
+
+### Lưu ý:
+
+- `Transform.Find` chỉ tìm kiếm trực tiếp trong các child của GameObject mà nó được gọi, không tìm kiếm qua các cấp con cháu sâu hơn.
+- Phương thức này sẽ trả về `null` nếu không tìm thấy child với tên chỉ định.
+- Đảm bảo rằng tên của child GameObject chính xác, bao gồm cả việc phân biệt chữ hoa và chữ thường.
 
 ## Thao tác với component
 
@@ -1587,6 +2458,29 @@ string vectorAsString = vector.ToString("F2");
     }
     ```
     
+- ****`RequireComponent`**** tự động thêm các component phụ thuộc vào game object để tránh trường hợp lỗi khi setup sai
+    
+    Trong Unity, **`RequireComponent`** là một thuộc tính (attribute) được sử dụng để yêu cầu tự động thêm các thành phần (component) bổ sung vào một đối tượng khi nó được gắn vào trong cảnh (scene). Điều này giúp đảm bảo rằng đối tượng sẽ luôn có các thành phần cần thiết để hoạt động đúng cách.
+    
+    Ví dụ, giả sử chúng ta có một script có tên là **`PlayerController`** và nó yêu cầu đối tượng chứa nó phải có cả thành phần **`Rigidbody`** và **`Collider`**. Chúng ta có thể sử dụng **`RequireComponent`** để đảm bảo rằng các thành phần này sẽ tự động được thêm vào đối tượng khi nó được gắn vào trong cảnh.
+    
+    Dưới đây là một ví dụ về cách sử dụng **`RequireComponent`** trong Unity:
+    
+    ```csharp
+    using UnityEngine;
+    
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Collider))]
+    public class PlayerController : MonoBehaviour
+    {
+        // Code của script PlayerController
+    }
+    ```
+    
+    Trong ví dụ này, chúng ta đã áp dụng thuộc tính **`RequireComponent`** lên class **`PlayerController`** và chỉ định hai thành phần cần thiết là **`Rigidbody`** và **`Collider`**. Khi script **`PlayerController`** được gắn vào một đối tượng trong cảnh, Unity sẽ tự động thêm các thành phần này nếu chúng chưa tồn tại trên đối tượng đó.
+    
+    Điều này giúp đảm bảo rằng khi chúng ta sử dụng **`PlayerController`**, các thành phần **`Rigidbody`** và **`Collider`** sẽ luôn có sẵn và có thể được truy cập và sử dụng trong script mà không cần phải thêm chúng thủ công vào từng đối tượng.
+    
 
 ## UI Canvas
 
@@ -1606,7 +2500,160 @@ string vectorAsString = vector.ToString("F2");
 
 ## Scene
 
-## Sprite
+## Texture 2D
+
+### Texture type
+
+Trong Unity, khi bạn import một hình ảnh vào dự án của mình, bạn có thể chọn một số "Texture Type" khác nhau tùy thuộc vào mục đích sử dụng của texture đó. Dưới đây là danh sách các loại "Texture Type" thông dụng và mô tả của chúng:
+
+### 1. **Default**
+
+- Đây là loại texture mặc định, thích hợp cho hầu hết các trường hợp sử dụng như texture cho 3D models, UI elements, v.v.
+
+### 2. **Normal Map**
+
+- Dùng để import các normal maps, giúp tạo hiệu ứng chiều sâu và chi tiết trên bề mặt mà không cần tăng độ phức tạp của mesh. Unity sẽ xử lý các hình ảnh này khác biệt để sử dụng như normal maps.
+
+### 3. **Editor GUI and Legacy GUI**
+
+- Loại này được sử dụng cho các texture trong giao diện người dùng, như các nút, thanh trạng thái, và các element GUI khác.
+
+### 4. **Sprite (2D and UI)**
+
+- Dành cho các hình ảnh 2D sẽ được sử dụng như sprites, thích hợp cho các trò chơi 2D và các element UI.
+
+### 5. **Cursor**
+
+- Dùng cho các texture sẽ được sử dụng làm con trỏ chuột trong trò chơi.
+
+### 6. **Reflection**
+
+- Được sử dụng cho các texture dùng làm bản đồ phản chiếu, thường là trong các kỹ thuật rendering nâng cao.
+
+### 7. **Cookie**
+
+- Dành cho các texture sẽ được sử dụng như light cookies trong các light source, giúp tạo hiệu ứng đặc biệt cho ánh sáng.
+
+### 8. **Lightmap**
+
+- Loại texture này được sử dụng cho lightmaps, bản đồ ánh sáng được tính toán trước và áp dụng lên các bề mặt trong môi trường 3D để tạo hiệu ứng chiếu sáng và bóng đổ.
+
+### 9. **Single Channel**
+
+- Texture loại này chứa thông tin trong một kênh màu duy nhất, thường được sử dụng cho các mục đích đặc biệt như mask hoặc data maps.
+
+### Lưu Ý
+
+- Mỗi loại "Texture Type" có các cài đặt và tùy chọn khác nhau, tối ưu cho mục đích sử dụng cụ thể của nó.
+- Khi bạn thay đổi "Texture Type", Unity sẽ tự động áp dụng một số cài đặt mặc định phù hợp với loại texture đó, nhưng bạn vẫn có thể tùy chỉnh các cài đặt này để đáp ứng nhu cầu cụ thể của dự án.
+- Việc chọn đúng "Texture Type" là quan trọng để đảm bảo hiệu suất và chất lượng hình ảnh trong trò chơi hoặc ứng dụng của bạn.
+
+### Sprite mode
+
+`Sprite Mode` có các tùy chọn sau:
+
+### 1. **Single**
+
+- **Mô Tả**: Dùng cho texture chỉ chứa một sprite đơn lẻ. Nó phù hợp khi bạn có một hình ảnh độc lập mà bạn muốn sử dụng như một đối tượng 2D trong game (ví dụ: một nhân vật, đối tượng nền, v.v.).
+- **Đặc Tính**: Khi chọn `Single`, bạn chỉ làm việc với một sprite từ một texture.
+
+### 2. **Multiple**
+
+- **Mô Tả**: Dùng cho texture chứa nhiều sprites, thường được sử dụng trong các sprite sheets - nơi chứa nhiều đối tượng, nhân vật, hoặc frame của một animation.
+- **Đặc Tính**: Khi chọn `Multiple`, bạn sẽ cần sử dụng Sprite Editor để cắt và xác định từng sprite riêng lẻ từ một texture lớn.
+
+### 3. **Polygon**
+
+- **Mô Tả**: Dành cho sprites có hình dạng không đều. Điều này cho phép bạn tạo các collider phức tạp theo đúng hình dạng của sprite.
+- **Đặc Tính**: Polygon mode tự động tạo mesh bao quanh sprite theo hình dạng của nó. Bạn cũng có thể chỉnh sửa hình dạng này trong Sprite Editor.
+
+### Làm Việc với Sprite Mode
+
+1. **Importing và Cài Đặt**: Khi bạn import một hình ảnh vào Unity, bạn có thể chọn `Sprite Mode` trong Inspector. Tùy chọn này chỉ có sẵn khi `Texture Type` được thiết lập là `Sprite (2D and UI)`.
+2. **Sprite Editor**: Đối với `Multiple` và `Polygon`, bạn sẽ sử dụng Sprite Editor để xác định từng sprite riêng lẻ hoặc để chỉnh sửa mesh của sprite. Trong Sprite Editor, bạn có thể cắt tự động, chỉnh sửa kích thước, và thay đổi pivot points của sprites.
+3. **Ứng Dụng trong Game**: Sau khi đã cài đặt và cắt sprites, bạn có thể kéo chúng vào scene để sử dụng như các đối tượng 2D, hoặc áp dụng trong các animations.
+
+Việc chọn đúng `Sprite Mode` phụ thuộc vào loại hình ảnh bạn đang sử dụng và mục đích của bạn trong game. Nếu là hình ảnh đơn lẻ, `Single` sẽ phù hợp. Nếu bạn làm việc với sprite sheets hoặc cần collider phức tạp, `Multiple` hoặc `Polygon` sẽ hữu ích hơn.
+
+### Pixel Per Unit (PPU)
+
+Trong Unity, "Pixel Per Unit" (PPU) là một cài đặt quan trọng đối với Texture 2D, đặc biệt là khi bạn đang làm việc với các dự án 2D. Giá trị này có ý nghĩa lớn trong việc xác định cách một hình ảnh sẽ được hiển thị trên màn hình. Dưới đây là một số điểm chính:
+
+1. **Định Nghĩa**: "Pixel Per Unit" xác định số lượng pixel trong texture sẽ tương ứng với một đơn vị trong Unity. Mặc định, giá trị này thường được đặt là 100, nghĩa là 100 pixel trong texture sẽ tương ứng với 1 đơn vị Unity.
+2. **Tác Động Đến Kích Thước**: Giá trị PPU ảnh hưởng trực tiếp đến kích thước mà texture sẽ xuất hiện trong môi trường game. Một giá trị PPU cao hơn có nghĩa là bạn cần nhiều pixel hơn để biểu diễn một đơn vị Unity, điều này làm cho đối tượng hiển thị nhỏ hơn.
+3. **Độ Nét và Tối Ưu Hóa**: Chọn giá trị PPU phù hợp cũng quan trọng để đảm bảo rằng đồ họa của bạn sắc nét và tối ưu hóa hiệu suất. Một giá trị PPU quá thấp có thể làm cho hình ảnh trở nên mờ, trong khi một giá trị quá cao có thể không cần thiết và làm tăng yêu cầu về tài nguyên.
+4. **Tính Năng Tilemap**: Trong việc tạo Tilemap, giá trị PPU quyết định cách các tile được sắp xếp và kích thước của chúng trên màn hình. Điều này đặc biệt quan trọng khi bạn muốn các tile phù hợp với nhau một cách chính xác.
+5. **Sự Phù Hợp với Physics**: Nếu game của bạn sử dụng hệ thống vật lý, thì việc chọn PPU phù hợp giúp đảm bảo rằng kích thước đối tượng trong thế giới ảo sẽ phản ánh chính xác kích thước dự định của bạn, từ đó ảnh hưởng đến cách vật lý hoạt động với đối tượng đó.
+
+Hãy nhớ rằng việc chọn giá trị PPU phù hợp phụ thuộc vào nhiều yếu tố như loại game bạn đang phát triển, kiểu đồ họa bạn đang sử dụng, và các yếu tố tối ưu hóa hiệu suất.
+
+### Mesh Type
+
+Trong Unity, "Mesh Type" là một cài đặt quan trọng khi bạn làm việc với Sprite trong Texture 2D, đặc biệt trong môi trường 2D. Cài đặt này xác định cách mesh (lưới) được tạo ra cho một sprite từ texture. Dưới đây là một số thông tin chính:
+
+1. **Mục Đích**: Mesh Type quyết định hình dạng và số lượng đỉnh (vertices) của mesh mà Unity tạo ra cho một sprite. Điều này ảnh hưởng đến độ chi tiết của sprite khi nó được hiển thị, cũng như cách nó tương tác với hệ thống vật lý và ánh sáng.
+2. **Các Loại Mesh Type**:
+    - **Full Rect**: Tạo một mesh hình chữ nhật đơn giản bao quanh sprite. Đây là lựa chọn hiệu suất cao nhất nhưng ít chi tiết nhất, thích hợp cho các sprite không cần nhiều chi tiết hoặc tương tác phức tạp.
+    - **Tight**: Tạo một mesh chính xác theo hình dạng của sprite, bỏ qua các khu vực trong suốt. Điều này giúp tăng độ chi tiết và chính xác trong tương tác vật lý hoặc ánh sáng, nhưng đồng thời cũng yêu cầu nhiều tài nguyên hơn.
+3. **Hiệu Suất và Chất Lượng**: Việc chọn Mesh Type phù hợp là một cân nhắc giữa hiệu suất và chất lượng. "Full Rect" nhanh hơn và ít tốn tài nguyên hơn nhưng có thể không đủ chi tiết cho một số ứng dụng, trong khi "Tight" cung cấp chi tiết cao hơn nhưng tốn nhiều tài nguyên hơn.
+4. **Tương Tác Với Hệ Thống Vật Lý**: Khi làm việc với vật lý, lựa chọn Mesh Type ảnh hưởng đến cách các đối tượng tương tác. Ví dụ, một mesh "Tight" sẽ cho phép các va chạm chính xác hơn so với "Full Rect".
+5. **Lựa Chọn Tùy Thuộc Vào Dự Án**: Tùy thuộc vào yêu cầu của dự án game của bạn, bạn có thể chọn Mesh Type khác nhau. Đối với các trò chơi đơn giản hoặc nếu bạn muốn tối ưu hóa hiệu suất, "Full Rect" có thể là lựa chọn tốt. Đối với các trò chơi cần độ chi tiết cao hoặc tương tác vật lý chính xác, "Tight" có thể phù hợp hơn.
+
+Nhớ rằng, lựa chọn Mesh Type phù hợp cần cân nhắc giữa nhu cầu về chất lượng đồ họa và yêu cầu về hiệu suất của trò chơi.
+
+### Extrude Edges
+
+Trong Unity, "Extrude Edges" là một cài đặt quan trọng khi làm việc với Sprite trong Texture 2D, đặc biệt trong các dự án 2D. Cài đặt này ảnh hưởng đến cách viền của sprite được xử lý. Dưới đây là thông tin chi tiết về "Extrude Edges":
+
+1. **Mục Đích của Extrude Edges**: Khi một sprite được cắt từ một texture và đặt vào trò chơi, việc "extrude" (nới rộng) các cạnh của sprite giúp giảm hiện tượng các đường viền không mong muốn hoặc các pixel từ các sprite lân cận xuất hiện xung quanh viền của sprite. Điều này thường xảy ra do hiệu ứng aliasing hoặc khi texture được lọc (filtering).
+2. **Cách Thức Hoạt Động**: "Extrude Edges" tạo ra một lớp viền bổ sung xung quanh sprite bằng cách lặp lại (hoặc "extruding") các pixel ở cạnh của sprite. Kích thước của lớp viền này được xác định bởi giá trị bạn nhập vào cài đặt Extrude Edges.
+3. **Ảnh Hưởng Đến Đồ Họa**: Việc tăng giá trị Extrude Edges giúp cải thiện chất lượng hiển thị của sprite khi nó được phóng to hoặc khi có các vấn đề về filtering texture. Nó ngăn chặn hiện tượng các pixel lân cận trên texture sheet bị hiển thị xung quanh viền của sprite.
+4. **Hiệu Suất**: Mặc dù việc sử dụng Extrude Edges có thể giúp cải thiện chất lượng đồ họa, nhưng cũng có thể gây ra một chút tăng thêm trong việc xử lý đồ họa. Tuy nhiên, trong hầu hết các trường hợp, ảnh hưởng này không đáng kể và có thể bỏ qua.
+5. **Cân Nhắc Khi Sử Dụng**: Khi quyết định giá trị cho Extrude Edges, bạn cần cân nhắc giữa việc giảm thiểu lỗi đồ họa và việc tối ưu hóa hiệu suất. Đối với các sprite có kích thước nhỏ hoặc không quá quan trọng về mặt đồ họa, việc sử dụng giá trị thấp cho Extrude Edges có thể là phù hợp.
+
+Nhìn chung, "Extrude Edges" là một công cụ hữu ích để cải thiện chất lượng đồ họa của sprite, đặc biệt khi chúng được sử dụng trong môi trường đồ họa phức tạp hoặc khi có sự thay đổi kích thước đáng kể.
+
+### Pivot
+
+Trong Unity, "Pivot" là một cài đặt quan trọng trong Texture 2D khi bạn làm việc với sprites. Cài đặt Pivot xác định điểm neo (anchor point) của một sprite, quyết định cách sprite đó sẽ được xoay và biến dạng. Dưới đây là một số điểm chính về Pivot:
+
+1. **Định Nghĩa của Pivot**: Pivot là điểm trên sprite mà tại đó các phép biến đổi như quay (rotation), tỷ lệ (scaling), và di chuyển (translation) sẽ được thực hiện. Nói cách khác, đó là điểm "trung tâm" của sprite cho mục đích biến đổi.
+2. **Ảnh Hưởng Đến Hành Vi Của Sprite**: Việc đặt Pivot ở vị trí khác nhau trên sprite sẽ ảnh hưởng đến cách nó di chuyển và quay. Ví dụ, nếu Pivot đặt ở trung tâm, sprite sẽ quay quanh trung tâm của nó; nếu đặt ở một góc, sprite sẽ quay quanh góc đó.
+3. **Tùy Chọn Vị Trí Pivot**:
+    - **Custom**: Cho phép bạn chọn vị trí Pivot một cách tự do trên sprite.
+    - **Predefined Points**: Unity cung cấp một số điểm neo được định nghĩa trước như Top Left, Center, Bottom Right, v.v., giúp bạn nhanh chóng chọn vị trí phù hợp.
+4. **Tương Tác Với Hệ Thống Vật Lý**: Vị trí Pivot cũng ảnh hưởng đến cách sprite tương tác với hệ thống vật lý trong Unity. Ví dụ, nếu bạn có một sprite hình người và đặt Pivot ở vị trí chân, sprite sẽ tựa như đứng trên mặt đất khi thực hiện các phép biến đổi.
+5. **Tối Ưu Hóa và Tinh Chỉnh**: Chọn vị trí Pivot phù hợp không chỉ ảnh hưởng đến mặt thẩm mỹ và hành vi của sprite, mà còn giúp tối ưu hóa và tinh chỉnh cách sprite tương tác trong game, đặc biệt là trong các trường hợp cần độ chính xác cao.
+
+Việc chọn đúng vị trí Pivot là một yếu tố quan trọng trong quá trình tạo và tối ưu hóa sprites, đóng vai trò quan trọng trong việc định hình trải nghiệm chơi game và cảm nhận đồ họa.
+
+### Generate Physics Shape
+
+Trong Unity, "Generate Physics Shape" là một tính năng quan trọng khi làm việc với sprites trong Texture 2D, đặc biệt trong các dự án 2D. Tính năng này liên quan đến việc tạo ra hình dạng vật lý (physics shape) cho sprite, ảnh hưởng đến cách sprite tương tác với hệ thống vật lý trong game. Dưới đây là thông tin chi tiết:
+
+1. **Mục Đích của Generate Physics Shape**: Khi bạn kích hoạt "Generate Physics Shape", Unity tự động tạo ra một hình dạng vật lý dựa trên hình ảnh của sprite. Hình dạng này được sử dụng để xác định va chạm và tương tác vật lý với các đối tượng khác trong game.
+2. **Cách Thức Hoạt Động**: Unity sẽ phân tích sprite và tạo ra một hoặc nhiều hình dạng collider phù hợp, bao quanh các khu vực không trong suốt của sprite. Điều này giúp tạo ra các tương tác vật lý chính xác hơn so với việc sử dụng colliders hình chữ nhật hoặc hình tròn đơn giản.
+3. **Tối Ưu Hóa và Chính Xác**: Việc tạo ra physics shape phù hợp với hình dạng thực tế của sprite giúp tối ưu hóa hiệu suất bằng cách giảm thiểu số lượng và kích thước của colliders cần thiết. Đồng thời, nó cũng cải thiện độ chính xác trong tương tác vật lý, như va chạm và động lực học.
+4. **Cân Nhắc Trong Sử Dụng**: Mặc dù việc sử dụng "Generate Physics Shape" mang lại lợi ích về độ chính xác và tối ưu hóa, nhưng nó cũng có thể tạo ra các hình dạng phức tạp có thể ảnh hưởng đến hiệu suất, đặc biệt là với sprites có nhiều chi tiết. Do đó, việc cân nhắc giữa độ chính xác và yêu cầu hiệu suất là quan trọng.
+5. **Ứng Dụng Thực Tế**: Trong các trò chơi đòi hỏi tương tác vật lý chính xác, như các trò chơi puzzle hoặc mô phỏng, việc sử dụng "Generate Physics Shape" có thể cực kỳ hữu ích. Trong khi đó, đối với các trò chơi đơn giản hoặc không tập trung vào tương tác vật lý, bạn có thể chọn không sử dụng tính năng này để tối ưu hóa hiệu suất.
+
+Như vậy, "Generate Physics Shape" là một công cụ mạnh mẽ trong Unity giúp tạo ra các tương tác vật lý chính xác và thực tế, nhưng cũng cần cân nhắc kỹ lưỡng để đảm bảo phù hợp với yêu cầu của dự án.
+
+### sRGB in Advanced
+
+Trong Unity, tùy chọn "sRGB" trong mục mở rộng "Advanced" của Texture 2D có ý nghĩa quan trọng liên quan đến cách màu sắc được xử lý và hiển thị trong game. Đây là một cài đặt liên quan đến không gian màu và cách màu sắc được hiển thị trên các thiết bị khác nhau. Dưới đây là những điểm chính về tùy chọn sRGB:
+
+1. **Không Gian Màu sRGB**: sRGB (standard Red Green Blue) là một không gian màu tiêu chuẩn được sử dụng rộng rãi trong các thiết bị hiển thị như màn hình máy tính, điện thoại di động và TV. Màu sắc trong không gian màu sRGB được điều chỉnh để phù hợp với cách con người nhìn thấy màu sắc.
+2. **Ý Nghĩa của Tùy Chọn sRGB**: Khi tùy chọn sRGB được kích hoạt cho một texture, Unity sẽ xử lý texture đó như một hình ảnh trong không gian màu sRGB. Điều này có nghĩa là màu sắc sẽ được hiển thị một cách chính xác và tự nhiên trên hầu hết các thiết bị hiển thị.
+3. **Ảnh Hưởng Đến Hiển Thị Màu Sắc**: Kích hoạt sRGB đảm bảo rằng màu sắc trong game của bạn sẽ trông giống như bạn mong đợi trên các thiết bị khác nhau, giữ cho màu sắc được nhất quán và chính xác.
+4. **Sử Dụng Trong Các Loại Texture Khác Nhau**: Tùy chọn sRGB thường được kích hoạt cho các texture có chứa nội dung màu sắc như hình ảnh và sprites. Tuy nhiên, đối với các texture chứa dữ liệu khác (như normal maps, height maps, v.v.), tùy chọn này thường được tắt để giữ cho dữ liệu đó không bị ảnh hưởng bởi sự chuyển đổi màu sắc.
+5. **Tối Ưu Hóa và Tương Thích**: Việc sử dụng không gian màu sRGB giúp đảm bảo rằng trò chơi của bạn sẽ trông tốt trên các thiết bị với độ phân giải màu sắc khác nhau, từ thiết bị cũ đến thiết bị hiện đại. Đồng thời, điều này cũng giúp tối ưu hóa quá trình hiển thị màu sắc trên các thiết bị.
+
+Kết luận, việc hiểu và sử dụng đúng cách tùy chọn sRGB trong Unity giúp bạn quản lý màu sắc trong game một cách chính xác, đảm bảo màu sắc hiển thị nhất quán trên các thiết bị khác nhau.
+
+### AlphaSource in Advanced
+
+### Alpha Is Transparency
 
 ## Sound
 
@@ -1693,7 +2740,7 @@ string vectorAsString = vector.ToString("F2");
     [SerializeField] GemType type;
     ```
     
-- Tìm các object có tên chứa từ “*new*” ta dùng `gameObject.name.Contains(”new”)`
+- Tìm các object có tên chứa từ khóa “*new*” ta dùng `gameObject.name.Contains(”new”)`
 - Tìm gameObject trong scene bằng lệnh `GameObject.Find()`
 - Muốn tắt hoặc mở một **GameObject** ta dùng **GameObject.SetActive(false/true)**
 - Muốn tắt hoặc mở một Component ta dùng `Component.active` **= false/true**
@@ -1770,29 +2817,6 @@ string vectorAsString = vector.ToString("F2");
 - Tip
     1. Nhấn F để focus vào đối tượng
     2. **Ctrl+Shift+F** để đưa camera đặt vào góc nhìn trực tiếp trên Scene
-- ****`RequireComponent`**** tự động thêm các component phụ thuộc vào game object để tránh trường hợp lỗi khi setup sai
-    
-    Trong Unity, **`RequireComponent`** là một thuộc tính (attribute) được sử dụng để yêu cầu tự động thêm các thành phần (component) bổ sung vào một đối tượng khi nó được gắn vào trong cảnh (scene). Điều này giúp đảm bảo rằng đối tượng sẽ luôn có các thành phần cần thiết để hoạt động đúng cách.
-    
-    Ví dụ, giả sử chúng ta có một script có tên là **`PlayerController`** và nó yêu cầu đối tượng chứa nó phải có cả thành phần **`Rigidbody`** và **`Collider`**. Chúng ta có thể sử dụng **`RequireComponent`** để đảm bảo rằng các thành phần này sẽ tự động được thêm vào đối tượng khi nó được gắn vào trong cảnh.
-    
-    Dưới đây là một ví dụ về cách sử dụng **`RequireComponent`** trong Unity:
-    
-    ```csharp
-    using UnityEngine;
-    
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(Collider))]
-    public class PlayerController : MonoBehaviour
-    {
-        // Code của script PlayerController
-    }
-    ```
-    
-    Trong ví dụ này, chúng ta đã áp dụng thuộc tính **`RequireComponent`** lên class **`PlayerController`** và chỉ định hai thành phần cần thiết là **`Rigidbody`** và **`Collider`**. Khi script **`PlayerController`** được gắn vào một đối tượng trong cảnh, Unity sẽ tự động thêm các thành phần này nếu chúng chưa tồn tại trên đối tượng đó.
-    
-    Điều này giúp đảm bảo rằng khi chúng ta sử dụng **`PlayerController`**, các thành phần **`Rigidbody`** và **`Collider`** sẽ luôn có sẵn và có thể được truy cập và sử dụng trong script mà không cần phải thêm chúng thủ công vào từng đối tượng.
-    
 - `typeof` trả về kiểu của một lớp trong System.Type
     
     
@@ -1921,6 +2945,8 @@ string vectorAsString = vector.ToString("F2");
     ```
     
 - Thao tác các child-GameObject trong 1 parent-GameObject thì dùng transform
+    
+    
 - [System.IO](http://System.IO) Thao tác với tệp input out put trong Unity
     - Cách tạo prefab trong Unity khi tồn tại trên scene bằng C#
         
